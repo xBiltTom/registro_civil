@@ -16,6 +16,11 @@ class ListarUsuarios extends Component
         return $this->usuarios = Persona::all();
     }
 
+    public function placeholder()
+    {
+        return view('placeholder');
+    }
+
     public function render()
     {
         return view('livewire.listar-usuarios');

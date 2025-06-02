@@ -1,4 +1,5 @@
 @extends('livewire.principal')
+
 @section('content')
-    <livewire:listar-usuarios lazy />
+    <livewire:personas.listar-personas lazy />
 @endsection

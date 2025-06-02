@@ -33,7 +33,7 @@ new class extends Component
            </button>
           <a href="https://flowbite.com" class="flex ms-2 md:me-24">
             <img src="/img/SIAC_LOGO-removebg-preview (1).png" class="h-8 me-3" alt="FlowBite Logo" />
-            <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">Flowbite</span>
+            <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">SIAC</span>
           </a>
         </div>
         <div class="flex items-center">
