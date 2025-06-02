@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        Permission::create(['name' => 'ver usuarios']);
+        /* Permission::create(['name' => 'ver usuarios']);
         Permission::create(['name' => 'crear usuarios']);
         Permission::create(['name' => 'editar usuarios']);
         Permission::create(['name' => 'eliminar usuarios']);
@@ -36,9 +36,9 @@ class UserSeeder extends Seeder
         Permission::create(['name' => 'editar lugares']);
         Permission::create(['name' => 'eliminar lugares']);
         Permission::create(['name' => 'ver configuraciones']);
-        Permission::create(['name' => 'editar configuraciones']); 
+        Permission::create(['name' => 'editar configuraciones']);  */
 
-        $adminUser = User::query()->create([
+        /* $adminUser = User::query()->create([
             'name' => 'admin',
             'email' => 'admin@gmail.com',
             'email_verified_at' => now(),
@@ -50,6 +50,27 @@ class UserSeeder extends Seeder
         $roleAdmin = Role::create(['name' => 'admin']);
         $adminUser->assignRole($roleAdmin);
         $permissionsAdmin = Permission::query()->pluck('name');
-        $roleAdmin->syncPermissions($permissionsAdmin);
+        $roleAdmin->syncPermissions($permissionsAdmin); */
+
+
+        // Crear el rol "funcionario"
+        $roleFuncionario = Role::create(['name' => 'funcionario']);
+
+        // Seleccionar permisos específicos para el rol "funcionario"
+        $permissionsFuncionario = Permission::whereIn('name', [
+            'ver usuarios',
+            'ver personas',
+            'crear personas',
+            'editar personas',
+            'eliminar personas',
+            'ver lugares',
+            'crear lugares',
+            'editar lugares',
+            'eliminar lugares',
+        ])->get();
+
+        // Asignar los permisos seleccionados al rol "funcionario"
+        $roleFuncionario->syncPermissions($permissionsFuncionario);
+
     }
 }
