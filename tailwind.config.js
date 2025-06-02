@@ -16,6 +16,15 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            keyframes: {
+                'bounce-y': {
+                  '0%, 100%': { transform: 'translateY(0)' },
+                  '50%': { transform: 'translateY(-30px)' },
+                },
+              },
+              animation: {
+                'bounce-smooth': 'bounce-y 2s ease-in-out infinite',
+            },
         },
     },
 
