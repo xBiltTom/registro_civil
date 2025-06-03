@@ -29,4 +29,9 @@ class ListarPersonas extends Component
             'personas' => $personas
         ]);
     }
+
+    public function borrar($id){
+        $per = Persona::find($id);
+        $per->delete();
+    }
 }

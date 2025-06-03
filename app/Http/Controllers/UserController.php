@@ -14,7 +14,7 @@ class UserController extends Controller
     {
 
         $personas = Persona::all();
-        return view('user',compact('personas'));
+        return view('usuarios.usuarios',compact('personas'));
     }
 
     /**

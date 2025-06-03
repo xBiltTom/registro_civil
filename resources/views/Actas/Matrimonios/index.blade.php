@@ -1,6 +1,4 @@
 @extends('livewire.principal')
 @section('content')
-    <div>
-        Inicio
-    </div>
+        <livewire:actas.acta-matrimonio.index lazy />
 @endsection

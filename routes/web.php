@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PersonaController;
+use App\Http\Controllers\FuncionarioController;
 
 Route::view('/', 'welcome');
 
@@ -32,5 +33,16 @@ Route::view('profile', 'profile')
 Route::get('administracion', [App\Http\Controllers\AdminController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('admin');
+
+
+/* Zona de los links de actas de matrimonio */
+
+Route::get('actas/matrimonios', [FuncionarioController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('actas-matrimonio');
+
+Route::get('actas/matrimonios/registrar', [FuncionarioController::class, 'registrarActa'])
+    ->middleware(['auth', 'verified'])
+    ->name('r-a-m');
 
 require __DIR__.'/auth.php';
