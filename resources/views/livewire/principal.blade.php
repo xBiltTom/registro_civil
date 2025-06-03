@@ -6,8 +6,8 @@
 
     </x-slot> --}}
 
-    <div class="p-4 sm:ml-64">
-        <div class="p-4  border-gray-200   dark:border-gray-700 mt-14">
+    <div class="p-2 sm:ml-64 ">
+        <div class=" border-gray-200 dark:border-gray-700 mt-14">
             @yield('content')
         </div>
      </div>
