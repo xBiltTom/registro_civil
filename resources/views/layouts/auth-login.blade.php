@@ -9,11 +9,6 @@
 </head>
 <body class="h-screen w-screen flex items-center justify-center relative overflow-hidden px-4 bg-cover bg-center" style="background-image: url('/img/background.jpg');">
 
-    <!-- Logo del sistema en la esquina superior derecha -->
-    <div class="absolute top-4 right-4">
-        <img src="/img/SIAC LOGO.jpg" alt="Logo del sistema" class="w-12 h-12">
-    </div>
-
     <div class="w-[250px] h-[250px] bg-emerald-500 rounded-full absolute top-[65%] left-[12%] lg:left-[55%] z-0 blur-2xl opacity-60 animate-bounce"></div>
 
     <main class="z-10 w-full flex justify-center">
