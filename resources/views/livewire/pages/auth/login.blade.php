@@ -25,8 +25,6 @@ new #[Layout('layouts.auth-login')] class extends Component
 };
 ?>
 
-<!-- Solo el contenido dentro del layout -->
-
 <div class="w-[90%] max-w-[380px] bg-white/10 backdrop-blur-xl text-white rounded-xl p-8 shadow-xl z-10 text-center mx-auto">
     <img
         src="https://upload.wikimedia.org/wikipedia/commons/6/67/User_Avatar.png"
@@ -37,26 +35,21 @@ new #[Layout('layouts.auth-login')] class extends Component
     <p class="text-xl sm:text-2xl font-semibold mb-2">Login</p>
     <hr class="border-gray-400 mb-6">
 
-    <!-- Mensaje de sesión -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <!-- Formulario Livewire -->
     <form wire:submit="login">
-        <!-- Email -->
         <div class="mb-4 text-left">
             <x-input-label for="email" :value="__('Email')" class="text-white" />
             <x-text-input wire:model="form.email" id="email" class="block mt-1 w-full bg-gray-700 text-white border-none" type="email" name="email" required autofocus autocomplete="username" />
             <x-input-error :messages="$errors->get('form.email')" class="mt-2" />
         </div>
 
-        <!-- Password -->
         <div class="mb-4 text-left">
             <x-input-label for="password" :value="__('Contraseña')" class="text-white" />
             <x-text-input wire:model="form.password" id="password" class="block mt-1 w-full bg-gray-700 text-white border-none" type="password" name="password" required autocomplete="current-password" />
             <x-input-error :messages="$errors->get('form.password')" class="mt-2" />
         </div>
 
-        <!-- Remember Me -->
         <div class="block mt-4 text-left">
             <label for="remember" class="inline-flex items-center">
                 <input wire:model="form.remember" id="remember" type="checkbox" class="rounded border-gray-300 text-indigo-500 shadow-sm focus:ring-indigo-500">
@@ -64,20 +57,18 @@ new #[Layout('layouts.auth-login')] class extends Component
             </label>
         </div>
 
-        <!-- Acciones -->
-        <div class="flex flex-col sm:flex-row items-center justify-between mt-6 gap-4">
+        <div class="flex flex-col items-center justify-center mt-6 gap-4">
+            <x-primary-button class="p-2 sm:text-base bg-blue-500 rounded-lg w-full hover:bg-blue-900 text-white normal-case flex items-center justify-center">
+                {{ __('Iniciar sesión') }}
+            </x-primary-button>
+
             @if (Route::has('password.request'))
                 <a class="underline text-sm text-gray-300 hover:text-pink-300" href="{{ route('password.request') }}" wire:navigate>
                     {{ __('¿Olvidaste tu contraseña?') }}
                 </a>
             @endif
-
-            <x-primary-button class="p-2 sm:text-lg bg-blue-500 rounded-2xl w-full sm:w-48 hover:bg-gradient-to-r hover:from-blue-500 hover:via-blue-700 hover:to-blue-900 text-white">
-                {{ __('Iniciar sesión') }}
-            </x-primary-button>
         </div>
     </form>
 
-    <!-- Enlace de registro -->
     <p class="mt-6 text-sm text-white">¿Eres nuevo aquí? <a href="#" class="underline hover:text-pink-300">Regístrate</a></p>
 </div>
