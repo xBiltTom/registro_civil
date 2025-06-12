@@ -1,61 +1,15 @@
 <div>
     <div>
-        <a href="{{ route('actas-matrimonio') }}" wire:navigate>
+        <a href="{{ route('actas-matrimonio') }}">
             <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
                 Volver
             </button>
         </a>
     </div>
 
-    <div class="w-full p-6 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md">
-        <form wire:submit.prevent="registrarActaMatrimonio" class="space-y-6">
-
-            <h2 class="text-xl font-semibold text-gray-800 dark:text-white border-b pb-2">Datos del Acta</h2>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {{-- Libro --}}
-                <div>
-                    <label for="libro_id" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Libro</label>
-                    <input wire:model="libro_id" type="number" id="libro_id" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>
-                    @error('libro_id')
-                        <x-input-error :messages="$message" class="mt-2" />
-                    @enderror
-                </div>
-                {{-- Folio --}}
-                <div>
-                    <label for="folio_id" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Folio</label>
-                    <input wire:model="folio_id" type="number" id="folio_id" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>
-                    @error('folio_id')
-                        <x-input-error :messages="$message" class="mt-2" />
-                    @enderror
-                </div>
-                {{-- Acta --}}
-                <div>
-                    <label for="acta_id" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Acta</label>
-                    <input wire:model="acta_id" type="number" id="acta_id" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>
-                    @error('acta_id')
-                        <x-input-error :messages="$message" class="mt-2" />
-                    @enderror
-                </div>
-                {{-- Fecha de registro --}}
-                <div>
-                    <label for="fecha_registro" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Fecha de Registro</label>
-                    <input wire:model="fecha_registro" type="date" id="fecha_registro" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>
-                    @error('fecha_registro')
-                        <x-input-error :messages="$message" class="mt-2" />
-                    @enderror
-                </div>
-                {{-- Ruta PDF --}}
-                <div class="md:col-span-2">
-                    <label for="ruta_pdf" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Ruta PDF</label>
-                    <input wire:model="ruta_pdf" type="text" id="ruta_pdf" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>
-                    @error('ruta_pdf')
-                        <x-input-error :messages="$message" class="mt-2" />
-                    @enderror
-                </div>
-            </div>
-
-            <h2 class="text-xl font-semibold text-gray-800 dark:text-white border-b pt-6 pb-2">Datos del Matrimonio</h2>
+    <div class="w-full p-6 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md max-w-2xl mx-auto">
+        <form wire:submit.prevent="actualizar" class="space-y-6">
+            <h2 class="mb-6 text-xl font-bold text-gray-900 dark:text-white">Editar Acta de Matrimonio</h2>
 
             {{-- Novio --}}
             <div class="flex flex-row space-x-4 mb-6">
@@ -81,6 +35,7 @@
                             Buscar
                         </button>
                     </div>
+                    @error('novio_id') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                 </div>
             </div>
 
@@ -108,7 +63,14 @@
                             Buscar
                         </button>
                     </div>
+                    @error('novia_id') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                 </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="block mb-1 font-medium text-gray-900 dark:text-white">Fecha de Matrimonio</label>
+                <input type="date" wire:model="fecha_matrimonio" class="w-full rounded-md border border-gray-300 py-2 px-4 focus:border-gray-700 focus:shadow-md text-gray-900 dark:text-white bg-white dark:bg-gray-700" />
+                @error('fecha_matrimonio') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
             </div>
 
             {{-- Testigo 1 --}}
@@ -135,6 +97,7 @@
                             Buscar
                         </button>
                     </div>
+                    @error('testigo1_id') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                 </div>
             </div>
 
@@ -162,26 +125,19 @@
                             Buscar
                         </button>
                     </div>
+                    @error('testigo2_id') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                 </div>
             </div>
 
             <div>
-                <label for="fecha_matrimonio" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Fecha de Matrimonio</label>
-                <input wire:model="fecha_matrimonio" type="date" id="fecha_matrimonio" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>
-                @error('fecha_matrimonio')
-                    <x-input-error :messages="$message" class="mt-2" />
-                @enderror
-            </div>
-
-            <div class="mt-6 flex justify-end">
-                <button class="bg-green-600 hover:bg-green-700 text-white rounded-md px-6 py-2 transition-all duration-200" type="submit">
-                    Guardar Acta
+                <button type="submit"
+                    class="hover:shadow-form w-full rounded-md bg-gray-800 py-3 px-8 text-center text-base font-semibold text-green-400 outline-none">
+                    Actualizar Acta de Matrimonio
                 </button>
             </div>
-
-            @if($mostrarAlerta)
+            @if (session()->has('mensaje'))
                 <div class="mt-4 p-2 bg-green-100 text-green-700 rounded">
-                    ¡Acta de matrimonio registrada correctamente!
+                    {{ session('mensaje') }}
                 </div>
             @endif
         </form>
