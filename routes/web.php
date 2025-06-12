@@ -61,4 +61,8 @@ Route::get('actas/defunciones/editar/{id}', [FuncionarioController::class, 'edit
     ->middleware(['auth', 'verified'])
     ->name('ead');
 
+Route::get('actas/defunciones/pdf/{id}', [FuncionarioController::class, 'pdf'])
+    ->middleware(['auth', 'verified'])
+    ->name('defunciones-pdf');
+
 require __DIR__.'/auth.php';

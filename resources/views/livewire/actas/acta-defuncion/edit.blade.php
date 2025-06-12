@@ -126,9 +126,11 @@
 
             <div class="mt-6 flex justify-between">
 
-                <button type="button" class="bg-red-600 hover:bg-red-700 text-white rounded-md px-6 py-2 transition-all duration-200">
-                    Imprimir acta
-                </button>
+                <a href="{{route('defunciones-pdf',['id'=>$id_acta])}}">
+                    <button type="button" class="bg-red-600 hover:bg-red-700 text-white rounded-md px-6 py-2 transition-all duration-200">
+                        Descargar acta
+                    </button>
+                </a>
 
                 <div x-data="{ showAlert: false }">
                     <!-- Botón para disparar la alerta -->
