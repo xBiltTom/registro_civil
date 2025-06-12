@@ -67,7 +67,7 @@ class AdminIndex extends Component{
         $rolAsignado = Role::find($this->rol);
         $usuarioAsignado->assignRole($rolAsignado);
 
-        session()->flash('message', 'Se le asigo al correctamente el rol al usuario');
+        session()->flash('message', 'Se le asigno el rol correctamente  al usuario');
 
     }
 

@@ -8,6 +8,7 @@ use App\Models\Persona;
 use App\Models\Libro;
 use App\Models\Folio;
 use App\Models\Acta;
+use App\Models\User;
 use App\Models\ActaDefuncion;
 use Livewire\WithPagination;
 use App\Rules\FolioUnico;
@@ -31,6 +32,8 @@ class Create extends Component
 
     public $personas;
 
+    public $funcionarioPersona;
+
 
     public $nombreFallecido;
     public $nombreDeclarante;
@@ -42,12 +45,13 @@ class Create extends Component
 
     public function registrar(){
         $this->alcalde = Persona::find(Role::find(3)->users->first()->persona_id); //alcalde recuperado
+        $this->funcionarioPersona = auth()->user()->persona_id;
         $this->validate([
             'id_acta' => 'required|unique:actas,id',
             'id_folio' => ['required',new FolioUnico()],
             'id_libro' => 'required',
-            'id_declarante' => 'required',
-            'id_fallecido' => 'required',
+            'id_declarante' => 'required|different:id_fallecido',
+            'id_fallecido' => 'required|different:funcionarioPersona',
             'fecha_registro' => 'required|date',
             'fecha_defuncion' => 'required|date|before_or_equal:fecha_registro',
             'detalle' => 'nullable|string|max:255',
@@ -57,7 +61,9 @@ class Create extends Component
             'id_folio.required' => 'El campo Folio es obligatorio.',
             'id_libro.required' => 'El campo Libro es obligatorio.',
             'id_declarante.required' => 'El campo Declarante es obligatorio.',
+            'id_declarante.different' => 'El declarante no puede ser el mismo que el fallecido.',
             'id_fallecido.required' => 'El campo Fallecido es obligatorio.',
+            'id_fallecido.different' => 'El fallecido no puede ser el usuario activo en la sesion.',
             'fecha_registro.required' => 'La fecha de registro es obligatoria.',
             'fecha_defuncion.required' => 'La fecha de defunción es obligatoria.',
             'fecha_defuncion.before_or_equal' => 'La fecha de defunción debe ser igual o anterior a la fecha de registro.',
@@ -110,7 +116,7 @@ class Create extends Component
     }
 
     public function render(){
-        $this->personas = Persona::all();
+        $this->personas = Persona::whereNotIn('id', ActaDefuncion::pluck('fallecido_id'))->get();
         return view('livewire.actas.acta-defuncion.create',[
             'personas' => $this->personas,
         ]);

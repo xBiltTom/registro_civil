@@ -88,7 +88,7 @@
         <p><span class="label">Fecha del acta:</span> {{$acta->fecha_registro}}</p>
         <p><span class="label">Libro:</span> {{$acta->folio->libro_id}}</p>
         <p><span class="label">Folio:</span> {{$acta->folio_id}}</p>
-        <p><span class="label">Acta:</span> {{$acta->acta_id}}</p>
+        <p><span class="label">Acta:</span> {{$acta->id}}</p>
       </div>
     </div>
 
