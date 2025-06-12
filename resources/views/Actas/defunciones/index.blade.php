@@ -2,7 +2,7 @@
 @section('content')
 
 @if (session('message'))
-@if (session('message') == 'Acta eliminada correctamente.')
+{{-- @if (session('message') == 'Acta eliminada correctamente.')
     <div
         x-data="{ show: true }"
         x-show="show"
@@ -18,7 +18,7 @@
             <span class="font-medium">Datos eliminados!</span> {{ session('message') }}
         </div>
     </div>
-@else
+@else --}}
     <div
         x-data="{ show: true }"
         x-show="show"
@@ -34,7 +34,7 @@
             <span class="font-medium">Datos actualizados!</span> {{ session('message') }}
         </div>
     </div>
-@endif
+{{-- @endif --}}
 @endif
    <livewire:actas.acta-defuncion.index lazy/>
 

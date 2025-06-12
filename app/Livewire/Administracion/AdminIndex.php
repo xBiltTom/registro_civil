@@ -45,7 +45,7 @@ class AdminIndex extends Component{
             'ruta_foto' => null,
             'estado' => 1,
             'password' => bcrypt($this->contraseña),
-            'email_verified_at' => now(), // Cambia esto según tus necesidades
+            'email_verified_at' => now(),
         ]);
         /* dd([
             'persona_id' => $this->persona_id,
@@ -57,6 +57,7 @@ class AdminIndex extends Component{
 
 
         $this->reset(['user_name', 'correo', 'persona_id', 'contraseña']);
+        session()->flash('message', 'Usuario agregado correctamente');
 
     }
 
@@ -66,10 +67,8 @@ class AdminIndex extends Component{
         $rolAsignado = Role::find($this->rol);
         $usuarioAsignado->assignRole($rolAsignado);
 
-        /* dd([
-            'usuario '=>$this->user,
-            'rol' =>$this->rol,
-        ]); */
+        session()->flash('message', 'Se le asigo al correctamente el rol al usuario');
+
     }
 
 
