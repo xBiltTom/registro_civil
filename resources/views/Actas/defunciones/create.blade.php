@@ -1,13 +1,4 @@
 @extends('livewire.principal')
 @section('content')
-    <div>
-        Inicio
-
-    </div>
-
-
-
+    <livewire:actas.acta-defuncion.create lazy/>
 @endsection
-
-
-

@@ -3,16 +3,16 @@
         <div class="p-5 text-lg font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
             <div class="flex justify-between">
                 <div>
-                    Pobladores de Chicama
-                    <p class="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">Se muestran todos los pobladores censados actualmente</p>
+                    Defunciones
+                    <p class="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">Se muestran las defunciones registradas actualmente</p>
                 </div>
                 <div>
-                    <a href="" wire:navigate><button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Agregar persona</button></a>
+                    <a href="{{route('rad')}}" wire:navigate><button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Agregar acta</button></a>
                 </div>
             </div>
         </div>
 
-        <div class="p-5 text-lg font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+        {{-- <div class="p-5 text-lg font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
             <div class="flex justify-between items-center w-full">
                 <label for="buscarPersona" class="w-1/3">
                     <h2>Buscar persona</h2>
@@ -26,24 +26,24 @@
                     <input wire:model.live="buscado" wire:keydown="reiniciar" type="search" id="buscarPersona" class="block w-full p-3 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Buscar personas..." />
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <div class="overflow-auto" style="max-height: 340px;">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                @if($personas->count())
+                @if($actas->count())
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th scope="col" class="px-6 py-3">
-                            DNI
+                            Acta
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Nombre
+                            Fallecido
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Apellido
+                            Declarante
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            Edad
+                            Fecha de defuncion
                         </th>
                         <th scope="col" class="px-6 py-3">
                             <span class="sr-only">Accion</span>
@@ -51,25 +51,25 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($personas as $persona )
+                    @foreach ($actas as $acta )
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{$persona->dni}}
+                            {{$acta->acta_id}}
                         </th>
                         <td class="px-6 py-4">
-                            {{$persona->nombre}}
+                            {{$acta->fallecido->nombre}} {{$acta->fallecido->apellido}}
                         </td>
                         <td class="px-6 py-4">
-                            {{$persona->apellido}}
+                            {{$acta->declarante->nombre}} {{$acta->declarante->apellido}}
                         </td>
                         <td class="px-6 py-4">
-                            ({{ \Carbon\Carbon::parse($persona->fecha_nacimiento)->age }} años)
+                            {{$acta->fecha_defuncion}}
                         </td>
                         <td class="px-6 py-4 text-right">
-                            <form wire:submit="borrar({{$persona->id}})">
-                                <a  class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                <button wire:model="usuario" type="submit">
-                                    Borrar
+                            <form wire:submit="eliminar({{$acta->acta_id}})">
+                                <a href="{{route('ead',['id'=>$acta->acta_id])}}" wire:navigate class="font-medium p-2 text-blue-600 dark:text-blue-500 hover:underline cursor-pointer">Editar acta</a>
+                                <button type="submit">
+                                    Borrar acta
                                 </button>
                             </form>
                         </td>
@@ -91,6 +91,6 @@
     </div>
 
     <div class="mt-2">
-        {{ $personas->links() }}
+        {{ $actas->links() }}
     </div>
 </div>

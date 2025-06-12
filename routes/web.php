@@ -45,4 +45,16 @@ Route::get('actas/matrimonios/registrar', [FuncionarioController::class, 'regist
     ->middleware(['auth', 'verified'])
     ->name('r-a-m');
 
+Route::get('actas/defunciones', [FuncionarioController::class, 'mostrarActaDefunciones'])
+    ->middleware(['auth', 'verified'])
+    ->name('mad');
+
+Route::get('actas/defunciones/registrar', [FuncionarioController::class, 'registrarActaDefunciones'])
+    ->middleware(['auth', 'verified'])
+    ->name('rad');
+
+Route::get('actas/defunciones/editar/{id}', [FuncionarioController::class, 'editarActaDefunciones'])
+    ->middleware(['auth', 'verified'])
+    ->name('ead');
+
 require __DIR__.'/auth.php';

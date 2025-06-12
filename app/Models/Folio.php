@@ -9,7 +9,7 @@ class Folio extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['libro_id']; //protege los campos que se pueden asignar masivamente
+    protected $fillable = ['id','libro_id']; //protege los campos que se pueden asignar masivamente
 
     public function libro()
     {

@@ -16,10 +16,10 @@ class AdminIndex extends Component{
     public $contraseña;
     public $user_name;
     public $persona_id;
-    public $mostrarAlerta = false;
 
     public $user;
     public $rol;
+
 
     public function placeholder(){
         return view('placeholder');
@@ -55,7 +55,7 @@ class AdminIndex extends Component{
             'email_verfied_At'=> now(),
         ]); */
 
-        $this->mostrarAlerta = true;
+
         $this->reset(['user_name', 'correo', 'persona_id', 'contraseña']);
 
     }
@@ -65,18 +65,13 @@ class AdminIndex extends Component{
         $usuarioAsignado = \App\Models\User::find($this->user);
         $rolAsignado = Role::find($this->rol);
         $usuarioAsignado->assignRole($rolAsignado);
-        $this->mostrarAlerta=true;
+
         /* dd([
             'usuario '=>$this->user,
             'rol' =>$this->rol,
         ]); */
     }
 
-
-    public function cerrarAlerta()
-    {
-        $this->mostrarAlerta = false;
-    }
 
     public function render()
     {

@@ -9,11 +9,14 @@ class ActaDefuncion extends Model
 {
     use HasFactory;
 
+    protected $table = 'acta_defunciones';
+    protected $primaryKey = 'acta_id';
+
     protected $fillable = [
+        'acta_id',
         'fallecido_id',
         'fecha_defuncion',
         'declarante_id',
-        'acta_id'
     ];
 
     public function fallecido()
@@ -28,7 +31,7 @@ class ActaDefuncion extends Model
 
     public function acta()
     {
-        return $this->belongsTo(Acta::class);
+        return $this->belongsTo(Acta::class, 'acta_id'); // Clave foránea = PK
     }
 
     public function personas()

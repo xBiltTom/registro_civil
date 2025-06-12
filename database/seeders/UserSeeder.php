@@ -54,7 +54,7 @@ class UserSeeder extends Seeder
 
 
         // Crear el rol "funcionario"
-        $roleFuncionario = Role::create(['name' => 'funcionario']);
+        /* $roleFuncionario = Role::create(['name' => 'funcionario']);
 
         // Seleccionar permisos específicos para el rol "funcionario"
         $permissionsFuncionario = Permission::whereIn('name', [
@@ -70,7 +70,26 @@ class UserSeeder extends Seeder
         ])->get();
 
         // Asignar los permisos seleccionados al rol "funcionario"
-        $roleFuncionario->syncPermissions($permissionsFuncionario);
+        $roleFuncionario->syncPermissions($permissionsFuncionario); */
+
+
+        $roleAlcalde = Role::create(['name' => 'alcalde']);
+
+        // Seleccionar permisos específicos para el rol "funcionario"
+        $permissionsAlcalde = Permission::whereIn('name', [
+            'ver usuarios',
+            'ver personas',
+            'crear personas',
+            'editar personas',
+            'eliminar personas',
+            'ver lugares',
+            'crear lugares',
+            'editar lugares',
+            'eliminar lugares',
+        ])->get();
+
+        // Asignar los permisos seleccionados al rol "funcionario"
+        $roleAlcalde->syncPermissions($permissionsAlcalde);
 
     }
 }
