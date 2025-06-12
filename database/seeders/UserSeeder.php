@@ -73,7 +73,7 @@ class UserSeeder extends Seeder
         $roleFuncionario->syncPermissions($permissionsFuncionario); */
 
 
-        $roleAlcalde = Role::create(['name' => 'alcalde']);
+       /*  $roleAlcalde = Role::create(['name' => 'alcalde']);
 
         // Seleccionar permisos específicos para el rol "funcionario"
         $permissionsAlcalde = Permission::whereIn('name', [
@@ -89,7 +89,10 @@ class UserSeeder extends Seeder
         ])->get();
 
         // Asignar los permisos seleccionados al rol "funcionario"
-        $roleAlcalde->syncPermissions($permissionsAlcalde);
+        $roleAlcalde->syncPermissions($permissionsAlcalde); */
+
+        /* $role = Role::findByName('funcionario'); // Encuentra el rol por su nombre
+        $role->revokePermissionTo('ver usuarios'); */
 
     }
 }
