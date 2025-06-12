@@ -19,6 +19,7 @@ class FuncionarioController extends Controller
         return view('Actas.Matrimonios.create');
     }
 
+
     public function pdf($id){
         $acta = Acta::find($id);
         $fallecido = Persona::find($acta->actaDefuncion->fallecido_id);
@@ -28,6 +29,11 @@ class FuncionarioController extends Controller
         $fecha_actual = now();
         $pdf = Pdf::loadView('defuncionesPdf',compact('acta','fallecido','declarante','funcionario','alcalde','fecha_actual'));
         return $pdf->stream();
+    }
+
+    public function editarActaMatrimonio($id){
+        return view('Actas.Matrimonios.edit', ['id' => $id]);
+
     }
 
     public function mostrarActaDefunciones(){

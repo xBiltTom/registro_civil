@@ -9,6 +9,9 @@ class Acta extends Model
 {
     use HasFactory;
 
+    public $incrementing = false;      // El id NO es autoincremental
+    protected $keyType = 'int';
+
     protected $fillable = [
         'id',
         'fecha_registro',
@@ -45,7 +48,7 @@ class Acta extends Model
 
     public function actaMatrimonio()
     {
-        return $this->hasOne(ActaMatrimonio::class);
+        return $this->hasOne(ActaMatrimonio::class,'acta_id');
     }
 
     public function actaDefuncion()
