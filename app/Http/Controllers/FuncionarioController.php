@@ -31,6 +31,22 @@ class FuncionarioController extends Controller
         return $pdf->stream();
     }
 
+    public function pdfMatrimonio($id){
+        $acta = Acta::find($id);
+        if (!$acta || !$acta->actaMatrimonio) {
+            abort(404, 'Acta o acta de matrimonio no encontrada');
+        }
+        $novio = Persona::find($acta->actaMatrimonio->novio_id);
+        $novia = Persona::find($acta->actaMatrimonio->novia_id);
+        $testigo1 = Persona::find($acta->actaMatrimonio->testigo1_id);
+        $testigo2 = Persona::find($acta->actaMatrimonio->testigo2_id);
+        $funcionario = User::find($acta->user_id);
+        $alcalde = Persona::find($acta->persona_id);
+        $fecha_actual = now();
+        $pdf = Pdf::loadView('matrimoniosPdf', compact('acta','novio','novia','testigo1','testigo2','funcionario','alcalde','fecha_actual'));
+        return $pdf->stream();
+    }
+
     public function editarActaMatrimonio($id){
         return view('Actas.Matrimonios.edit', ['id' => $id]);
 
