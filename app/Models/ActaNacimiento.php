@@ -9,6 +9,10 @@ class ActaNacimiento extends Model
 {
     use HasFactory;
 
+    protected $table = 'acta_nacimientos';
+    protected $primaryKey = 'acta_id';
+
+
     protected $fillable = [
         'nombre_nacido',
         'apellido_nacido',
@@ -22,7 +26,7 @@ class ActaNacimiento extends Model
 
     public function acta()
     {
-        return $this->belongsTo(Acta::class);
+        return $this->belongsTo(Acta::class, 'acta_id'); // Clave foránea = PK
     }
 
     public function madre()
@@ -37,7 +41,7 @@ class ActaNacimiento extends Model
 
     public function lugar()
     {
-        return $this->belongsTo(Lugar::class);
+        return $this->belongsTo(Lugar::class, 'lugar_id');
     }
 
     public function personas()

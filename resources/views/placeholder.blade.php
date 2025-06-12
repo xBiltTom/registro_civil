@@ -1,4 +1,5 @@
 <div class="flex justify-center items-center pt-24">
+
 {{--
 <div role="status" class="space-y-2.5 animate-pulse max-w-lg">
     <div class="flex items-center w-full">
@@ -36,3 +37,4 @@
 <div class="w-16 h-16 border-8 border-dashed rounded-full animate-spin border-blue-600"></div>
 
 </div>
+
