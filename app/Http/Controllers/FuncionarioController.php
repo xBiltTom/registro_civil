@@ -14,7 +14,9 @@ class FuncionarioController extends Controller
         return view('Actas.Matrimonios.create');
     }
 
-
+    public function editarActaMatrimonio($id){
+        return view('Actas.Matrimonios.edit', ['id' => $id]);
+    }
 
     public function mostrarActaDefunciones(){
         return view('Actas.defunciones.index');
