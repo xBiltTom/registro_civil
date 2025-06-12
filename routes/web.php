@@ -49,6 +49,11 @@ Route::get('actas/matrimonios/editar/{id}', [FuncionarioController::class, 'edit
     ->middleware(['auth', 'verified'])
     ->name('acta-matrimonio.editar');
 
+Route::get('actas/matrimonios/pdf/{id}', [FuncionarioController::class, 'pdfMatrimonio'])
+    ->middleware(['auth', 'verified'])
+    ->name('matrimonios-pdf');
+
+
 Route::get('actas/defunciones', [FuncionarioController::class, 'mostrarActaDefunciones'])
     ->middleware(['auth', 'verified'])
     ->name('mad');

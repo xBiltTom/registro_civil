@@ -19,10 +19,12 @@ class Edit extends Component
     public $nombreNovia = '';
     public $nombreTestigo1 = '';
     public $nombreTestigo2 = '';
+    public $id_acta;
 
 
     public function mount($acta_id)
     {
+        $this->id_acta = $acta_id; // <--- Agrega esta línea
         $this->actaMatrimonio = ActaMatrimonio::findOrFail($acta_id);
         $this->novio_id = $this->actaMatrimonio->novio_id;
         $this->novia_id = $this->actaMatrimonio->novia_id;

@@ -30,26 +30,29 @@ class ActaMatrimonio extends Model
     ];
 
     public function novio()
-    {
-        return $this->belongsTo(Persona::class, 'novio_id');
-    }
-    public function novia()
-    {
-        return $this->belongsTo(Persona::class, 'novia_id');
-    }
-    public function testigo1()
-    {
-        return $this->belongsTo(Persona::class, 'testigo1_id');
-    }
-    public function testigo2()
-    {
-        return $this->belongsTo(Persona::class, 'testigo2_id');
-    }
+{
+    return $this->belongsTo(\App\Models\Persona::class, 'novio_id');
+}
 
-    public function acta()
-    {
-        return $this->belongsTo(Acta::class, 'acta_id');
-    }
+public function novia()
+{
+    return $this->belongsTo(\App\Models\Persona::class, 'novia_id');
+}
+
+public function testigo1()
+{
+    return $this->belongsTo(\App\Models\Persona::class, 'testigo1_id');
+}
+
+public function testigo2()
+{
+    return $this->belongsTo(\App\Models\Persona::class, 'testigo2_id');
+}
+
+public function acta()
+{
+    return $this->belongsTo(\App\Models\Acta::class, 'acta_id');
+}
 
     
 }
