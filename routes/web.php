@@ -45,6 +45,7 @@ Route::get('actas/matrimonios/registrar', [FuncionarioController::class, 'regist
     ->middleware(['auth', 'verified'])
     ->name('r-a-m');
 
+
 /* Zona de los links de actas de nacimiento */
 Route::get('actas/nacimientos/registrar', [FuncionarioController::class, 'registrarNacimiento'])
     ->middleware(['auth', 'verified'])
@@ -56,5 +57,31 @@ Route::get('actas/nacimientos/index', [FuncionarioController::class, 'indexNacim
 Route::get('actas/nacimientos/edit/{id}', [FuncionarioController::class, 'editNacimiento'])
     ->middleware(['auth', 'verified'])
     ->name('actas-nacimiento-edit');
+
+Route::get('actas/matrimonios/editar/{id}', [FuncionarioController::class, 'editarActaMatrimonio'])
+    ->middleware(['auth', 'verified'])
+    ->name('acta-matrimonio.editar');
+
+Route::get('actas/matrimonios/pdf/{id}', [FuncionarioController::class, 'pdfMatrimonio'])
+    ->middleware(['auth', 'verified'])
+    ->name('matrimonios-pdf');
+
+
+Route::get('actas/defunciones', [FuncionarioController::class, 'mostrarActaDefunciones'])
+    ->middleware(['auth', 'verified'])
+    ->name('mad');
+
+Route::get('actas/defunciones/registrar', [FuncionarioController::class, 'registrarActaDefunciones'])
+    ->middleware(['auth', 'verified'])
+    ->name('rad');
+
+Route::get('actas/defunciones/editar/{id}', [FuncionarioController::class, 'editarActaDefunciones'])
+    ->middleware(['auth', 'verified'])
+    ->name('ead');
+
+Route::get('actas/defunciones/pdf/{id}', [FuncionarioController::class, 'pdf'])
+    ->middleware(['auth', 'verified'])
+    ->name('defunciones-pdf');
+
 
 require __DIR__.'/auth.php';

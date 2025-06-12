@@ -16,10 +16,10 @@ class AdminIndex extends Component{
     public $contraseña;
     public $user_name;
     public $persona_id;
-    public $mostrarAlerta = false;
 
     public $user;
     public $rol;
+
 
     public function placeholder(){
         return view('placeholder');
@@ -45,7 +45,7 @@ class AdminIndex extends Component{
             'ruta_foto' => null,
             'estado' => 1,
             'password' => bcrypt($this->contraseña),
-            'email_verified_at' => now(), // Cambia esto según tus necesidades
+            'email_verified_at' => now(),
         ]);
         /* dd([
             'persona_id' => $this->persona_id,
@@ -55,8 +55,9 @@ class AdminIndex extends Component{
             'email_verfied_At'=> now(),
         ]); */
 
-        $this->mostrarAlerta = true;
+
         $this->reset(['user_name', 'correo', 'persona_id', 'contraseña']);
+        session()->flash('message', 'Usuario agregado correctamente');
 
     }
 
@@ -65,18 +66,11 @@ class AdminIndex extends Component{
         $usuarioAsignado = \App\Models\User::find($this->user);
         $rolAsignado = Role::find($this->rol);
         $usuarioAsignado->assignRole($rolAsignado);
-        $this->mostrarAlerta=true;
-        /* dd([
-            'usuario '=>$this->user,
-            'rol' =>$this->rol,
-        ]); */
+
+        session()->flash('message', 'Se le asigno el rol correctamente  al usuario');
+
     }
 
-
-    public function cerrarAlerta()
-    {
-        $this->mostrarAlerta = false;
-    }
 
     public function render()
     {

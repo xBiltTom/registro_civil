@@ -10,11 +10,10 @@ class ListarUsuarios extends Component
 
 {
 
-    public $usuarios;
+    protected $paginationTheme = 'tailwind';
+    public $buscado;
 
-    public function mount(){
-        return $this->usuarios = Persona::all();
-    }
+
 
     public function placeholder()
     {
@@ -23,6 +22,15 @@ class ListarUsuarios extends Component
 
     public function render()
     {
-        return view('livewire.listar-usuarios');
+        $usuarios = User::where(function ($query) {
+            if ($this->buscado) {
+            $query->where('name', 'like', '%' . $this->buscado . '%')
+                  ->orWhere('email', 'like', '%' . $this->buscado . '%');
+
+            }
+        })->paginate(5);
+        return view('livewire.usuarios.listar-usuarios',[
+            'usuarios' => $usuarios,
+        ]);
     }
 }

@@ -1,63 +1,24 @@
 <div>
-    <div>
-        <a href="{{ route('actas-matrimonio') }}" wire:navigate>
-            <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                Volver
-            </button>
-        </a>
-    </div>
+    <a href="{{ route('actas-matrimonio') }}">
+        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+            Volver
+        </button>
+    </a>
 
     <div class="w-full p-6 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md">
-        <form wire:submit.prevent="registrarActaMatrimonio" class="space-y-6">
-
-            <h2 class="text-xl font-semibold text-gray-800 dark:text-white border-b pb-2">Datos del Acta</h2>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {{-- Libro --}}
-                <div>
-                    <label for="libro_id" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Libro</label>
-                    <input wire:model="libro_id" type="number" id="libro_id" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>
-                    @error('libro_id')
-                        <x-input-error :messages="$message" class="mt-2" />
-                    @enderror
-                </div>
-                {{-- Folio --}}
-                <div>
-                    <label for="folio_id" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Folio</label>
-                    <input wire:model="folio_id" type="number" id="folio_id" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>
-                    @error('folio_id')
-                        <x-input-error :messages="$message" class="mt-2" />
-                    @enderror
-                </div>
-                {{-- Acta --}}
-                <div>
-                    <label for="acta_id" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Acta</label>
-                    <input wire:model="acta_id" type="number" id="acta_id" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>
-                    @error('acta_id')
-                        <x-input-error :messages="$message" class="mt-2" />
-                    @enderror
-                </div>
-                {{-- Fecha de registro --}}
-                <div>
-                    <label for="fecha_registro" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Fecha de Registro</label>
-                    <input wire:model="fecha_registro" type="date" id="fecha_registro" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>
-                    @error('fecha_registro')
-                        <x-input-error :messages="$message" class="mt-2" />
-                    @enderror
-                </div>
-                {{-- Ruta PDF --}}
-                <div class="md:col-span-2">
-                    <label for="ruta_pdf" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Ruta PDF</label>
-                    <input wire:model="ruta_pdf" type="text" id="ruta_pdf" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>
-                    @error('ruta_pdf')
-                        <x-input-error :messages="$message" class="mt-2" />
-                    @enderror
-                </div>
-            </div>
-
+        <form wire:submit.prevent="actualizar" class="space-y-6">
             <h2 class="text-xl font-semibold text-gray-800 dark:text-white border-b pt-6 pb-2">Datos del Matrimonio</h2>
 
-            {{-- Novio --}}
+            <div class="mb-6">
+                <label class="text-white block mb-1" for="fecha_matrimonio">Fecha de Matrimonio</label>
+                <input wire:model="fecha_matrimonio" name="fecha_matrimonio" id="fecha_matrimonio" class="w-full bg-gray-800 rounded-md border-gray-700 text-white px-3 py-2" type="date">
+                @error('fecha_matrimonio')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <h2 class="text-white font-bold text-lg mb-4">Novios</h2>
+
             <div class="flex flex-row space-x-4 mb-6">
                 <div class="flex-1">
                     <label class="text-white block mb-1" for="novio">Novio</label>
@@ -66,12 +27,11 @@
                             name="novio"
                             wire:model="novio_id"
                             id="novio"
-                            x-data="{ novioNombre: @entangle('nombreNovio') }"
+                            x-data="{ novioNombre: '{{$nombreNovio}}' }"
                             x-model="novioNombre"
                             x-on:novio-seleccionado.window="(e) => {
                                 $wire.set('novio_id', e.detail.id);
                                 novioNombre = e.detail.nombre;
-                                $wire.set('nombreNovio', e.detail.nombre);
                             }"
                             placeholder="Buscar novio"
                             class="flex-1 bg-gray-800 rounded-l-md border-gray-700 text-white px-3 py-2"
@@ -81,10 +41,12 @@
                             Buscar
                         </button>
                     </div>
+                    @error('novio_id')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
 
-            {{-- Novia --}}
             <div class="flex flex-row space-x-4 mb-6">
                 <div class="flex-1">
                     <label class="text-white block mb-1" for="novia">Novia</label>
@@ -93,12 +55,11 @@
                             name="novia"
                             wire:model="novia_id"
                             id="novia"
-                            x-data="{ noviaNombre: @entangle('nombreNovia') }"
+                            x-data="{ noviaNombre: '{{$nombreNovia}}' }"
                             x-model="noviaNombre"
                             x-on:novia-seleccionado.window="(e) => {
                                 $wire.set('novia_id', e.detail.id);
                                 noviaNombre = e.detail.nombre;
-                                $wire.set('nombreNovia', e.detail.nombre);
                             }"
                             placeholder="Buscar novia"
                             class="flex-1 bg-gray-800 rounded-l-md border-gray-700 text-white px-3 py-2"
@@ -108,10 +69,14 @@
                             Buscar
                         </button>
                     </div>
+                    @error('novia_id')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
 
-            {{-- Testigo 1 --}}
+            <h2 class="text-white font-bold text-lg mb-4">Testigos</h2>
+
             <div class="flex flex-row space-x-4 mb-6">
                 <div class="flex-1">
                     <label class="text-white block mb-1" for="testigo1">Testigo 1</label>
@@ -120,12 +85,11 @@
                             name="testigo1"
                             wire:model="testigo1_id"
                             id="testigo1"
-                            x-data="{ testigo1Nombre: @entangle('nombreTestigo1') }"
+                            x-data="{ testigo1Nombre: '{{$nombreTestigo1}}' }"
                             x-model="testigo1Nombre"
                             x-on:testigo1-seleccionado.window="(e) => {
                                 $wire.set('testigo1_id', e.detail.id);
                                 testigo1Nombre = e.detail.nombre;
-                                $wire.set('nombreTestigo1', e.detail.nombre);
                             }"
                             placeholder="Buscar testigo 1"
                             class="flex-1 bg-gray-800 rounded-l-md border-gray-700 text-white px-3 py-2"
@@ -135,10 +99,12 @@
                             Buscar
                         </button>
                     </div>
+                    @error('testigo1_id')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
 
-            {{-- Testigo 2 --}}
             <div class="flex flex-row space-x-4 mb-6">
                 <div class="flex-1">
                     <label class="text-white block mb-1" for="testigo2">Testigo 2</label>
@@ -147,12 +113,11 @@
                             name="testigo2"
                             wire:model="testigo2_id"
                             id="testigo2"
-                            x-data="{ testigo2Nombre: @entangle('nombreTestigo2') }"
+                            x-data="{ testigo2Nombre: '{{$nombreTestigo2}}' }"
                             x-model="testigo2Nombre"
                             x-on:testigo2-seleccionado.window="(e) => {
                                 $wire.set('testigo2_id', e.detail.id);
                                 testigo2Nombre = e.detail.nombre;
-                                $wire.set('nombreTestigo2', e.detail.nombre);
                             }"
                             placeholder="Buscar testigo 2"
                             class="flex-1 bg-gray-800 rounded-l-md border-gray-700 text-white px-3 py-2"
@@ -162,26 +127,43 @@
                             Buscar
                         </button>
                     </div>
+                    @error('testigo2_id')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
 
-            <div>
-                <label for="fecha_matrimonio" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Fecha de Matrimonio</label>
-                <input wire:model="fecha_matrimonio" type="date" id="fecha_matrimonio" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>
-                @error('fecha_matrimonio')
-                    <x-input-error :messages="$message" class="mt-2" />
-                @enderror
+            <div class="mt-6 flex justify-between">
+                <a href="{{route('matrimonios-pdf',['id'=>$id_acta])}}">
+                    <button type="button" class="bg-red-600 hover:bg-red-700 text-white rounded-md px-6 py-2 transition-all duration-200">
+                        Descargar acta
+                    </button>
+                </a>
+
+                <div x-data="{ showAlert: false }">
+                    <button type="button" @click="showAlert = true" class="bg-green-600 hover:bg-green-700 text-white rounded-md px-6 py-2 transition-all duration-200">
+                        Editar acta
+                    </button>
+                    <div x-show="showAlert" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
+                        <div class="bg-white rounded-lg shadow-lg p-6 w-96">
+                            <h2 class="text-lg font-semibold text-gray-800">¿Estás seguro?</h2>
+                            <p class="text-gray-600 mt-2">No podrás revertir esta acción.</p>
+                            <div class="mt-4 flex justify-end space-x-2">
+                                <button type="button" @click="showAlert = false" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-md">
+                                    Cancelar
+                                </button>
+                                <button type="submit" @click="showAlert = false" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md">
+                                    Confirmar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <div class="mt-6 flex justify-end">
-                <button class="bg-green-600 hover:bg-green-700 text-white rounded-md px-6 py-2 transition-all duration-200" type="submit">
-                    Guardar Acta
-                </button>
-            </div>
-
-            @if($mostrarAlerta)
+            @if (session()->has('mensaje'))
                 <div class="mt-4 p-2 bg-green-100 text-green-700 rounded">
-                    ¡Acta de matrimonio registrada correctamente!
+                    {{ session('mensaje') }}
                 </div>
             @endif
         </form>

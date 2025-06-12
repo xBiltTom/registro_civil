@@ -12,13 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('acta_matrimonios', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('novio_id')->constrained('personas')->onDelete('cascade');
+            $table->unsignedBigInteger('acta_id')->primary(); // Clave primaria y foránea
+            $table->foreign('acta_id')->references('id')->on('actas')->onDelete('cascade');
             $table->foreignId('novia_id')->constrained('personas')->onDelete('cascade');
             $table->date('fecha_matrimonio');
             $table->foreignId('testigo1_id')->constrained('personas')->onDelete('cascade');
             $table->foreignId('testigo2_id')->constrained('personas')->onDelete('cascade');
-            $table->foreignId('acta_id')->unique()->constrained('actas')->onDelete('cascade');
             $table->timestamps();
         });
     }
