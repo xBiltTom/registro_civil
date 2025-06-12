@@ -22,8 +22,7 @@ class ListarMatrimonios extends Component
 
     public function render()
     {
-        // Usa paginate() en lugar de all()
-        $matrimonios = ActaMatrimonio::paginate(10); // 10 items por página
+        $matrimonios = ActaMatrimonio::with(['novio', 'novia', 'testigo1', 'testigo2', 'acta'])->paginate(10);
 
         return view('livewire.actas.acta-matrimonio.listar-matrimonios', [
             'matrimonios' => $matrimonios
@@ -39,8 +38,30 @@ class ListarMatrimonios extends Component
     {
         $matrimonio = ActaMatrimonio::find($acta_id);
         if ($matrimonio) {
+            // Guarda los IDs antes de eliminar el registro de matrimonio
+            $actaId = $matrimonio->acta_id ?? null;
+            $folioId = $matrimonio->folio_id ?? null;
+
+            // 1. Elimina el acta de matrimonio
             $matrimonio->delete();
-            session()->flash('mensaje', 'Acta de matrimonio eliminada correctamente.');
+
+            // 2. Elimina el acta asociada
+            if ($actaId) {
+                $acta = \App\Models\Acta::find($actaId);
+                if ($acta) {
+                    $acta->delete();
+                }
+            }
+
+            // 3. Elimina el folio asociado
+            if ($folioId) {
+                $folio = \App\Models\Folio::find($folioId);
+                if ($folio) {
+                    $folio->delete();
+                }
+            }
+
+            session()->flash('mensaje', 'Acta de matrimonio, acta y folio eliminados correctamente.');
         }
     }
 
