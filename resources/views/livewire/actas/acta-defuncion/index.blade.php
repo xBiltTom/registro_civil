@@ -65,14 +65,50 @@
                         <td class="px-6 py-4">
                             {{$acta->fecha_defuncion}}
                         </td>
-                        <td class="px-6 py-4 text-right">
-                            <form wire:submit="eliminar({{$acta->acta_id}})">
-                                <a href="{{route('ead',['id'=>$acta->acta_id])}}" wire:navigate class="font-medium p-2 text-blue-600 dark:text-blue-500 hover:underline cursor-pointer">Editar acta</a>
-                                <button type="submit">
-                                    Borrar acta
-                                </button>
-                            </form>
+                        <td class="px-6 py-4">
+                            <div class="flex justify-center space-x-4 items-center">
+                                <!-- Botón Editar -->
+                                <a href="{{ route('ead', ['id' => $acta->acta_id]) }}"
+                                   wire:navigate
+                                   class="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer">
+                                    Editar acta
+                                </a>
+
+                                <!-- Eliminar con confirmación -->
+                                <div x-data="{ showAlert: false }" class="relative">
+                                    <button type="button"
+                                            @click="showAlert = true"
+                                            class="font-medium text-red-600 dark:text-red-500 hover:underline cursor-pointer">
+                                        Eliminar acta
+                                    </button>
+
+                                    <!-- Modal de confirmación -->
+                                    <div x-show="showAlert" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                                        <div class="bg-white rounded-lg shadow-lg p-6 w-96">
+                                            <h2 class="text-lg font-semibold text-gray-800">¿Estás seguro?</h2>
+                                            <p class="text-gray-600 mt-2">No podrás revertir esta acción.</p>
+                                            <div class="mt-4 flex justify-end space-x-2">
+                                                <button type="button"
+                                                        @click="showAlert = false"
+                                                        class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-md">
+                                                    Cancelar
+                                                </button>
+
+                                                <form wire:submit.prevent="eliminar({{ $acta->acta_id }})">
+                                                    <button type="submit"
+                                                            @click="showAlert = false"
+                                                            class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md">
+                                                        Confirmar
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </td>
+
+
                     </tr>
                     @endforeach
                 </tbody>
