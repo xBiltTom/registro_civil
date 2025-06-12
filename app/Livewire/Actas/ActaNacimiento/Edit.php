@@ -15,6 +15,10 @@ use Illuminate\Support\Facades\Log;
 
 class Edit extends Component
 {
+
+    public function placeholder(){
+        return view('placeholder');
+    }
     // Datos del Acta
     public $acta_id;
     public $folio_id;
