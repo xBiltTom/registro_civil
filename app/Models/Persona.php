@@ -10,8 +10,10 @@ class Persona extends Model
     use HasFactory;
 
     protected $fillable = [
-        'dni', 'nombre', 'apellido', 'sexo', 
-        'nacionalidad', 'pertenece_pueblo'
+        'dni', 'nombre', 'apellido', 'sexo',
+        'nacionalidad', 'pertenece_pueblo',
+        'fecha_nacimiento','telefono',
+        'lugar_id'
     ];
 
     public function lugar()

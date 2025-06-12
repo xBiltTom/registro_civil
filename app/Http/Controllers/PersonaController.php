@@ -13,8 +13,8 @@ class PersonaController extends Controller
     public function index()
     {
 
-        $personas = Persona::all();
-        return view('personas.listar-personas');
+        /* $personas = Persona::all(); */
+        return view('Personas.listar-personas');
     }
 
     /**
@@ -22,8 +22,13 @@ class PersonaController extends Controller
      */
     public function create()
     {
-        //
+        return view('Personas.create');
     }
+
+    /**
+  * Show the form for creating a new resource.
+     */
+
 
     /**
      * Store a newly created resource in storage.

@@ -12,9 +12,7 @@ class UserController extends Controller
      */
     public function index()
     {
-
-        $personas = Persona::all();
-        return view('usuarios.usuarios',compact('personas'));
+        return view('usuarios.usuarios');
     }
 
     /**
