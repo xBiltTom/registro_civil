@@ -10,11 +10,12 @@ class Acta extends Model
     use HasFactory;
 
     protected $fillable = [
+        'id',
         'fecha_registro',
         'persona_id',
         'folio_id',
         'user_id',
-        'ruta_pdf'
+        /* 'ruta_pdf' */
     ];
 
     public function persona()
@@ -39,7 +40,7 @@ class Acta extends Model
 
     public function actaNacimiento()
     {
-        return $this->hasOne(ActaNacimiento::class);
+        return $this->hasOne(ActaNacimiento::class, 'acta_id'); // Clave foránea explícita
     }
 
     public function actaMatrimonio()
