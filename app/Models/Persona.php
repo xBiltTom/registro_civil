@@ -11,7 +11,10 @@ class Persona extends Model
 
     protected $fillable = [
         'dni', 'nombre', 'apellido', 'sexo',
-        'nacionalidad', 'pertenece_pueblo', 'lugar_id', 'fecha_nacimiento'
+
+        'nacionalidad', 'pertenece_pueblo',
+        'fecha_nacimiento','telefono',
+        'lugar_id'
     ];
 
     public function lugar()

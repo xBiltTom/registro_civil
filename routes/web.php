@@ -16,9 +16,12 @@ Route::view('users', 'livewire.listar-usuarios')
     ->name('user'); */
 
 Route::resource('usuarios', UserController::class);
-
-Route::resource('personas',PersonaController::class);
-
+Route::get('personas/listar', [PersonaController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('personas.index');
+Route::get('personas/create', [PersonaController::class, 'create'])
+    ->middleware(['auth', 'verified'])
+    ->name('personas.create');
 
 
 /* Route::view('principal', 'livewire.principal')
