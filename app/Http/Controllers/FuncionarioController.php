@@ -29,6 +29,7 @@ class FuncionarioController extends Controller
     public function editNacimiento($id){
         return view('Actas.Nacimientos.edit', compact('id'));
 
+    }
 
     public function pdf($id){
         $acta = Acta::find($id);

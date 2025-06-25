@@ -2,12 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PersonaController;
 use App\Http\Controllers\FuncionarioController;
 
 Route::view('/', 'welcome');
 
-Route::view('dashboard', 'dashboard')
+Route::view('dashboard', [HomeController::class, 'dashboard'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 /*

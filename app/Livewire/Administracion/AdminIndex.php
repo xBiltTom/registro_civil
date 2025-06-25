@@ -36,8 +36,6 @@ class AdminIndex extends Component{
             'persona_id' => 'required|exists:personas,id'
         ]);
 
-
-
         $usuario = \App\Models\User::create([
             'name' => $this->user_name,
             'email' => $this->correo,
@@ -47,14 +45,6 @@ class AdminIndex extends Component{
             'password' => bcrypt($this->contraseña),
             'email_verified_at' => now(),
         ]);
-        /* dd([
-            'persona_id' => $this->persona_id,
-            'correo' => $this->correo,
-            'contraseña' => $this->contraseña,
-            'username' => $this->user_name,
-            'email_verfied_At'=> now(),
-        ]); */
-
 
         $this->reset(['user_name', 'correo', 'persona_id', 'contraseña']);
         session()->flash('message', 'Usuario agregado correctamente');
@@ -65,7 +55,7 @@ class AdminIndex extends Component{
 
         $usuarioAsignado = \App\Models\User::find($this->user);
         $rolAsignado = Role::find($this->rol);
-        $usuarioAsignado->assignRole($rolAsignado);
+        $usuarioAsignado->syncRoles([$rolAsignado]);  //En lugar de assign, ya que sync elimina los roles antiguos antes de asignar uno nuevo
 
         session()->flash('message', 'Se le asigno el rol correctamente  al usuario');
 
