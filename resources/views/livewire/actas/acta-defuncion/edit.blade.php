@@ -5,7 +5,6 @@
 
     <div class="w-full p-6 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md">
         <form wire:submit="actualizar" class="space-y-6">
-
             <h2 class="text-xl font-semibold text-gray-800 dark:text-white border-b pb-2">Datos del Acta</h2>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -34,6 +33,7 @@
 
             <div>
                 <label for="fecha_registro" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Fecha de Registro</label>
+
                 <input disabled wire:model="fecha_registro" type="date" id="fecha_registro" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>
                 @error('fecha_registro')
                     <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -414,10 +414,6 @@
             </div>
         </div>
     </div>
-
-
-
-
-
 </div>
+
 

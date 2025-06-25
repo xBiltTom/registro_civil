@@ -19,7 +19,12 @@ new #[Layout('layouts.auth-login')] class extends Component
         $this->form->authenticate();
 
         Session::regenerate();
-
+        $usuario = auth()->user()->persona;
+        if($usuario->sexo=="F"){
+            session()->flash('message',"Bienvenida $usuario->nombre $usuario->apellido");
+        } else {
+            session()->flash('message',"Bienvenido $usuario->nombre $usuario->apellido");
+        }
         $this->redirectIntended(default: route('dashboard', absolute: false), navigate: false);
     }
 };

@@ -4,12 +4,22 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Persona;
+use App\Models\User;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
+    use AuthorizesRequests;
+
+    public function __construct(){
+        $this->authorizeResource(User::class);
+    }
+
     public function index()
     {
         return view('usuarios.usuarios');

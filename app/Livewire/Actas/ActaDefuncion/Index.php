@@ -33,7 +33,6 @@ class Index extends Component
 
         $actas = ActaDefuncion::with(['fallecido','declarante'])->paginate(7);
 
-
         return view('livewire.actas.acta-defuncion.index',[
             'actas' => $actas,
         ]);
