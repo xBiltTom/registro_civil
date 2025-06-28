@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\ActaMatrimonio;
 use App\Models\Persona;
 use Illuminate\Support\Facades\DB;
+use App\Rules\FolioUnico;
 
 class Create extends Component
 {
@@ -51,7 +52,7 @@ class Create extends Component
         $this->validate([
             'acta_id' => 'required|integer|min:1|unique:actas,id',
             'libro_id' => 'required|integer',
-            'folio_id' => 'required|integer',
+            'folio_id' => ['required',new FolioUnico()],
             'fecha_registro' => 'required|date',
             'ruta_pdf' => 'required|string|max:255',
             'novio_id' => 'required|exists:personas,id',
@@ -59,6 +60,18 @@ class Create extends Component
             'fecha_matrimonio' => 'required|date',
             'testigo1_id' => 'required|exists:personas,id',
             'testigo2_id' => 'required|exists:personas,id',
+        ], [
+            'acta_id.required' => 'El campo Acta es obligatorio.',
+            'acta_id.unique' => 'El ID del acta ya existe. Por favor, use un ID único.',
+            'libro_id.required' => 'El campo Libro es obligatorio.',
+            'folio_id.required' => 'El campo Folio es obligatorio.',
+            'fecha_registro.required' => 'La fecha de registro es obligatoria.',
+            'ruta_pdf.required' => 'La ruta del PDF es obligatoria.',
+            'novio_id.required' => 'El campo del Novio es obligatorio.',
+            'novia_id.required' => 'El campo de la Novia es obligatorio.',
+            'fecha_matrimonio.required' => 'La fecha del matrimonio es obligatoria.',
+            'testigo1_id.required' => 'El campo del primer testigo es obligatorio.',
+            'testigo2_id.required' => 'El campo del segundo testigo es obligatorio.',
         ]);
 
         if ($this->novio_id == $this->novia_id) {
@@ -151,5 +164,7 @@ class Create extends Component
             'ruta_pdf',
             'nombreNovio', 'nombreNovia', 'nombreTestigo1', 'nombreTestigo2'
         ]);
+        session()->flash('message', 'Acta de Matrimonio registrada correctamente.');
+        $this->redirect(route('actas-matrimonio', $this->acta_id));
     }
 }

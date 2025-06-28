@@ -179,11 +179,23 @@
                 </button>
             </div>
 
+            @if ($errors->any())
+                <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+                    <strong>Se encontraron los siguientes errores:</strong>
+                    <ul class="mt-2 list-disc list-inside">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             @if($mostrarAlerta)
                 <div class="mt-4 p-2 bg-green-100 text-green-700 rounded">
                     ¡Acta de matrimonio registrada correctamente!
                 </div>
             @endif
+
         </form>
     </div>
 
