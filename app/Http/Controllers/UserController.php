@@ -22,7 +22,7 @@ class UserController extends Controller
 
     public function index()
     {
-        return view('usuarios.usuarios');
+        return view('Usuarios.listar-usuarios');
     }
 
     public function mostrarActasPersonales(){
@@ -38,7 +38,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('Usuarios.create');
     }
 
     /**
@@ -62,7 +62,7 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return view('Usuarios.edit', ['id' => $id]);
     }
 
     /**

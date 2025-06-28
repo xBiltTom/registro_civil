@@ -16,7 +16,7 @@ class Create extends Component
     public $sexo;
     public $fecha_nacimiento;
     public $telefono;
-
+    
     public $lugares;
 
     public function mount()

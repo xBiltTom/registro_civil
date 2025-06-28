@@ -1,5 +1,7 @@
 @extends('livewire.principal')
 @section('content')
-    <livewire:usuarios.listar-usuarios lazy />
+
+
+    <livewire:personas.edit :id="$id" lazy/>
 
 @endsection

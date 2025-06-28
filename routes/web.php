@@ -15,6 +15,7 @@ Route::view('dashboard', [HomeController::class, 'dashboard'])
 Route::view('users', 'livewire.listar-usuarios')
     ->middleware(['auth', 'verified'])
     ->name('user'); */
+
 //Cosas de los usuarios
 Route::resource('usuarios', UserController::class);
 Route::get('actas',[UserController::class,'mostrarActasPersonales'])->name('personal');
@@ -24,13 +25,30 @@ Route::get('actas/ver/{id}', [UserController::class, 'mostrarActa'])
 
 
 
+
+
+Route::get('usuarios/listar', [UserController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('usuarios.index');
+Route::get('usuarios/create', [UserController::class, 'create'])
+    ->middleware(['auth', 'verified'])
+    ->name('usuarios.create');
+
+Route::get('usuarios/edit/{id}', [UserController::class, 'edit'])
+    ->middleware(['auth', 'verified'])
+    ->name('usuarios.edit');
+    
+
 Route::get('personas/listar', [PersonaController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('personas.index');
 Route::get('personas/create', [PersonaController::class, 'create'])
     ->middleware(['auth', 'verified'])
     ->name('personas.create');
-
+Route::get('personas/edit/{id}', [PersonaController::class, 'edit'])
+    ->middleware(['auth', 'verified'])
+    ->name('personas.edit');
+    
 
 /* Route::view('principal', 'livewire.principal')
     ->middleware(['auth', 'verified'])
