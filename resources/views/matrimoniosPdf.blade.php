@@ -86,8 +86,8 @@
       <div class="section-title">Detalles del Acta</div>
       <div class="details">
         <p><span class="label">Fecha del acta:</span> {{$acta->fecha_registro}}</p>
-        <p><span class="label">Libro:</span> {{$acta->id_libro}}</p>
-        <p><span class="label">Folio:</span> {{$acta->id_folio}}</p>
+        <p><span class="label">Libro:</span> {{$acta->folio->libro_id}}</p>
+        <p><span class="label">Folio:</span> {{$acta->folio_id}}</p>
         <p><span class="label">Acta:</span> {{$acta->id_acta ?? $acta->id}}</p>
         <p><span class="label">Fecha de matrimonio:</span> {{$acta->actaMatrimonio->fecha_matrimonio ?? ''}}</p>
       </div>

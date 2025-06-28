@@ -61,7 +61,7 @@ class ListarMatrimonios extends Component
                 }
             }
 
-            session()->flash('mensaje', 'Acta de matrimonio, acta y folio eliminados correctamente.');
+            session()->flash('mensaje', 'Acta de matrimonio eliminada correctamente.');
         }
     }
 

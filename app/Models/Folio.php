@@ -9,6 +9,9 @@ class Folio extends Model
 {
     use HasFactory;
 
+    public $incrementing = false;      // El id NO es autoincremental
+    protected $keyType = 'int';
+
     protected $fillable = ['id','libro_id']; //protege los campos que se pueden asignar masivamente
 
     public function libro()
