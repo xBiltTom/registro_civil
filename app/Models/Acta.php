@@ -55,4 +55,8 @@ class Acta extends Model
     {
         return $this->hasOne(ActaDefuncion::class, 'acta_id'); // Clave foránea explícita
     }
+
+    public function tipo(){
+        return $this->belongsTo(TipoActa::class,'tipo_id','id');
+    }
 }

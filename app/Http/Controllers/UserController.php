@@ -25,6 +25,14 @@ class UserController extends Controller
         return view('usuarios.usuarios');
     }
 
+    public function mostrarActasPersonales(){
+        return view('personal.actas.index');
+    }
+
+    public function mostrarActa($id){
+        return view('personal.actas.show',compact('id'));
+    }
+
     /**
      * Show the form for creating a new resource.
      */
