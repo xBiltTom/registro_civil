@@ -47,6 +47,12 @@
                             Edad
                         </th>
                         <th scope="col" class="px-6 py-3">
+                            Sexo
+                        </th>
+                        <th scope="col" class="px-6 py-3">
+                            Estado Civil
+                        </th>
+                        <th scope="col" class="px-6 py-3">
                             <span class="sr-only">Accion</span>
                         </th>
                     </tr>
@@ -66,13 +72,32 @@
                         <td class="px-6 py-4">
                             ({{ \Carbon\Carbon::parse($persona->fecha_nacimiento)->age }} años)
                         </td>
-                        <td class="px-6 py-4 text-right">
-                            <form wire:submit="borrar({{$persona->id}})">
-                                <a  class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                <button wire:model="usuario" type="submit">
-                                    Borrar
-                                </button>
-                            </form>
+                        <td class="px-6 py-4">
+                            {{$persona->sexo === 'F' ? 'Femenino' : 'Masculino'}}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{$persona->estado_civil  === 'C' ? 'Casado' : 'Soltero' }}
+                        </td>
+                        <td class="px-6 py-4 flex justify-center space-x-4 items-center">
+                            <a href="{{ route('personas.edit', $persona->id) }}">
+                                <button class="text-blue-600 hover:underline mr-2">Editar</button>
+                            </a>
+                            <div x-data="{ showAlert: false }" class="relative">
+                                <button type="button" @click="showAlert = true" class="font-medium text-red-600 dark:text-red-500 hover:underline cursor-pointer"> Eliminar </button>
+                                <!-- Modal de confirmación -->
+                                <div x-show="showAlert" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                                    <div class="bg-white rounded-lg shadow-lg p-6 w-96">
+                                        <h2 class="text-lg font-semibold text-gray-800">¿Estás seguro?</h2>
+                                        <p class="text-gray-600 mt-2">No podrás revertir esta acción.</p>
+                                        <div class="mt-4 flex justify-end space-x-2">
+                                            <button type="button" @click="showAlert = false" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-md"> Cancelar </button>
+                                            <form wire:submit.prevent="borrar({{$persona->id}})">
+                                                <button type="submit" @click="showAlert = false" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md"> Confirmar </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                     @endforeach

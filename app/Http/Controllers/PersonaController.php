@@ -51,7 +51,7 @@ class PersonaController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return view('Personas.edit', ['id' => $id]);
     }
 
     /**
