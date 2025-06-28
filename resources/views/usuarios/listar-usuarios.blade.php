@@ -1,5 +1,4 @@
 @extends('livewire.principal')
-
 @section('content')
 @if (session('message'))
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -22,5 +21,6 @@
     </script>
 
 @endif
-    <livewire:personas.listar-personas lazy />
+    <livewire:usuarios.listar-usuarios lazy />
+
 @endsection

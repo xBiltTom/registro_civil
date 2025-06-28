@@ -4,7 +4,7 @@
             Volver
         </button>
     </a>
-    <form wire:submit.prevent="guardarPersona" class="space-y-6">
+    <form wire:submit.prevent="actualizar" class="space-y-6 pt-4">
         <h2 class="text-xl font-semibold text-gray-800 dark:text-white border-b pb-2">Datos de la Persona</h2>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -65,7 +65,7 @@
 
         <div class="pt-6 text-right">
             <button type="submit" class="bg-green-600 hover:bg-green-700 text-white rounded-md px-6 py-2 transition-all duration-200">
-                Registrar Persona
+                Editar Persona
             </button>
         </div>
     </form>

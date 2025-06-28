@@ -1,0 +1,51 @@
+<?php
+
+namespace App\Livewire\Usuarios;
+
+use Livewire\Component;
+use App\Models\User;
+use App\Models\Persona;
+use Livewire\WithPagination;
+
+class ListarUsuarios extends Component
+
+{
+    use WithPagination;
+    protected $paginationTheme = 'tailwind';
+    public $buscado;
+
+    public function placeholder()
+    {
+        return view('placeholder');
+    }
+
+    public function reiniciar(){
+        $this->resetPage();
+    }
+
+    public function render()
+    {
+        $usuarios = User::where(function ($query) {
+            if ($this->buscado) {
+                $query->where('name', 'like', '%' . $this->buscado . '%')
+                        ->orWhere('email', 'like', '%' . $this->buscado . '%');
+            }
+        })->paginate(5);
+
+        return view('livewire.usuarios.listar-usuarios', [
+            'usuarios' => $usuarios
+        ]);
+    }
+
+    public function borrar($id)
+    {
+        $user = User::find($id);
+        if ($user) {
+            $user->estado = 0;
+            $user->save();
+            session()->flash('message', 'Usuario eliminado exitosamente');
+        } else {
+            session()->flash('error', 'Usuario no encontrado');
+        }
+    }
+}
