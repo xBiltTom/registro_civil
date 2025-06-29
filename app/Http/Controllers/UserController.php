@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Acta;
 use Illuminate\Http\Request;
 use App\Models\Persona;
 use App\Models\User;
@@ -30,6 +31,8 @@ class UserController extends Controller
     }
 
     public function mostrarActa($id){
+        $acta = Acta::findOrFail($id);
+        $this->authorize('view', $acta);
         return view('personal.actas.show',compact('id'));
     }
 

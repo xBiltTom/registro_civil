@@ -93,6 +93,41 @@ class UserSeeder extends Seeder
 
         /* $role = Role::findByName('funcionario'); // Encuentra el rol por su nombre
         $role->revokePermissionTo('ver usuarios'); */
+        // Crear los nuevos permisos relacionados con "actas"
+        /* Permission::create(['name' => 'ver actas']);
+        Permission::create(['name' => 'crear actas']);
+        Permission::create(['name' => 'editar actas']);
+        Permission::create(['name' => 'eliminar actas']);
 
+        // Verificar si el rol "funcionario" ya existe, o crearlo si no
+        $roleFuncionario = Role::firstOrCreate(['name' => 'funcionario']);
+
+        // Seleccionar los permisos específicos para el rol "funcionario"
+        $permissionsFuncionario = Permission::whereIn('name', [
+            'ver usuarios',
+            'ver personas',
+            'crear personas',
+            'editar personas',
+            'eliminar personas',
+            'ver lugares',
+            'crear lugares',
+            'editar lugares',
+            'eliminar lugares',
+            'ver actas',
+            'crear actas',
+            'editar actas',
+            'eliminar actas',
+        ])->get();
+
+        // Asignar los permisos seleccionados al rol "funcionario"
+        $roleFuncionario->syncPermissions($permissionsFuncionario); */
+
+        // Verificar si el rol "funcionario" existe
+        /* $roleFuncionario = Role::findByName('funcionario');
+
+        // Revocar los permisos relacionados con "actas"
+        $roleFuncionario->revokePermissionTo([
+            'ver usuarios',
+        ]); */
     }
 }

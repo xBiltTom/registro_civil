@@ -110,12 +110,12 @@
 
                 <div x-data="{ showAlert: false }">
                     <!-- Botón para disparar la alerta -->
-                    <button type="button" @click="showAlert = true" class="bg-yellow-400 hover:bg-yellow-700 text-black rounded-md px-6 py-2 transition-all duration-200">
+                    <a wire:navigate href="{{route('solicitudes.personal.registrar',['id'=>$acta->id])}}" {{-- @click="showAlert = true" --}} class="bg-yellow-400 hover:bg-yellow-700 text-black rounded-md px-6 py-2 transition-all duration-200">
                         Solicitar acta
-                    </button>
+                    </a>
 
                     <!-- Alerta -->
-                    <div x-show="showAlert" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
+                    {{-- <div x-show="showAlert" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
                         <div class="bg-white rounded-lg shadow-lg p-6 w-96">
                             <h2 class="text-lg font-semibold text-gray-800">¿Estás seguro?</h2>
                             <p class="text-gray-600 mt-2">Se enviará la solicitud</p>
@@ -128,7 +128,7 @@
                                 </button >
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
 

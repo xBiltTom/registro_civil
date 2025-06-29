@@ -8,12 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Solicitud extends Model
 {
     use HasFactory;
+    protected $table = "solicitudes";
 
     protected $fillable = [
         'acta_id',
         'user_id',
+        'funcionario_id',
         'pago_id',
-        'estado'
+        'estado_id'
     ];
 
     public function acta()
@@ -29,5 +31,9 @@ class Solicitud extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function estado(){
+        return $this->belongsTo(EstadoSolicitud::class, 'estado_id');
     }
 }
