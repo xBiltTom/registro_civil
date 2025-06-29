@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PersonaController;
 use App\Http\Controllers\FuncionarioController;
+use App\Http\Controllers\SolicitudController;
 
 Route::view('/', 'welcome');
 
@@ -17,13 +18,18 @@ Route::view('users', 'livewire.listar-usuarios')
     ->name('user'); */
 
 //Cosas de los usuarios
-Route::resource('usuarios', UserController::class);
+/* Route::resource('usuarios', UserController::class); */
 Route::get('actas',[UserController::class,'mostrarActasPersonales'])->name('personal');
+Route::get('actas/ver/{id}/solicitar', [SolicitudController::class, 'registrarSolicitud'])
+    ->middleware(['auth', 'verified'])
+    ->name('solicitudes.personal.registrar');
 Route::get('actas/ver/{id}', [UserController::class, 'mostrarActa'])
     ->middleware(['auth', 'verified'])
     ->name('actas.ver');
 
-
+Route::get('solicitudes',[SolicitudController::class, 'solicitudes'])
+    ->middleware(['auth', 'verified'])
+    ->name('solicitudes');
 
 
 
@@ -37,7 +43,7 @@ Route::get('usuarios/create', [UserController::class, 'create'])
 Route::get('usuarios/edit/{id}', [UserController::class, 'edit'])
     ->middleware(['auth', 'verified'])
     ->name('usuarios.edit');
-    
+
 
 Route::get('personas/listar', [PersonaController::class, 'index'])
     ->middleware(['auth', 'verified'])
@@ -48,7 +54,7 @@ Route::get('personas/create', [PersonaController::class, 'create'])
 Route::get('personas/edit/{id}', [PersonaController::class, 'edit'])
     ->middleware(['auth', 'verified'])
     ->name('personas.edit');
-    
+
 
 /* Route::view('principal', 'livewire.principal')
     ->middleware(['auth', 'verified'])
@@ -66,7 +72,7 @@ Route::get('administracion', [App\Http\Controllers\AdminController::class, 'inde
 
 /* Zona de los links de actas de matrimonio */
 
-Route::get('actas/matrimonios', [FuncionarioController::class, 'index'])
+Route::get('actas/matrimonios', [FuncionarioController::class, 'indexMatrimonios'])
     ->middleware(['auth', 'verified'])
     ->name('actas-matrimonio');
 
@@ -112,5 +118,15 @@ Route::get('actas/defunciones/pdf/{id}', [FuncionarioController::class, 'pdf'])
     ->middleware(['auth', 'verified'])
     ->name('defunciones-pdf');
 
+
+//Rutas de las solicitudes
+// -> Solicitudes de una persona
+Route::get('solicitudes/index',[SolicitudController::class, 'solicitudesPersonales'])
+    ->middleware(['auth', 'verified'])
+    ->name('solicitudes.personal');
+
+/* Route::get('solicitudes/registrar',[SolicitudController::class, 'registrarSolicitud'])
+    ->middleware(['auth', 'verified'])
+    ->name('solicitudes.personal.registrar'); */
 
 require __DIR__.'/auth.php';

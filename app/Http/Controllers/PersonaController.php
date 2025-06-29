@@ -10,6 +10,10 @@ class PersonaController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function __construct(){
+        $this->authorizeResource(Persona::class);
+    }
+
     public function index()
     {
 
