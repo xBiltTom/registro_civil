@@ -66,7 +66,7 @@ class Edit extends Component
         $this->nombrePadre = $actaNacimiento->padre ?
             $actaNacimiento->padre->nombre . ' ' . $actaNacimiento->padre->apellido : '';
 
-        $this->personas = Persona::all();
+        $this->personas = Persona::whereDate('fecha_nacimiento', '<=', now()->subYears(16))->get();
         $this->lugares = Lugar::all();
     }
 
@@ -82,8 +82,31 @@ class Edit extends Component
             'sexo' => 'required|in:M,F',
             'fecha_nacimiento' => 'required|date|before_or_equal:fecha_registro',
             'lugar_id' => 'required|exists:lugar,id',
-            'madre_id' => 'required|exists:personas,id',
-            'padre_id' => 'nullable|exists:personas,id',
+            'madre_id' => [
+                'required',
+                'exists:personas,id',
+                function ($attribute, $value, $fail) {
+                    $madre = Persona::find($value);
+                    if ($madre && $madre->sexo !== 'F') {
+                        $fail('La madre debe ser de sexo femenino.');
+                    }
+                },
+            ],
+            'padre_id' => [
+                'nullable',
+                'exists:personas,id',
+                function ($attribute, $value, $fail) {
+                    $padre = Persona::find($value);
+                    if ($padre && $padre->sexo !== 'M') {
+                        $fail('El padre debe ser de sexo masculino.');
+                    }
+                },
+                function ($attribute, $value, $fail) {
+                    if ($value === $this->madre_id) {
+                        $fail('Una persona no puede ser padre y madre al mismo tiempo.');
+                    }
+                },
+            ],
         ], [
             'folio_id.required' => 'El campo Folio es obligatorio.',
             'libro_id.required' => 'El campo Libro es obligatorio.',
@@ -94,6 +117,8 @@ class Edit extends Component
             'fecha_nacimiento.before_or_equal' => 'La fecha de nacimiento debe ser igual o anterior a la fecha de registro.',
             'lugar_id.required' => 'El lugar de nacimiento es obligatorio.',
             'madre_id.required' => 'El campo Madre es obligatorio.',
+            'madre_id.exists' => 'La madre seleccionada no existe.',
+            'padre_id.exists' => 'El padre seleccionado no existe.',
         ]);
 
         Log::info('Validación completada.');
