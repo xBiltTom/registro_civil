@@ -14,7 +14,6 @@
                 </div>
             @endif
 
-            <!-- Datos del Acta -->
             <h2 class="text-xl font-semibold text-gray-800 dark:text-white border-b pb-2">Datos del Acta</h2>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -50,7 +49,7 @@
 
             <!-- Datos del Nacido -->
             <h2 class="text-xl font-semibold text-gray-800 dark:text-white border-b pt-6 pb-2">Datos del Nacido</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-1 gap-4">
                 <div>
                     <label for="nombre" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Nombre</label>
                     <input type="text" id="nombre" wire:model="nombre_nacido" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>
@@ -102,10 +101,8 @@
                 @enderror
             </div>
 
-            <!-- Datos de los Padres -->
             <h2 class="text-xl font-semibold text-gray-800 dark:text-white border-b pt-6 pb-2">Datos de los Padres</h2>
 
-            <!-- Búsqueda de madre -->
             <div class="mb-6">
                 <label class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Madre</label>
                 <div class="flex">
@@ -130,7 +127,6 @@
                 @enderror
             </div>
 
-            <!-- Búsqueda de padre -->
             <div class="mb-6">
                 <label class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Padre</label>
                 <div class="flex">
@@ -155,15 +151,12 @@
                 @enderror
             </div>
 
-            <!-- Botón de envío con confirmación -->
             <div class="mt-6 flex justify-end">
                 <div x-data="{ showAlert: false }">
-                    <!-- Botón para disparar la alerta -->
                     <button type="button" @click="showAlert = true" class="bg-green-600 hover:bg-green-700 text-white rounded-md px-6 py-2 transition-all duration-200">
                         Guardar acta
                     </button>
 
-                    <!-- Alerta -->
                     <div x-show="showAlert" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
                         <div class="bg-white rounded-lg shadow-lg p-6 w-96">
                             <h2 class="text-lg font-semibold text-gray-800">¿Estás seguro?</h2>
@@ -188,7 +181,6 @@
         </form>
     </div>
 
-    <!-- Modal para Buscar Madre -->
     <div x-data="{ showMadreModal: false }" x-on:open-madre-modal.window="showMadreModal = true" x-on:close-madre-modal.window="showMadreModal = false">
         <div x-show="showMadreModal" class="fixed top-0 left-0 right-0 z-50 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50" style="display: none;">
             <div class="relative bg-white rounded-lg shadow dark:bg-gray-700 w-96 sm:w-[40rem]">
@@ -311,7 +303,6 @@
         </div>
     </div>
 
-    <!-- Modal para Buscar Padre -->
     <div x-data="{ showPadreModal: false }" x-on:open-padre-modal.window="showPadreModal = true" x-on:close-padre-modal.window="showPadreModal = false">
         <div x-show="showPadreModal" class="fixed top-0 left-0 right-0 z-50 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50" style="display: none;">
             <div class="relative bg-white rounded-lg shadow dark:bg-gray-700 w-96 sm:w-[40rem]">

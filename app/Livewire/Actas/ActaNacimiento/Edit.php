@@ -19,13 +19,11 @@ class Edit extends Component
     public function placeholder(){
         return view('placeholder');
     }
-    // Datos del Acta
     public $acta_id;
     public $folio_id;
     public $libro_id;
     public $fecha_registro;
 
-    // Datos del Nacido
     public $dni;
     public $nombre_nacido;
     public $apellido_nacido;
@@ -33,32 +31,26 @@ class Edit extends Component
     public $fecha_nacimiento;
     public $lugar_id;
 
-    // Datos de los padres
     public $madre_id;
     public $padre_id;
 
-    // Listas de selección
     public $personas;
     public $lugares;
 
-    // Nombres completos para mostrar
     public $nombreMadre;
     public $nombrePadre;
 
     public function mount($id)
     {
-        // Cargar el acta existente
         $acta = Acta::findOrFail($id);
         $actaNacimiento = $acta->actaNacimiento;
         $personaNacido = $acta->persona;
 
-        // Datos del acta
         $this->acta_id = $acta->id;
         $this->folio_id = $acta->folio_id;
         $this->libro_id = $acta->folio->libro_id;
         $this->fecha_registro = $acta->fecha_registro;
 
-        // Datos del nacido
         $this->dni = $personaNacido->dni;
         $this->nombre_nacido = $actaNacimiento->nombre_nacido;
         $this->apellido_nacido = $actaNacimiento->apellido_nacido;
@@ -66,17 +58,14 @@ class Edit extends Component
         $this->fecha_nacimiento = $actaNacimiento->fecha_nacimiento;
         $this->lugar_id = $actaNacimiento->lugar_id;
 
-        // Datos de los padres
         $this->madre_id = $actaNacimiento->madre_id;
         $this->padre_id = $actaNacimiento->padre_id;
 
-        // Nombres completos de los padres
         $this->nombreMadre = $actaNacimiento->madre ?
             $actaNacimiento->madre->nombre . ' ' . $actaNacimiento->madre->apellido : '';
         $this->nombrePadre = $actaNacimiento->padre ?
             $actaNacimiento->padre->nombre . ' ' . $actaNacimiento->padre->apellido : '';
 
-        // Cargar personas y lugares desde la base de datos
         $this->personas = Persona::all();
         $this->lugares = Lugar::all();
     }
@@ -85,7 +74,6 @@ class Edit extends Component
     {
         Log::info('Iniciando la actualización del acta de nacimiento.');
 
-        // Validar los datos ingresados
         $this->validate([
             'folio_id' => 'required|integer',
             'libro_id' => 'required|integer',
@@ -111,26 +99,21 @@ class Edit extends Component
         Log::info('Validación completada.');
 
         DB::transaction(function () {
-            // Obtener el acta y sus relaciones
             $acta = Acta::findOrFail($this->acta_id);
             $actaNacimiento = $acta->actaNacimiento;
             $personaNacido = $acta->persona;
 
-            // Obtener los apellidos del padre y la madre
             $madre = Persona::find($this->madre_id);
             $padre = Persona::find($this->padre_id);
 
             $apellido_madre = $madre ? explode(' ', $madre->apellido)[0] : '';
             $apellido_padre = $padre ? explode(' ', $padre->apellido)[0] : '';
 
-            // Generar el apellido del nacido
             $this->apellido_nacido = trim($apellido_padre . ' ' . $apellido_madre);
 
-            // Actualizar libro si ha cambiado
             if ($acta->folio->libro_id != $this->libro_id) {
                 $libro = Libro::firstOrCreate(['id' => $this->libro_id]);
 
-                // Actualizar folio
                 $folio = Folio::firstOrCreate(
                     ['id' => $this->folio_id],
                     ['libro_id' => $this->libro_id]
@@ -139,7 +122,6 @@ class Edit extends Component
                 $acta->folio_id = $folio->id;
             }
 
-            // Actualizar persona nacida
             $personaNacido->update([
                 'dni' => $this->dni,
                 'nombre' => $this->nombre_nacido,
@@ -149,14 +131,12 @@ class Edit extends Component
                 'lugar_id' => $this->lugar_id,
             ]);
 
-            // Actualizar acta
             $acta->update([
                 'fecha_registro' => $this->fecha_registro,
                 'folio_id' => $this->folio_id,
                 'user_id' => Auth::id(),
             ]);
 
-            // Actualizar acta de nacimiento
             $actaNacimiento->update([
                 'nombre_nacido' => $this->nombre_nacido,
                 'apellido_nacido' => $this->apellido_nacido,
@@ -170,10 +150,8 @@ class Edit extends Component
             Log::info('Acta de nacimiento actualizada correctamente.');
         });
 
-        // Mensaje de éxito
         session()->flash('message', 'Acta de nacimiento actualizada exitosamente');
 
-        // Redireccionar a la vista de detalle
         return redirect()->route('actas-nacimiento', $this->acta_id);
     }
 

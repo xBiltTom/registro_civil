@@ -46,7 +46,7 @@
 
             <h2 class="text-xl font-semibold text-gray-800 dark:text-white border-b pt-6 pb-2">Datos del Nacido</h2>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-1 gap-4">
                 <div>
                     <label for="nombre_nacido" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Nombre</label>
                     <input wire:model="nombre_nacido" type="text" id="nombre_nacido" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>

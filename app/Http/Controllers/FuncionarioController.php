@@ -51,16 +51,10 @@ class FuncionarioController extends Controller
             abort(404, 'Acta o acta de nacimiento no encontrada');
         }
 
-        // Obtener al nacido a través del campo persona_id
         $nacido = Persona::find($acta->persona_id);
-
-        // Obtener a la madre y al padre a través de la relación actaNacimiento
         $madre = Persona::find($acta->actaNacimiento->madre_id);
         $padre = Persona::find($acta->actaNacimiento->padre_id);
-
         $fecha_actual = now();
-
-        // Generar el PDF
         $pdf = Pdf::loadView('nacimientosPdf', compact('acta', 'nacido', 'madre', 'padre', 'fecha_actual'));
         return $pdf->stream();
     }
