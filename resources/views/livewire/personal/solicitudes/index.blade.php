@@ -7,7 +7,12 @@
                     <p class="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">Se muestran tus solicitudes</p>
                 </div>
                 <div>
-                    <a href="{{route('personal')}}" wire:navigate><button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Agregar solicitud</button></a>
+                    <select wire:model.live="tipoSeleccionado" id="tipo" class="cursor-pointer block w-full p-3 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                        <option class="cursor-pointer" value="all">Todas</option>
+                        @foreach ($tipos as $tipo)
+                            <option class="cursor-pointer" value="{{ $tipo->id }}">{{ $tipo->descripcion }}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
 
@@ -24,7 +29,7 @@
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                         </svg>
                     </div>
-                    <input wire:model.live="buscado" wire:keydown="reiniciar" type="search" id="buscarPersona" class="block w-full p-3 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Buscar personas..." />
+                    <input wire:model="buscado" wire:keydown="reiniciar" type="search" id="buscarActa" class="block w-full p-3 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Buscar por número de acta..." />
                 </div>
             </div>
         </div>
