@@ -15,7 +15,8 @@ class Solicitud extends Model
         'user_id',
         'funcionario_id',
         'pago_id',
-        'estado_id'
+        'estado_id',
+        'detalle',
     ];
 
     public function acta()

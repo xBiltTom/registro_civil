@@ -31,7 +31,13 @@ Route::get('solicitudes',[SolicitudController::class, 'solicitudes'])
     ->middleware(['auth', 'verified'])
     ->name('solicitudes');
 
+Route::get('solicitudes/historial',[SolicitudController::class, 'historialSolicitudes'])
+    ->middleware(['auth', 'verified'])
+    ->name('solicitudes.historial');
 
+Route::get('solicitudes/atender/{id}',[SolicitudController::class, 'atenderSolicitud'])
+    ->middleware(['auth', 'verified'])
+    ->name('solicitudes.atender');
 
 Route::get('usuarios/listar', [UserController::class, 'index'])
     ->middleware(['auth', 'verified'])
@@ -124,9 +130,13 @@ Route::get('actas/defunciones/pdf/{id}', [FuncionarioController::class, 'pdf'])
 
 //Rutas de las solicitudes
 // -> Solicitudes de una persona
-Route::get('solicitudes/index',[SolicitudController::class, 'solicitudesPersonales'])
+Route::get('me/solicitudes',[SolicitudController::class, 'solicitudesPersonales'])
     ->middleware(['auth', 'verified'])
     ->name('solicitudes.personal');
+
+Route::get('me/solicitudes/{id}',[SolicitudController::class, 'solicitudesPersonales'])
+    ->middleware(['auth', 'verified'])
+    ->name('solicitudes.personal.ver');
 
 /* Route::get('solicitudes/registrar',[SolicitudController::class, 'registrarSolicitud'])
     ->middleware(['auth', 'verified'])

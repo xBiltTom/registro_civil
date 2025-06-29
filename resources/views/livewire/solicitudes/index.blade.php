@@ -6,6 +6,7 @@
                     Solicitudes de los usuarios
                     <p class="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">Se muestran las solicitudes a atender</p>
                 </div>
+
                 <div>
                     {{-- <select wire:model.live="tipoSeleccionado" id="tipo" class="cursor-pointer block w-full p-3 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option class="cursor-pointer" value="all">Todas</option>
@@ -13,12 +14,15 @@
                             <option class="cursor-pointer" value="{{ $tipo->id }}">{{ $tipo->descripcion }} </option>
                         @endforeach
                     </select> --}}
+
+                        <a href="{{route('solicitudes.historial')}}" wire:navigate><button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Historial</button></a>
+
                 </div>
             </div>
 
         </div>
 
-        <div class="p-5 text-lg font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+        {{-- <div class="p-5 text-lg font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
             <div class="flex justify-between items-center w-full">
                 <label for="buscarPersona" class="w-1/3">
                     <h2>Buscar solicitud</h2>
@@ -32,7 +36,7 @@
                     <input wire:model.live="buscado" wire:keydown="reiniciar" type="search" id="buscarPersona" class="block w-full p-3 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Escribe el número del acta ..." />
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <div class="overflow-auto" style="max-height: 340px;">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -72,7 +76,7 @@
                             {{$solicitud->user->persona->nombre}} {{$solicitud->user->persona->apellido}}
                         </td>
                         <td class="px-6 py-4 text-left">
-                            <a wire:navigate href="" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Atender</a>
+                            <a wire:navigate href="{{route('solicitudes.atender',["id"=>$solicitud->id])}}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Atender</a>
                         </td>
                     </tr>
                     @endforeach
@@ -81,8 +85,8 @@
                     <div class="p-5 text-lg font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
                         <div class="flex justify-between">
                             <div>
-                                No se encontraron coincidencias
-                                <p class="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">Prueba a realizar la búsqueda nuevamente</p>
+                                No se encontraron solicitudes
+                                <p class="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">Prueba a refrescar la página</p>
                             </div>
                         </div>
                     </div>
