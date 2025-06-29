@@ -9,7 +9,7 @@ class Pago extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['monto', 'ruta_voucher'];
+    protected $fillable = ['monto', 'ruta_voucher','numero','fecha_voucher'];
 
     public function solicitud()
     {

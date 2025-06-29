@@ -4,29 +4,41 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Acta;
-use App\Models\ActaDefunciones;
+use App\Models\ActaDefuncion;
 use App\Models\Persona;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 class FuncionarioController extends Controller
 {
-    public function index(){
+
+    public function __construct(){
+        $this->authorizeResource(User::class);
+        /* $this->authorizeResource(Acta::class);
+        $this->authorizeResource(ActaDefuncion::class); */
+    }
+
+    public function indexMatrimonios(){
+        $this->authorize('viewAny', Acta::class);
         return view('Actas.Matrimonios.index');
     }
 
     public function indexNacimiento(){
+        $this->authorize('viewAny', Acta::class);
         return view('Actas.Nacimientos.index');
     }
 
     public function registrarActa(){
+        $this->authorize('viewAny', Acta::class);
         return view('Actas.Matrimonios.create');
     }
 
     public function registrarNacimiento(){
+        $this->authorize('viewAny', Acta::class);
         return view('Actas.Nacimientos.create');
     }
     public function editNacimiento($id){
+        $this->authorize('viewAny', Acta::class);
         return view('Actas.Nacimientos.edit', compact('id'));
 
     }
@@ -59,19 +71,23 @@ class FuncionarioController extends Controller
     }
 
     public function editarActaMatrimonio($id){
+        $this->authorize('viewAny', Acta::class);
         return view('Actas.Matrimonios.edit', ['id' => $id]);
 
     }
 
     public function mostrarActaDefunciones(){
+        $this->authorize('viewAny', Acta::class);
         return view('Actas.defunciones.index');
     }
 
     public function registrarActaDefunciones(){
+        $this->authorize('viewAny', Acta::class);
         return view('Actas.defunciones.create');
     }
 
     public function editarActaDefunciones($id){
+        $this->authorize('viewAny', Acta::class);
         return view('Actas.defunciones.edit',compact('id'));
     }
 }
