@@ -91,7 +91,6 @@ class Edit extends Component
             'libro_id' => 'required|integer',
             'fecha_registro' => 'required|date',
             'nombre_nacido' => 'required|string|max:255',
-            'apellido_nacido' => 'required|string|max:255',
             'sexo' => 'required|in:M,F',
             'fecha_nacimiento' => 'required|date|before_or_equal:fecha_registro',
             'lugar_id' => 'required|exists:lugar,id',
@@ -102,7 +101,6 @@ class Edit extends Component
             'libro_id.required' => 'El campo Libro es obligatorio.',
             'fecha_registro.required' => 'La fecha de registro es obligatoria.',
             'nombre_nacido.required' => 'El nombre del nacido es obligatorio.',
-            'apellido_nacido.required' => 'El apellido del nacido es obligatorio.',
             'sexo.required' => 'El campo Sexo es obligatorio.',
             'fecha_nacimiento.required' => 'La fecha de nacimiento es obligatoria.',
             'fecha_nacimiento.before_or_equal' => 'La fecha de nacimiento debe ser igual o anterior a la fecha de registro.',
@@ -117,6 +115,16 @@ class Edit extends Component
             $acta = Acta::findOrFail($this->acta_id);
             $actaNacimiento = $acta->actaNacimiento;
             $personaNacido = $acta->persona;
+
+            // Obtener los apellidos del padre y la madre
+            $madre = Persona::find($this->madre_id);
+            $padre = Persona::find($this->padre_id);
+
+            $apellido_madre = $madre ? explode(' ', $madre->apellido)[0] : '';
+            $apellido_padre = $padre ? explode(' ', $padre->apellido)[0] : '';
+
+            // Generar el apellido del nacido
+            $this->apellido_nacido = trim($apellido_padre . ' ' . $apellido_madre);
 
             // Actualizar libro si ha cambiado
             if ($acta->folio->libro_id != $this->libro_id) {

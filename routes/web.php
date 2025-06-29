@@ -37,7 +37,7 @@ Route::get('usuarios/create', [UserController::class, 'create'])
 Route::get('usuarios/edit/{id}', [UserController::class, 'edit'])
     ->middleware(['auth', 'verified'])
     ->name('usuarios.edit');
-    
+
 
 Route::get('personas/listar', [PersonaController::class, 'index'])
     ->middleware(['auth', 'verified'])
@@ -48,7 +48,7 @@ Route::get('personas/create', [PersonaController::class, 'create'])
 Route::get('personas/edit/{id}', [PersonaController::class, 'edit'])
     ->middleware(['auth', 'verified'])
     ->name('personas.edit');
-    
+
 
 /* Route::view('principal', 'livewire.principal')
     ->middleware(['auth', 'verified'])
@@ -86,6 +86,9 @@ Route::get('actas/nacimientos/index', [FuncionarioController::class, 'indexNacim
 Route::get('actas/nacimientos/edit/{id}', [FuncionarioController::class, 'editNacimiento'])
     ->middleware(['auth', 'verified'])
     ->name('actas-nacimiento-edit');
+Route::get('actas/nacimientos/pdf/{id}', [FuncionarioController::class, 'pdfNacimiento'])
+    ->middleware(['auth', 'verified'])
+    ->name('nacimientos-pdf');
 
 Route::get('actas/matrimonios/editar/{id}', [FuncionarioController::class, 'editarActaMatrimonio'])
     ->middleware(['auth', 'verified'])

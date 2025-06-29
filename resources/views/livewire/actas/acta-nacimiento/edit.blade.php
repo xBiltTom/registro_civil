@@ -54,13 +54,13 @@
                         <span class="text-red-500 text-sm">{{ $message }}</span>
                     @enderror
                 </div>
-                <div>
+                {{-- <div>
                     <label for="apellido_nacido" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Apellido</label>
                     <input wire:model="apellido_nacido" type="text" id="apellido_nacido" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>
                     @error('apellido_nacido')
                         <span class="text-red-500 text-sm">{{ $message }}</span>
                     @enderror
-                </div>
+                </div> --}}
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -154,9 +154,11 @@
             </div>
 
             <div class="mt-6 flex justify-between">
-                <button type="button" class="bg-red-600 hover:bg-red-700 text-white rounded-md px-6 py-2 transition-all duration-200">
-                    Imprimir acta
-                </button>
+                <a href="{{ route('nacimientos-pdf', ['id' => $acta_id]) }}" target="_blank">
+                    <button type="button" class="bg-red-600 hover:bg-red-700 text-white rounded-md px-6 py-2 transition-all duration-200">
+                        Imprimir acta
+                    </button>
+                </a>
 
                 <div x-data="{ showAlert: false }">
                     <!-- Botón para disparar la alerta -->

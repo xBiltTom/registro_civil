@@ -49,22 +49,47 @@ class Create extends Component
     }
 
     public function guardarNacimiento()
-    {
-        Log::info('Iniciando el registro del acta de nacimiento.');
+{
+    Log::info('Iniciando el registro del acta de nacimiento.');
 
-        // Validar los datos ingresados
-        $this->validate([
-            'acta_id' => 'required|integer|unique:actas,id',
-            'folio_id' => 'required|integer',
-            'libro_id' => 'required|integer',
-            'fecha_registro' => 'required|date',
-            'nombre_nacido' => 'required|string|max:255',
-            'apellido_nacido' => 'required|string|max:255',
-            'sexo' => 'required|in:M,F',
-            'fecha_nacimiento' => 'required|date',
-            'lugar_id' => 'required|exists:lugar,id',
-            'madre_id' => 'required|exists:personas,id',
-            'padre_id' => 'nullable|exists:personas,id',
+    // Validar los datos ingresados
+    $this->validate([
+        'acta_id' => 'required|integer|unique:actas,id',
+        'folio_id' => 'required|integer',
+        'libro_id' => 'required|integer',
+        'fecha_registro' => 'required|date',
+        'nombre_nacido' => 'required|string|max:255',
+        'sexo' => 'required|in:M,F',
+        'fecha_nacimiento' => 'required|date',
+        'lugar_id' => 'required|exists:lugar,id',
+        'madre_id' => [
+            'required',
+            'exists:personas,id',
+            function ($attribute, $value, $fail) {
+                // Validar que la madre sea de sexo femenino
+                $madre = Persona::find($value);
+                if ($madre && $madre->sexo !== 'F') {
+                    $fail('La madre debe ser de sexo femenino.');
+                }
+            },
+        ],
+        'padre_id' => [
+            'nullable',
+            'exists:personas,id',
+            function ($attribute, $value, $fail) {
+                // Validar que el padre sea de sexo masculino
+                $padre = Persona::find($value);
+                if ($padre && $padre->sexo !== 'M') {
+                    $fail('El padre debe ser de sexo masculino.');
+                }
+            },
+            function ($attribute, $value, $fail) {
+                // Validar que el padre no sea la misma persona que la madre
+                if ($value === $this->madre_id) {
+                    $fail('Una persona no puede ser padre y madre al mismo tiempo.');
+                }
+            },
+        ],
         ], [
             'acta_id.required' => 'El campo Acta es obligatorio.',
             'acta_id.unique' => 'El Acta ya existe.',
@@ -72,19 +97,25 @@ class Create extends Component
             'libro_id.required' => 'El campo Libro es obligatorio.',
             'fecha_registro.required' => 'La fecha de registro es obligatoria.',
             'nombre_nacido.required' => 'El nombre del nacido es obligatorio.',
-            'apellido_nacido.required' => 'El apellido del nacido es obligatorio.',
             'sexo.required' => 'El campo Sexo es obligatorio.',
             'fecha_nacimiento.required' => 'La fecha de nacimiento es obligatoria.',
             'lugar_id.required' => 'El lugar de nacimiento es obligatorio.',
             'madre_id.required' => 'El campo Madre es obligatorio.',
+            'madre_id.exists' => 'La madre seleccionada no existe.',
+            'padre_id.exists' => 'El padre seleccionado no existe.',
         ]);
 
-        if ($this->madre_id === $this->padre_id) {
-            session()->flash('error', 'Una persona no puede ser padre y madre al mismo tiempo.');
-            return;
-        }
-
         Log::info('Validación completada.');
+
+        // Obtener los apellidos del padre y la madre
+        $madre = Persona::find($this->madre_id);
+        $padre = Persona::find($this->padre_id);
+
+        $apellido_madre = $madre ? explode(' ', $madre->apellido)[0] : '';
+        $apellido_padre = $padre ? explode(' ', $padre->apellido)[0] : '';
+
+        // Generar el apellido del nacido
+        $this->apellido_nacido = trim($apellido_padre . ' ' . $apellido_madre);
 
         // Crear libro si no existe
         if (Libro::find($this->libro_id) == null) {
@@ -140,9 +171,10 @@ class Create extends Component
 
         Log::info('Acta de nacimiento creada correctamente.');
 
-        // Mensaje de éxito y reseteo del formulario
-        session()->flash('message', 'Acta de nacimiento registrada exitosamente');
         $this->reset(['acta_id', 'folio_id', 'libro_id', 'fecha_registro', 'dni', 'nombre_nacido', 'apellido_nacido', 'sexo', 'fecha_nacimiento', 'lugar_id', 'madre_id', 'padre_id']);
+        session()->flash('message', 'Acta de nacimiento registrada exitosamente');
+
+        $this->redirect(route('actas-nacimiento', $this->acta_id));
     }
 
     public function render()

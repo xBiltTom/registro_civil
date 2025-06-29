@@ -31,6 +31,28 @@ class FuncionarioController extends Controller
 
     }
 
+    public function pdfNacimiento($id)
+    {
+        $acta = Acta::find($id);
+
+        if (!$acta || !$acta->actaNacimiento) {
+            abort(404, 'Acta o acta de nacimiento no encontrada');
+        }
+
+        // Obtener al nacido a través del campo persona_id
+        $nacido = Persona::find($acta->persona_id);
+
+        // Obtener a la madre y al padre a través de la relación actaNacimiento
+        $madre = Persona::find($acta->actaNacimiento->madre_id);
+        $padre = Persona::find($acta->actaNacimiento->padre_id);
+
+        $fecha_actual = now();
+
+        // Generar el PDF
+        $pdf = Pdf::loadView('nacimientosPdf', compact('acta', 'nacido', 'madre', 'padre', 'fecha_actual'));
+        return $pdf->stream();
+    }
+
     public function pdf($id){
         $acta = Acta::find($id);
         $fallecido = Persona::find($acta->actaDefuncion->fallecido_id);
