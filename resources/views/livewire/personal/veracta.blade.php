@@ -1,3 +1,4 @@
+
 <div>
     <div>
         <a href="{{route('personal')}}" wire:navigate><button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Volver</button></a>
@@ -102,37 +103,36 @@
 
             <div class="mt-6 flex justify-between">
 
-                {{-- <a href="{{route('defunciones-pdf',['id'=>$id_acta])}}">
-                    <button type="button" class="bg-red-600 hover:bg-red-700 text-white rounded-md px-6 py-2 transition-all duration-200">
-                        Descargar acta
-                    </button>
-                </a> --}}
-
-                <div x-data="{ showAlert: false }">
-                    <!-- Botón para disparar la alerta -->
-                    <a wire:navigate href="{{route('solicitudes.personal.registrar',['id'=>$acta->id])}}" {{-- @click="showAlert = true" --}} class="bg-yellow-400 hover:bg-yellow-700 text-black rounded-md px-6 py-2 transition-all duration-200">
-                        Solicitar acta
+                @if($descargar==1)
+                    <a href="{{route('defunciones-pdf',['id'=>$id_acta])}}">
+                        <button type="button" class="bg-red-600 hover:bg-red-700 text-white rounded-md px-6 py-2 transition-all duration-200">
+                            Descargar acta
+                        </button>
                     </a>
+                @else
+                    <button wire:navigate href="{{route('solicitudes.personal.registrar',['id'=>$acta->id])}}" {{-- @click="showAlert = true" --}} class="bg-yellow-400 hover:bg-yellow-700 text-black rounded-md px-6 py-2 transition-all duration-200">
+                        Solicitar acta
+                    </button>
+                @endif
 
-                    <!-- Alerta -->
-                    {{-- <div x-show="showAlert" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
-                        <div class="bg-white rounded-lg shadow-lg p-6 w-96">
-                            <h2 class="text-lg font-semibold text-gray-800">¿Estás seguro?</h2>
-                            <p class="text-gray-600 mt-2">Se enviará la solicitud</p>
-                            <div class="mt-4 flex justify-end space-x-2">
-                                <button type="button" @click="showAlert = false" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-md">
-                                    Cancelar
-                                </button>
-                                <button type="submit @click="showAlert = false; alert('¡Acción confirmada!')" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md">
-                                    Confirmar
-                                </button >
-                            </div>
-                        </div>
-                    </div> --}}
-                </div>
             </div>
 
         </div>
     </div>
 
 </div>
+
+{{-- @script
+    @if(session('error'))
+        <script>
+            alert('{{ session('error') }}');
+            Swal.fire({
+            title: 'Éxito',
+            text: '{{ session('success') }}',
+            icon: 'success',
+            confirmButtonText: 'Aceptar'
+        });
+        </script>
+    @endif
+
+@endscript --}}

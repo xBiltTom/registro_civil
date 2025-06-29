@@ -45,6 +45,7 @@ class FuncionarioController extends Controller
 
     public function pdfNacimiento($id)
     {
+
         $acta = Acta::find($id);
 
         if (!$acta || !$acta->actaNacimiento) {
@@ -71,6 +72,7 @@ class FuncionarioController extends Controller
     }
 
     public function pdfMatrimonio($id){
+        $this->authorize('viewAny', Acta::class);
         $acta = Acta::find($id);
         if (!$acta || !$acta->actaMatrimonio) {
             abort(404, 'Acta o acta de matrimonio no encontrada');

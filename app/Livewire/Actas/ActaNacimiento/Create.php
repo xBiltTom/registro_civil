@@ -39,7 +39,7 @@ class Create extends Component
 
     public function mount()
     {
-        $this->personas = Persona::all();
+        $this->personas = Persona::whereDate('fecha_nacimiento', '<=', now()->subYears(16))->get();
         $this->lugares = Lugar::all();
     }
 
