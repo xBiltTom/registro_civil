@@ -92,6 +92,9 @@ Route::get('actas/nacimientos/index', [FuncionarioController::class, 'indexNacim
 Route::get('actas/nacimientos/edit/{id}', [FuncionarioController::class, 'editNacimiento'])
     ->middleware(['auth', 'verified'])
     ->name('actas-nacimiento-edit');
+Route::get('actas/nacimientos/pdf/{id}', [FuncionarioController::class, 'pdfNacimiento'])
+    ->middleware(['auth', 'verified'])
+    ->name('nacimientos-pdf');
 
 Route::get('actas/matrimonios/editar/{id}', [FuncionarioController::class, 'editarActaMatrimonio'])
     ->middleware(['auth', 'verified'])

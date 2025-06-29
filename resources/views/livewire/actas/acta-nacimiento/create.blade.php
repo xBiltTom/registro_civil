@@ -8,8 +8,12 @@
     </div>
     <div class="w-full p-6 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md">
         <form wire:submit.prevent="guardarNacimiento" class="space-y-6">
+            @if (session()->has('message'))
+                <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400">
+                    {{ session('message') }}
+                </div>
+            @endif
 
-            <!-- Datos del Acta -->
             <h2 class="text-xl font-semibold text-gray-800 dark:text-white border-b pb-2">Datos del Acta</h2>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -45,7 +49,7 @@
 
             <!-- Datos del Nacido -->
             <h2 class="text-xl font-semibold text-gray-800 dark:text-white border-b pt-6 pb-2">Datos del Nacido</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-1 gap-4">
                 <div>
                     <label for="nombre" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Nombre</label>
                     <input type="text" id="nombre" wire:model="nombre_nacido" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>
@@ -53,13 +57,13 @@
                         <x-input-error :messages="$message" class="mt-2" />
                     @enderror
                 </div>
-                <div>
+                {{-- <div>
                     <label for="apellido" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Apellido</label>
                     <input type="text" id="apellido" wire:model="apellido_nacido" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>
                     @error('apellido_nacido')
                         <x-input-error :messages="$message" class="mt-2" />
                     @enderror
-                </div>
+                </div> --}}
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -97,10 +101,8 @@
                 @enderror
             </div>
 
-            <!-- Datos de los Padres -->
             <h2 class="text-xl font-semibold text-gray-800 dark:text-white border-b pt-6 pb-2">Datos de los Padres</h2>
 
-            <!-- Búsqueda de madre -->
             <div class="mb-6">
                 <label class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Madre</label>
                 <div class="flex">
@@ -125,7 +127,6 @@
                 @enderror
             </div>
 
-            <!-- Búsqueda de padre -->
             <div class="mb-6">
                 <label class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Padre</label>
                 <div class="flex">
@@ -150,23 +151,26 @@
                 @enderror
             </div>
 
-            <!-- Botón de envío con confirmación -->
-            <div class="pt-6 text-right">
+            <div class="mt-6 flex justify-end">
                 <div x-data="{ showAlert: false }">
-                    <button type="button" @click="showAlert = true" class="px-6 py-2 text-white bg-gray-700 hover:bg-gray-800 rounded-lg dark:bg-gray-600 dark:hover:bg-gray-700">
-                        Registrar Nacimiento
+                    <button type="button" @click="showAlert = true" class="bg-green-600 hover:bg-green-700 text-white rounded-md px-6 py-2 transition-all duration-200">
+                        Guardar acta
                     </button>
 
-                    <!-- Alerta de confirmación -->
                     <div x-show="showAlert" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
-                        <div class="bg-white rounded-lg shadow-lg p-6 w-96 dark:bg-gray-800">
-                            <h2 class="text-lg font-semibold text-gray-800 dark:text-white">¿Confirmar registro?</h2>
-                            <p class="text-gray-600 dark:text-gray-300 mt-2">¿Está seguro de registrar este nacimiento?</p>
+                        <div class="bg-white rounded-lg shadow-lg p-6 w-96">
+                            <h2 class="text-lg font-semibold text-gray-800">¿Estás seguro?</h2>
+                            <p class="text-gray-600 mt-2">No podrás revertir esta acción.</p>
                             <div class="mt-4 flex justify-end space-x-2">
-                                <button type="button" @click="showAlert = false" class="px-4 py-2 text-gray-800 bg-gray-300 hover:bg-gray-400 rounded-md dark:text-white dark:bg-gray-600 dark:hover:bg-gray-700">
+                                <button type="button" @click="showAlert = false" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-md">
                                     Cancelar
                                 </button>
-                                <button type="submit" @click="showAlert = false" class="px-4 py-2 text-white bg-green-600 hover:bg-green-700 rounded-md dark:bg-green-700 dark:hover:bg-green-800">
+                                <button
+                                    type="submit"
+                                    @click="showAlert = false"
+                                    wire:loading.attr="disabled"
+                                    class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md"
+                                >
                                     Confirmar
                                 </button>
                             </div>
@@ -177,7 +181,6 @@
         </form>
     </div>
 
-    <!-- Modal para Buscar Madre -->
     <div x-data="{ showMadreModal: false }" x-on:open-madre-modal.window="showMadreModal = true" x-on:close-madre-modal.window="showMadreModal = false">
         <div x-show="showMadreModal" class="fixed top-0 left-0 right-0 z-50 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50" style="display: none;">
             <div class="relative bg-white rounded-lg shadow dark:bg-gray-700 w-96 sm:w-[40rem]">
@@ -300,7 +303,6 @@
         </div>
     </div>
 
-    <!-- Modal para Buscar Padre -->
     <div x-data="{ showPadreModal: false }" x-on:open-padre-modal.window="showPadreModal = true" x-on:close-padre-modal.window="showPadreModal = false">
         <div x-show="showPadreModal" class="fixed top-0 left-0 right-0 z-50 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50" style="display: none;">
             <div class="relative bg-white rounded-lg shadow dark:bg-gray-700 w-96 sm:w-[40rem]">

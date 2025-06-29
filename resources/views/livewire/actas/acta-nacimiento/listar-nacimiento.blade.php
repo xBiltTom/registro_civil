@@ -1,4 +1,4 @@
-<div class="overflow-auto" style="max-height: 340px;">
+<div>
     @if (session()->has('error'))
         <div class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800" role="alert">
             {{ session('error') }}
@@ -10,6 +10,7 @@
             {{ session('message') }}
         </div>
     @endif
+
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         @if($nacimientos->count())
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -45,12 +46,14 @@
                     {{ $nacimiento->fecha_nacimiento }}
                 </td>
                 <td class="px-6 py-4 text-right">
-                    <form wire:submit.prevent="eliminar({{ $nacimiento->acta_id}})">
-                        <a href="{{ route('actas-nacimiento-edit', ['id' => $nacimiento->acta_id]) }}" wire:navigate class="font-medium p-2 text-blue-600 dark:text-blue-500 hover:underline cursor-pointer">Editar acta</a>
-                        <button type="submit" class="font-medium p-2 text-red-600 dark:text-red-500 hover:underline cursor-pointer">
+                    <div class="flex justify-end space-x-2">
+                        <a href="{{ route('actas-nacimiento-edit', ['id' => $nacimiento->acta_id]) }}" wire:navigate class="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer">
+                            Editar
+                        </a>
+                        <button type="submit" wire:click.prevent="eliminar({{ $nacimiento->acta_id }})" class="font-medium text-red-600 dark:text-red-500 hover:underline cursor-pointer">
                             Borrar acta
                         </button>
-                    </form>
+                    </div>
                 </td>
             </tr>
             @endforeach
@@ -66,7 +69,9 @@
             </div>
         @endif
     </table>
-</div>
-<div class="mt-4">
-    {{ $nacimientos->links() }}
+
+    <!-- Paginación -->
+    <div class="mt-4">
+        {{ $nacimientos->links() }}
+    </div>
 </div>
