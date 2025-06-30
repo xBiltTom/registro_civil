@@ -16,8 +16,8 @@
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
                 <th scope="col" class="px-6 py-3">Acta</th>
-                <th scope="col" class="px-6 py-3">Libro</th>
-                <th scope="col" class="px-6 py-3">Folio</th>
+                {{-- <th scope="col" class="px-6 py-3">Libro</th>
+                <th scope="col" class="px-6 py-3">Folio</th> --}}
                 <th scope="col" class="px-6 py-3">Nacido</th>
                 <th scope="col" class="px-6 py-3">Fecha de Registro</th>
                 <th scope="col" class="px-6 py-3">Fecha de Nacimiento</th>
@@ -30,14 +30,14 @@
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {{ $nacimiento->acta_id }}
                 </th>
-                <td class="px-6 py-4">
+                {{-- <td class="px-6 py-4">
                     {{ $nacimiento->acta->folio->libro_id ?? 'N/A' }}
                 </td>
                 <td class="px-6 py-4">
                     {{ $nacimiento->acta->folio_id ?? 'N/A' }}
-                </td>
+                </td> --}}
                 <td class="px-6 py-4">
-                    {{ $nacimiento->nombre_nacido }} {{ $nacimiento->apellido_nacido }}
+                    {{ $nacimiento->nacido->nombre ?? 'N/A' }} {{ $nacimiento->nacido->apellido ?? 'N/A' }}
                 </td>
                 <td class="px-6 py-4">
                     {{ $nacimiento->acta->fecha_registro ?? 'N/A' }}
