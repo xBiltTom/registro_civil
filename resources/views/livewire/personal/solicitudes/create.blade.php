@@ -40,56 +40,90 @@
             </div>
 
             <div class="mb-6">
-                <div
-                    x-data="{ uploading: false, progress: 0 }"
-                    x-on:livewire-upload-start="uploading = true"
-                    x-on:livewire-upload-finish="uploading = false"
-                    x-on:livewire-upload-cancel="uploading = false"
-                    x-on:livewire-upload-error="uploading = false"
-                    x-on:livewire-upload-progress="progress = $event.detail.progress"
+    <div
+        x-data="{ uploading: false, progress: 0, showModal: false, fileReady: false }"
+        x-init="$watch('uploading', value => {
+            if (!value) fileReady = true;
+        })"
+        x-on:livewire-upload-start="uploading = true"
+        x-on:livewire-upload-finish="uploading = false"
+        x-on:livewire-upload-cancel="uploading = false"
+        x-on:livewire-upload-error="uploading = false"
+        x-on:livewire-upload-progress="progress = $event.detail.progress"
+    >
+        <label class="block text-gray-200 font-medium mb-1" for="ruta_voucher">Subir voucher</label>
+
+        <!-- Contenedor dinámico que se adapta a 1 o 2 columnas -->
+        <div :class="fileReady ? 'grid grid-cols-2 gap-4 items-center' : 'block'" class="transition-all duration-300">
+
+            <!-- Input archivo -->
+            <input
+                wire:model="ruta_voucher"
+                name="ruta_voucher"
+                id="ruta_voucher"
+                type="file"
+                class="block w-full text-sm text-gray-100
+                    file:mr-4 file:py-2 file:px-4
+                    file:rounded-lg file:border-0
+                    file:text-sm file:font-semibold
+                    file:bg-blue-600 file:text-white
+                    hover:file:bg-blue-700
+                    bg-gray-800 border border-gray-700 rounded-md px-5 py-2"
+            />
+
+            <!-- Botón visible solo al terminar carga -->
+            <div x-show="fileReady" x-transition>
+                <button
+                    type="button"
+                    @click="showModal = true"
+                    class="flex w-full justify-center items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md transition duration-200"
                 >
-
-                    <label class="block text-gray-200 font-medium mb-1" for="ruta_voucher">Subir voucher</label>
-                    <input
-                        wire:model="ruta_voucher"
-                        name="ruta_voucher"
-                        id="ruta_voucher"
-                        type="file"
-                        class="block w-full text-sm text-gray-100
-                               file:mr-4 file:py-2 file:px-4
-                               file:rounded-lg file:border-0
-                               file:text-sm file:font-semibold
-                               file:bg-blue-600 file:text-white
-                               hover:file:bg-blue-700
-                               bg-gray-800 border border-gray-700 rounded-md px-5 py-2"
-                    />
-
-                    <!-- Barra de progreso -->
-                    <div x-show="uploading" class="mt-4">
-                        <div class="w-full bg-gray-700 rounded-full h-4 overflow-hidden">
-                            <div
-                                class="bg-blue-600 h-full rounded-full transition-all duration-300 ease-in-out"
-                                :style="{ width: progress + '%' }"
-                            ></div>
-                        </div>
-                        <p class="mt-1 text-sm text-gray-300 text-right" x-text="progress + '%'"></p>
-                    </div>
-                </div>
-                @if($ruta_voucher)
-                    <div class="mt-4">
-                        <h3 class="text-gray-200 font-medium mb-2">Previsualización del voucher</h3>
-                        <div class="rounded-lg overflow-hidden border-2 border-gray-600 bg-gray-900 shadow-md p-2 max-w-md">
-                            <img
-                                src="{{ $ruta_voucher->temporaryUrl() }}"
-                                alt="Voucher cargado"
-                                class="w-full h-auto object-contain rounded-md"
-                            >
-                        </div>
-                    </div>
-                @endif
-
-
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                         viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M15 12a3 3 0 11-6 0 3 3 0 016 0zm-6.5 0a6.5 6.5 0 0113 0 6.5 6.5 0 01-13 0z"/>
+                    </svg>
+                    Ver voucher
+                </button>
             </div>
+        </div>
+
+        <!-- Barra de progreso -->
+        <div x-show="uploading" class="mt-4">
+            <div class="w-full bg-gray-700 rounded-full h-4 overflow-hidden">
+                <div
+                    class="bg-blue-600 h-full rounded-full transition-all duration-300 ease-in-out"
+                    :style="{ width: progress + '%' }"
+                ></div>
+            </div>
+            <p class="mt-1 text-sm text-gray-300 text-right" x-text="progress + '%'"></p>
+        </div>
+
+        <!-- Modal -->
+        <div
+            x-show="showModal"
+            x-transition
+            class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60"
+        >
+            <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xl max-w-lg w-full relative">
+                <button
+                    type="button"
+                    @click="showModal = false"
+                    class="absolute top-2 right-2 text-gray-400 hover:text-red-500 text-xl"
+                >
+                    &times;
+                </button>
+                <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">Voucher cargado</h2>
+                <img
+                    src="{{ $ruta_voucher?->temporaryUrl() }}"
+                    alt="Voucher"
+                    class="w-full h-auto rounded-md border border-gray-300 dark:border-gray-600"
+                >
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 

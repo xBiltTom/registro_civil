@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\ActaMatrimonio;
 use App\Models\Persona;
 use App\Models\Acta;
+use Spatie\Permission\Models\Role;
 
 class Edit extends Component
 {
@@ -26,6 +27,8 @@ class Edit extends Component
     public $nombreTestigo1 = '';
     public $nombreTestigo2 = '';
     public $id_acta;
+
+    public $alcalde;
 
 
     public function mount($acta_id)
@@ -58,6 +61,8 @@ class Edit extends Component
         $this->nombreNovia = $novia ? $novia->nombre . ' ' . $novia->apellido : '';
         $this->nombreTestigo1 = $testigo1 ? $testigo1->nombre . ' ' . $testigo1->apellido : '';
         $this->nombreTestigo2 = $testigo2 ? $testigo2->nombre . ' ' . $testigo2->apellido : '';
+
+        $this->alcalde = Persona::find(Role::find(3)->users->first()->persona_id); // Recuperar alcalde desde el rol
     }
 
     public function actualizar()
@@ -119,6 +124,16 @@ class Edit extends Component
         if ($this->testigo1_id == $this->testigo2_id) {
             $this->addError('testigo2_id', 'Los testigos no pueden ser la misma persona.');
             return;
+        }
+
+        $acta = Acta::find($this->acta_id);
+        if ($acta) {
+            $acta->update([
+                'libro_id' => $this->libro_id,
+                'folio_id' => $this->folio_id,
+                'fecha_registro' => $this->fecha_registro,
+                'ruta_pdf' => $this->ruta_pdf,
+            ]);
         }
 
         // Si cambió el novio, poner el anterior como soltero
