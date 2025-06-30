@@ -1,37 +1,54 @@
 <?php
-
 namespace App\Livewire\Personal\Solicitudes;
 
-use App\Models\Persona;
+use App\Models\Solicitud;
+use App\Models\TipoActa;
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\Solicitud;
+use App\Models\Acta;
 
 class Index extends Component
 {
-
     use WithPagination;
 
     protected $paginationTheme = 'tailwind';
 
-    public $buscado;
-    public $tipoSeleccionado = 'all'; // valor por defecto
+    public $buscado; // Para la búsqueda
+    public $tipoSeleccionado = 'all'; // Valor por defecto para el filtro de tipos
+    public $tipos;
 
-    public function placeholder(){
-        return view('placeholder');
+    public function mount()
+    {
+        $this->tipos = TipoActa::all();
     }
 
-    public function reiniciar(){
+    public function reiniciar()
+    {
         $this->resetPage();
     }
 
-
-    public function render(){
+    public function render()
+    {
         $usuario = auth()->user();
 
-        // Obtener todas las solicitudes donde el user_id coincida con el ID del usuario autenticado
-        $solicitudes = Solicitud::where('user_id', $usuario->id)->paginate(5);
+        $query = Solicitud::with(['acta.tipo'])
+            ->where('user_id', $usuario->id);
 
-        return view('livewire.personal.solicitudes.index', compact('solicitudes'));
+        if ($this->tipoSeleccionado !== 'all') {
+            $query->whereHas('acta', function ($query) {
+                $query->where('tipo_id', $this->tipoSeleccionado);
+            });
+        }
+
+        if ($this->buscado) {
+            $query->where('acta_id', 'like', '%' . $this->buscado . '%');
+        }
+
+        $solicitudes = $query->paginate(10);
+
+        return view('livewire.personal.solicitudes.index', [
+            'solicitudes' => $solicitudes,
+            'tipos' => $this->tipos,
+        ]);
     }
 }
