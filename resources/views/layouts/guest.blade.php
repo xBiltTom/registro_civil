@@ -1,28 +1,22 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ config('app.name', 'Laravel') }} | Login</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @livewireStyles
+</head>
+<body class="h-screen w-screen flex items-center justify-center relative overflow-hidden px-4 bg-cover bg-center" style="background-image: url('/img/otroFondo.jpg');">
 
-        <title>{{ config('app.name', 'SIAC') }}</title>
+    {{-- <div class="w-[250px] h-[250px] bg-emerald-500 rounded-full absolute top-[65%] left-[12%] lg:left-[55%] z-0 blur-2xl opacity-60 animate-bounce"></div> --}}
 
-
-
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="font-sans antialiased bg-gray-800 text-white">
-        <div class="min-h-screen flex flex-col justify-center items-center pt-6 sm:pt-0 bg-gray-800">
-
-            <div  class="text-white w-full sm:max-w-md mt-6 px-6 py-4 bg-white/10 backdrop-blur-lg shadow-md overflow-hidden sm:rounded-lg">
-                {{ $slot }}
-            </div>
+    <main class="z-10 w-full flex justify-center">
+        <div class="w-full max-w-md px-6">
+            {{ $slot }}
         </div>
-    </body>
+    </main>
 
+    @livewireScripts
+</body>
 </html>
