@@ -17,42 +17,51 @@
                 <div>
                     <label for="libro_id" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Libro</label>
                     <input wire:model="libro_id" type="number" id="libro_id" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>
-                    @error('libro_id')
-                        <x-input-error :messages="$message" class="mt-2" />
-                    @enderror
+                    
                 </div>
+                @error('libro_id')
+                        <span class="text-sm text-red-600 dark:text-red-400">{{ $message }}</span>
+                    @enderror
                 {{-- Folio --}}
                 <div>
                     <label for="folio_id" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Folio</label>
                     <input wire:model="folio_id" type="number" id="folio_id" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>
-                    @error('folio_id')
-                        <x-input-error :messages="$message" class="mt-2" />
-                    @enderror
+                    
                 </div>
+                @error('folio_id')
+                        <span class="text-sm text-red-600 dark:text-red-400">{{ $message }}</span>
+                    @enderror
                 {{-- Acta --}}
                 <div>
                     <label for="acta_id" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Acta</label>
                     <input wire:model="acta_id" type="number" id="acta_id" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>
-                    @error('acta_id')
-                        <x-input-error :messages="$message" class="mt-2" />
-                    @enderror
+                    
                 </div>
+                @error('acta_id')
+                        <span class="text-sm text-red-600 dark:text-red-400">{{ $message }}</span>
+                    @enderror
                 {{-- Fecha de registro --}}
                 <div>
                     <label for="fecha_registro" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Fecha de Registro</label>
                     <input wire:model="fecha_registro" type="date" id="fecha_registro" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>
                     @error('fecha_registro')
-                        <x-input-error :messages="$message" class="mt-2" />
+                        <span class="text-sm text-red-600 dark:text-red-400">{{ $message }}</span>
                     @enderror
                 </div>
+                @error('fecha_registro')
+                        <span class="text-sm text-red-600 dark:text-red-400">{{ $message }}</span>
+                    @enderror
                 {{-- Ruta PDF --}}
                 <div class="md:col-span-2">
                     <label for="ruta_pdf" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Ruta PDF</label>
                     <input wire:model="ruta_pdf" type="text" id="ruta_pdf" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>
                     @error('ruta_pdf')
-                        <x-input-error :messages="$message" class="mt-2" />
+                        <span class="text-sm text-red-600 dark:text-red-400">{{ $message }}</span>
                     @enderror
                 </div>
+                @error('ruta_pdf')
+                        <span class="text-sm text-red-600 dark:text-red-400">{{ $message }}</span>
+                    @enderror
             </div>
 
             <h2 class="text-xl font-semibold text-gray-800 dark:text-white border-b pt-6 pb-2">Datos del Matrimonio</h2>
@@ -77,12 +86,17 @@
                             class="flex-1 bg-gray-800 rounded-l-md border-gray-700 text-white px-3 py-2"
                             type="text"
                             readonly>
+                            
                         <button type="button" x-on:click="$dispatch('open-novio-modal')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r-md">
                             Buscar
                         </button>
+                        
                     </div>
                 </div>
             </div>
+            @error('novio_id')
+                                <span class="text-sm text-red-600 dark:text-red-400">{{ $message }}</span>
+                            @enderror
 
             {{-- Novia --}}
             <div class="flex flex-row space-x-4 mb-6">
@@ -104,12 +118,16 @@
                             class="flex-1 bg-gray-800 rounded-l-md border-gray-700 text-white px-3 py-2"
                             type="text"
                             readonly>
+                            
                         <button type="button" x-on:click="$dispatch('open-novia-modal')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r-md">
                             Buscar
                         </button>
                     </div>
                 </div>
             </div>
+            @error('novia_id')
+                                <span class="text-sm text-red-600 dark:text-red-400">{{ $message }}</span>
+                            @enderror
 
             {{-- Testigo 1 --}}
             <div class="flex flex-row space-x-4 mb-6">
@@ -131,12 +149,16 @@
                             class="flex-1 bg-gray-800 rounded-l-md border-gray-700 text-white px-3 py-2"
                             type="text"
                             readonly>
+                            
                         <button type="button" x-on:click="$dispatch('open-testigo1-modal')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r-md">
                             Buscar
                         </button>
                     </div>
                 </div>
             </div>
+            @error('testigo1_id')
+                                <span class="text-sm text-red-600 dark:text-red-400">{{ $message }}</span>
+                            @enderror
 
             {{-- Testigo 2 --}}
             <div class="flex flex-row space-x-4 mb-6">
@@ -158,37 +180,31 @@
                             class="flex-1 bg-gray-800 rounded-l-md border-gray-700 text-white px-3 py-2"
                             type="text"
                             readonly>
+                            
                         <button type="button" x-on:click="$dispatch('open-testigo2-modal')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r-md">
                             Buscar
                         </button>
                     </div>
                 </div>
             </div>
+            @error('testigo2_id')
+                                <span class="text-sm text-red-600 dark:text-red-400">{{ $message }}</span>
+                            @enderror
 
             <div>
                 <label for="fecha_matrimonio" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Fecha de Matrimonio</label>
                 <input wire:model="fecha_matrimonio" type="date" id="fecha_matrimonio" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>
-                @error('fecha_matrimonio')
-                    <x-input-error :messages="$message" class="mt-2" />
-                @enderror
+                
             </div>
+            @error('fecha_matrimonio')
+                    <span class="text-sm text-red-600 dark:text-red-400">{{ $message }}</span>
+                @enderror
 
             <div class="mt-6 flex justify-end">
                 <button class="bg-green-600 hover:bg-green-700 text-white rounded-md px-6 py-2 transition-all duration-200" type="submit">
                     Guardar Acta
                 </button>
             </div>
-
-            @if ($errors->any())
-                <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
-                    <strong>Se encontraron los siguientes errores:</strong>
-                    <ul class="mt-2 list-disc list-inside">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
 
             @if($mostrarAlerta)
                 <div class="mt-4 p-2 bg-green-100 text-green-700 rounded">
