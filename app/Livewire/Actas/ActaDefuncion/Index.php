@@ -6,6 +6,8 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\ActaDefuncion;
 use App\Models\Acta;
+use App\Models\Persona;
+
 class Index extends Component
 {
     use WithPagination;
@@ -39,6 +41,10 @@ class Index extends Component
     }
 
     public function eliminar($id){
+        /* $persona = Persona::find($id);
+        $persona->actas->actaDefuncion;
+        if($persona->id==$persona->actas->actaDefuncion->fallecido_id) */
+
         $acta = Acta::find($id);
         if ($acta) {
             $acta->delete();
