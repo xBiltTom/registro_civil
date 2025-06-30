@@ -95,6 +95,37 @@ class Create extends Component
             $this->addError('testigo2_id', 'Los testigos no pueden ser la misma persona.');
             return;
         }
+        
+        //Validando la edad minima y que no este declarado como fallecido
+        $personasAValidar = [
+            'novio_id' => $this->novio_id,
+            'novia_id' => $this->novia_id,
+            'testigo1_id' => $this->testigo1_id,
+            'testigo2_id' => $this->testigo2_id,
+        ];
+
+        foreach ($personasAValidar as $campo => $persona_id) {
+            $persona = \App\Models\Persona::find($persona_id);
+
+            if (!$persona) {
+                $this->addError($campo, 'La persona seleccionada no existe.');
+                return;
+            }
+
+            // Verificar edad mínima
+            $edad = \Carbon\Carbon::parse($persona->fecha_nacimiento)->age;
+            if ($edad < 18) {
+                $this->addError($campo, 'Debe tener al menos 18 años para registrar el matrimonio.');
+                return;
+            }
+
+            // Verificar si está registrado como fallecido
+            $estaFallecido = \App\Models\ActaDefuncion::where('fallecido_id', $persona_id)->exists();
+            if ($estaFallecido) {
+                $this->addError($campo, 'La persona seleccionada está registrada como fallecida.');
+                return;
+            }
+        }
 
         // Buscar el alcalde (rol 3)
         $alcaldeUser = \Spatie\Permission\Models\Role::find(3)?->users->first();
@@ -128,6 +159,7 @@ class Create extends Component
         // 3. Crear Acta (siempre nueva)
         $acta = new \App\Models\Acta();
         $acta->id = $this->acta_id;
+        $acta->tipo_id = 2;
         $acta->fecha_registro = $this->fecha_registro;
         $acta->persona_id = $alcalde->id;
         $acta->folio_id = $this->folio_id;

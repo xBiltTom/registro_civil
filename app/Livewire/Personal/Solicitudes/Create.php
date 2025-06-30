@@ -76,6 +76,10 @@ class Create extends Component
         $solicitud->pago_id = $pago->id; // Asignar el ID del pago creado
         $solicitud->estado_id = 1; // Estado inicial
         $solicitud->save();
+
+        session()->flash('message', 'La solicitud se registró exitosamente');
+
+        return redirect()->route('personal');
     }
 
     public function mount($id){
