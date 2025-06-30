@@ -37,8 +37,114 @@
             @endif
 
             @if($acta->tipo_id == 2)
-                <div class="alert alert-info">
-                    <strong>Información:</strong> Esta acta es de tipo "Matrimonios".
+                <h2 class="text-white font-bold text-lg mb-4">Datos del Matrimonio</h2>
+
+                <!-- Búsqueda de Novio -->
+                <div class="flex flex-row space-x-4 mb-6">
+                    <div class="flex-1">
+                        <label class="text-white block mb-1" for="novio">Novio</label>
+                        <div class="flex">
+                            <input
+                                name="novio"
+                                value="{{$acta->actaMatrimonio->novio->nombre}} {{$acta->actaMatrimonio->novio->apellido}}"
+                                id="novio"
+
+                                placeholder="Buscar Novio"
+                                class="flex-1 bg-gray-800 rounded-l-md border-gray-700 text-white px-3 py-2"
+                                type="text"
+                                readonly>
+                            <button type="button" class="bg-gray-600 hover:bg-gray-300 text-white hover:text-black px-4 py-2 rounded-r-md">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256">
+                                    <path d="M228.12,145.14,192,123.47V104a8,8,0,0,0-4-7L136,67.36V48h16a8,8,0,0,0,0-16H136V16a8,8,0,0,0-16,0V32H104a8,8,0,0,0,0,16h16V67.36L68,97.05a8,8,0,0,0-4,7v19.47L27.88,145.14A8,8,0,0,0,24,152v64a8,8,0,0,0,8,8h80a8,8,0,0,0,8-8V168a8,8,0,0,1,16,0v48a8,8,0,0,0,8,8h80a8,8,0,0,0,8-8V152A8,8,0,0,0,228.12,145.14ZM40,156.53l24-14.4V208H40ZM128,144a24,24,0,0,0-24,24v40H80V108.64l48-27.43,48,27.43V208H152V168A24,24,0,0,0,128,144Zm88,64H192V142.13l24,14.4Z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Búsqueda de Novia -->
+                <div class="flex flex-row space-x-4 mb-6">
+                    <div class="flex-1">
+                        <label class="text-white block mb-1" for="novia">Novia</label>
+                        <div class="flex">
+                            <input
+                                name="novia"
+                                value="{{$acta->actaMatrimonio->novia->nombre}} {{$acta->actaMatrimonio->novia->apellido}}"
+                                id="novia"
+
+                                placeholder="Buscar Novia"
+                                class="flex-1 bg-gray-800 rounded-l-md border-gray-700 text-white px-3 py-2"
+                                type="text"
+                                readonly>
+                            <button type="button" class="bg-gray-600 hover:bg-gray-300 text-white hover:text-black px-4 py-2 rounded-r-md">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256">
+                                    <path d="M228.12,145.14,192,123.47V104a8,8,0,0,0-4-7L136,67.36V48h16a8,8,0,0,0,0-16H136V16a8,8,0,0,0-16,0V32H104a8,8,0,0,0,0,16h16V67.36L68,97.05a8,8,0,0,0-4,7v19.47L27.88,145.14A8,8,0,0,0,24,152v64a8,8,0,0,0,8,8h80a8,8,0,0,0,8-8V168a8,8,0,0,1,16,0v48a8,8,0,0,0,8,8h80a8,8,0,0,0,8-8V152A8,8,0,0,0,228.12,145.14ZM40,156.53l24-14.4V208H40ZM128,144a24,24,0,0,0-24,24v40H80V108.64l48-27.43,48,27.43V208H152V168A24,24,0,0,0,128,144Zm88,64H192V142.13l24,14.4Z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex flex-row space-x-4 mb-6">
+                    <div class="flex-1">
+                        <label class="text-white block mb-1" for="fecha_matrimonio">Fecha de Matrimonio</label>
+                        <div class="flex">
+                            <input readonly type="text" id="fecha_matrimonio" name="fecha_matrimonio" value="{{ \Carbon\Carbon::parse($acta->actaMatrimonio->fecha_matrimonio)->format('d/m/Y') }}"
+                            class="flex-1 bg-gray-800 rounded-md border-gray-700 text-white px-3 py-2"
+                            >
+                            <button type="button" class="bg-gray-600 hover:bg-gray-300 text-white hover:text-black px-4 py-2 rounded-r-md">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256">
+                                    <path d="M228.12,145.14,192,123.47V104a8,8,0,0,0-4-7L136,67.36V48h16a8,8,0,0,0,0-16H136V16a8,8,0,0,0-16,0V32H104a8,8,0,0,0,0,16h16V67.36L68,97.05a8,8,0,0,0-4,7v19.47L27.88,145.14A8,8,0,0,0,24,152v64a8,8,0,0,0,8,8h80a8,8,0,0,0,8-8V168a8,8,0,0,1,16,0v48a8,8,0,0,0,8,8h80a8,8,0,0,0,8-8V152A8,8,0,0,0,228.12,145.14ZM40,156.53l24-14.4V208H40ZM128,144a24,24,0,0,0-24,24v40H80V108.64l48-27.43,48,27.43V208H152V168A24,24,0,0,0,128,144Zm88,64H192V142.13l24,14.4Z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Búsqueda de Testigo 1 -->
+                <div class="flex flex-row space-x-4 mb-6">
+                    <div class="flex-1">
+                        <label class="text-white block mb-1" for="testigo1">Testigo 1</label>
+                        <div class="flex">
+                            <input
+                                name="testigo1"
+                                value="{{$acta->actaMatrimonio->testigo1->nombre}} {{$acta->actaMatrimonio->testigo1->apellido}}"
+                                id="testigo1"
+
+                                placeholder="Buscar Testigo 1"
+                                class="flex-1 bg-gray-800 rounded-l-md border-gray-700 text-white px-3 py-2"
+                                type="text"
+                                readonly>
+                            <button type="button" class="bg-gray-600 hover:bg-gray-300 text-white hover:text-black px-4 py-2 rounded-r-md">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256">
+                                    <path d="M228.12,145.14,192,123.47V104a8,8,0,0,0-4-7L136,67.36V48h16a8,8,0,0,0,0-16H136V16a8,8,0,0,0-16,0V32H104a8,8,0,0,0,0,16h16V67.36L68,97.05a8,8,0,0,0-4,7v19.47L27.88,145.14A8,8,0,0,0,24,152v64a8,8,0,0,0,8,8h80a8,8,0,0,0,8-8V168a8,8,0,0,1,16,0v48a8,8,0,0,0,8,8h80a8,8,0,0,0,8-8V152A8,8,0,0,0,228.12,145.14ZM40,156.53l24-14.4V208H40ZM128,144a24,24,0,0,0-24,24v40H80V108.64l48-27.43,48,27.43V208H152V168A24,24,0,0,0,128,144Zm88,64H192V142.13l24,14.4Z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Búsqueda de Testigo 2 -->
+                <div class="flex flex-row space-x-4 mb-6">
+                    <div class="flex-1">
+                        <label class="text-white block mb-1" for="testigo2">Testigo 2</label>
+                        <div class="flex">
+                            <input
+                                name="testigo2"
+                                value="{{$acta->actaMatrimonio->testigo2->nombre}} {{$acta->actaMatrimonio->testigo2->apellido}}"
+                                id="testigo2"
+
+                                placeholder="Buscar Testigo"
+                                class="flex-1 bg-gray-800 rounded-l-md border-gray-700 text-white px-3 py-2"
+                                type="text"
+                                readonly>
+                            <button type="button" class="bg-gray-600 hover:bg-gray-300 text-white hover:text-black px-4 py-2 rounded-r-md">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 256 256">
+                                    <path d="M228.12,145.14,192,123.47V104a8,8,0,0,0-4-7L136,67.36V48h16a8,8,0,0,0,0-16H136V16a8,8,0,0,0-16,0V32H104a8,8,0,0,0,0,16h16V67.36L68,97.05a8,8,0,0,0-4,7v19.47L27.88,145.14A8,8,0,0,0,24,152v64a8,8,0,0,0,8,8h80a8,8,0,0,0,8-8V168a8,8,0,0,1,16,0v48a8,8,0,0,0,8,8h80a8,8,0,0,0,8-8V152A8,8,0,0,0,228.12,145.14ZM40,156.53l24-14.4V208H40ZM128,144a24,24,0,0,0-24,24v40H80V108.64l48-27.43,48,27.43V208H152V168A24,24,0,0,0,128,144Zm88,64H192V142.13l24,14.4Z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             @endif
 
