@@ -29,7 +29,7 @@ class ActaNacimiento extends Model
 
     public function nacido()
     {
-        return $this->belongsTo(Persona::class, 'nacido_id'); // Relación con la persona nacida
+        return $this->belongsTo(Persona::class, 'nacido_id'); // Clave foránea = PK
     }
 
     public function madre()
