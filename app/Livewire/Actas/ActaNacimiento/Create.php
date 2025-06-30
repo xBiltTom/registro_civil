@@ -44,43 +44,43 @@ class Create extends Component
     }
 
     public function guardarNacimiento()
-{
-    Log::info('Iniciando el registro del acta de nacimiento.');
+    {
+        Log::info('Iniciando el registro del acta de nacimiento.');
 
-    $this->validate([
-        'acta_id' => 'required|integer|unique:actas,id',
-        'folio_id' => 'required|integer',
-        'libro_id' => 'required|integer',
-        'fecha_registro' => 'required|date',
-        'nombre_nacido' => 'required|string|max:255',
-        'sexo' => 'required|in:M,F',
-        'fecha_nacimiento' => 'required|date',
-        'lugar_id' => 'required|exists:lugar,id',
-        'madre_id' => [
-            'required',
-            'exists:personas,id',
-            function ($attribute, $value, $fail) {
-                $madre = Persona::find($value);
-                if ($madre && $madre->sexo !== 'F') {
-                    $fail('La madre debe ser de sexo femenino.');
-                }
-            },
-        ],
-        'padre_id' => [
-            'nullable',
-            'exists:personas,id',
-            function ($attribute, $value, $fail) {
-                $padre = Persona::find($value);
-                if ($padre && $padre->sexo !== 'M') {
-                    $fail('El padre debe ser de sexo masculino.');
-                }
-            },
-            function ($attribute, $value, $fail) {
-                if ($value === $this->madre_id) {
-                    $fail('Una persona no puede ser padre y madre al mismo tiempo.');
-                }
-            },
-        ],
+        $this->validate([
+            'acta_id' => 'required|integer|unique:actas,id',
+            'folio_id' => 'required|integer',
+            'libro_id' => 'required|integer',
+            'fecha_registro' => 'required|date',
+            'nombre_nacido' => 'required|string|max:255',
+            'sexo' => 'required|in:M,F',
+            'fecha_nacimiento' => 'required|date',
+            'lugar_id' => 'required|exists:lugar,id',
+            'madre_id' => [
+                'required',
+                'exists:personas,id',
+                function ($attribute, $value, $fail) {
+                    $madreFallecida = \App\Models\ActaDefuncion::where('fallecido_id', $value)->exists();
+                    if ($madreFallecida) {
+                        $fail('La madre no puede ser una persona fallecida.');
+                    }
+                },
+            ],
+            'padre_id' => [
+                'nullable',
+                'exists:personas,id',
+                function ($attribute, $value, $fail) {
+                    $padreFallecido = \App\Models\ActaDefuncion::where('fallecido_id', $value)->exists();
+                    if ($padreFallecido) {
+                        $fail('El padre no puede ser una persona fallecida.');
+                    }
+                },
+                function ($attribute, $value, $fail) {
+                    if ($value === $this->madre_id) {
+                        $fail('Una persona no puede ser padre y madre al mismo tiempo.');
+                    }
+                },
+            ],
         ], [
             'acta_id.required' => 'El campo Acta es obligatorio.',
             'acta_id.unique' => 'El Acta ya existe.',
