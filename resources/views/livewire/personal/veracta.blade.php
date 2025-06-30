@@ -34,6 +34,66 @@
                 <div class="alert alert-info">
                     <strong>Información:</strong> Esta acta es de tipo "Nacimientos".
                 </div>
+
+                <h2 class="text-white font-bold text-lg mb-4">Datos del Nacido</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div>
+                        <label class="text-white block mb-1" for="nombre_nacido">Nombre del Nacido</label>
+                        <input
+                            name="nombre_nacido"
+                            value="{{ $acta->actaNacimiento->nacido->nombre }} {{ $acta->actaNacimiento->nacido->apellido }}"
+                            id="nombre_nacido"
+                            class="w-full bg-gray-800 rounded-md border-gray-700 text-white px-3 py-2"
+                            type="text"
+                            readonly>
+                    </div>
+                    <div>
+                        <label class="text-white block mb-1" for="fecha_nacimiento">Fecha de Nacimiento</label>
+                        <input
+                            name="fecha_nacimiento"
+                            value="{{ $acta->actaNacimiento->nacido->fecha_nacimiento }}"
+                            id="fecha_nacimiento"
+                            class="w-full bg-gray-800 rounded-md border-gray-700 text-white px-3 py-2"
+                            type="text"
+                            readonly>
+                    </div>
+                </div>
+
+                <h2 class="text-white font-bold text-lg mb-4">Datos de los Padres</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div>
+                        <label class="text-white block mb-1" for="madre">Nombre de la Madre</label>
+                        <input
+                            name="madre"
+                            value="{{ $acta->actaNacimiento->madre->nombre }} {{ $acta->actaNacimiento->madre->apellido }}"
+                            id="madre"
+                            class="w-full bg-gray-800 rounded-md border-gray-700 text-white px-3 py-2"
+                            type="text"
+                            readonly>
+                    </div>
+                    <div>
+                        <label class="text-white block mb-1" for="padre">Nombre del Padre</label>
+                        <input
+                            name="padre"
+                            value="{{ $acta->actaNacimiento->padre->nombre ?? 'No registrado' }} {{ $acta->actaNacimiento->padre->apellido ?? '' }}"
+                            id="padre"
+                            class="w-full bg-gray-800 rounded-md border-gray-700 text-white px-3 py-2"
+                            type="text"
+                            readonly>
+                    </div>
+                </div>
+
+                <h2 class="text-white font-bold text-lg mb-4">Lugar de Nacimiento</h2>
+                <div class="mb-6">
+                    <label class="text-white block mb-1" for="lugar_nacimiento">Lugar</label>
+                    <input
+                        name="lugar_nacimiento"
+                        value="{{ $acta->actaNacimiento->nacido->lugar->descripcion }}"
+                        id="lugar_nacimiento"
+                        class="w-full bg-gray-800 rounded-md border-gray-700 text-white px-3 py-2"
+                        type="text"
+                        readonly>
+                </div>
             @endif
 
             @if($acta->tipo_id == 2)
@@ -212,7 +272,8 @@
                 @if($descargar==1)
                     <a
                         @if($acta->tipo_id == 1)
-                            href="{{ route('actas.nacimiento', ['id' => $acta->id]) }}"
+                            href="{{ route('nacimientos-pdf', ['id' =>
+                            $acta->actaNacimiento->acta_id]) }}"
                         @elseif($acta->tipo_id == 2)
                             href="{{ route('matrimonios-pdf', ['id' => $acta->actaMatrimonio->acta_id]) }}"
                         @elseif($acta->tipo_id == 3)

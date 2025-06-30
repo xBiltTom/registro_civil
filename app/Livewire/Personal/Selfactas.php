@@ -25,7 +25,8 @@ class Selfactas extends Component
         $this->resetPage();
     }
 
-    public function render(){
+    public function render()
+    {
         $usuario = auth()->user();
         $persona = Persona::find($usuario->persona_id);
 
@@ -33,8 +34,9 @@ class Selfactas extends Component
         $query = Acta::with(['tipo', 'actaNacimiento', 'actaMatrimonio', 'actaDefuncion'])
             ->where(function ($query) use ($persona) {
                 $query->whereHas('actaNacimiento', function ($query) use ($persona) {
-                    $query->where('padre_id', $persona->id)
-                        ->orWhere('madre_id', $persona->id);
+                    $query->where('persona_id', $persona->id)
+                    ->orWhere('padre_id', $persona->id)
+                    ->orWhere('madre_id', $persona->id);
                 })
                 ->orWhereHas('actaMatrimonio', function ($query) use ($persona) {
                     $query->where('novio_id', $persona->id)
