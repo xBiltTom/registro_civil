@@ -21,15 +21,16 @@ class ActaPolicy
      */
     public function view(User $user, Acta $acta): bool
     {
-        if($acta->tipo_id === 1) { // Defuncion
-            return $acta->actaNacimiento->padre_id === $user->persona_id ||
-                $acta->actaNacimiento->madre_id === $user->persona_id;
+        if($acta->tipo_id === 1) { // Nacido
+            return  $acta->actaNacimiento->nacido_id === $user->persona_id ||
+                    $acta->actaNacimiento->padre_id === $user->persona_id ||
+                    $acta->actaNacimiento->madre_id === $user->persona_id;
         } elseif($acta->tipo_id === 2) { // Matrimonio
             return  $acta->actaMatrimonio->novio_id === $user->persona_id ||
                     $acta->actaMatrimonio->novia_id === $user->persona_id ||
                     $acta->actaMatrimonio->testigo1_id === $user->persona_id ||
                     $acta->actaMatrimonio->testigo2_id === $user->persona_id;
-        } elseif($acta->tipo_id === 3) { // Nacimiento
+        } elseif($acta->tipo_id === 3) { // Defunción
             return $acta->actaDefuncion->declarante_id === $user->persona_id;
         }
         return false; // No tiene acceso a otros tipos de actas

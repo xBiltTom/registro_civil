@@ -95,10 +95,14 @@
     <div class="section">
         <div class="section-title">Información del Nacido</div>
         <div class="details">
-            <p><span class="label">Nombre:</span> {{$nacido->nombre}} {{$nacido->apellido}}</p>
-            <p><span class="label">Fecha de nacimiento:</span> {{$nacido->fecha_nacimiento}}</p>
-            <p><span class="label">Sexo:</span> {{$nacido->sexo == 'M' ? 'Masculino' : 'Femenino'}}</p>
-            <p><span class="label">Lugar de nacimiento:</span> {{$nacido->lugar->distrito}}, {{$nacido->lugar->provincia}}, {{$nacido->lugar->departamento}}</p>
+            <p><span class="label">Nombres y Apellidos:</span> {{$acta->actaNacimiento->nacido->nombre ?? 'N/A'}} {{$acta->actaNacimiento->nacido->apellido ?? 'N/A'}}</p>
+            <p><span class="label">Fecha de nacimiento:</span> {{$acta->actaNacimiento->nacido->fecha_nacimiento ?? 'N/A'}}</p>
+            <p><span class="label">Sexo:</span> {{$acta->actaNacimiento->nacido->sexo == 'M' ? 'Masculino' : 'Femenino'}}</p>
+            <p><span class="label">Lugar de nacimiento:</span>
+                {{$acta->actaNacimiento->nacido->lugar->distrito ?? 'N/A'}},
+                {{$acta->actaNacimiento->nacido->lugar->provincia ?? 'N/A'}},
+                {{$acta->actaNacimiento->nacido->lugar->departamento ?? 'N/A'}}
+            </p>
         </div>
     </div>
 
