@@ -106,6 +106,15 @@ class Create extends Component
 
         $this->apellido_nacido = trim($apellido_padre . ' ' . $apellido_madre);
 
+        // Buscar el alcalde (rol 3)
+        $alcaldeUser = \Spatie\Permission\Models\Role::find(3)?->users->first();
+        $alcalde = $alcaldeUser ? \App\Models\Persona::find($alcaldeUser->persona_id) : null;
+
+        if (!$alcalde) {
+            $this->addError('persona_id', 'No se encontró un alcalde asignado en el sistema.');
+            return;
+        }
+
         if (Libro::find($this->libro_id) == null) {
             $libro = new Libro();
             $libro->id = $this->libro_id;
@@ -135,7 +144,7 @@ class Create extends Component
         $acta = Acta::create([
             'id' => $this->acta_id,
             'fecha_registro' => $this->fecha_registro,
-            'persona_id' => $personaNacido->id,
+            'persona_id' => $alcalde->id,
             'folio_id' => $this->folio_id,
             'user_id' => optional(Auth::user())->id,
             'tipo_id' => 1,
@@ -143,9 +152,9 @@ class Create extends Component
 
         Log::info('Acta creada correctamente.');
 
+
         $actaNacimiento = ActaNacimiento::create([
-            'nombre_nacido' => $this->nombre_nacido,
-            'apellido_nacido' => $this->apellido_nacido,
+            'nacido_id' => $personaNacido->id, // Usar nacido_id
             'sexo' => $this->sexo,
             'fecha_nacimiento' => $this->fecha_nacimiento,
             'madre_id' => $this->madre_id,

@@ -12,21 +12,24 @@ class ActaNacimiento extends Model
     protected $table = 'acta_nacimientos';
     protected $primaryKey = 'acta_id';
 
-
     protected $fillable = [
-        'nombre_nacido',
-        'apellido_nacido',
+        'nacido_id', // Nuevo campo
         'sexo',
         'fecha_nacimiento',
         'madre_id',
         'padre_id',
         'acta_id',
-        'lugar_id'
+        'lugar_id',
     ];
 
     public function acta()
     {
-        return $this->belongsTo(Acta::class, 'acta_id'); // Clave foránea = PK
+        return $this->belongsTo(Acta::class, 'acta_id');
+    }
+
+    public function nacido()
+    {
+        return $this->belongsTo(Persona::class, 'nacido_id'); // Clave foránea = PK
     }
 
     public function madre()
@@ -42,10 +45,5 @@ class ActaNacimiento extends Model
     public function lugar()
     {
         return $this->belongsTo(Lugar::class, 'lugar_id');
-    }
-
-    public function personas()
-    {
-        return $this->belongsToMany(Persona::class, 'acta_nacimiento_persona');
     }
 }

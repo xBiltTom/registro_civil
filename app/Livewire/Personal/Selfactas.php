@@ -34,9 +34,9 @@ class Selfactas extends Component
         $query = Acta::with(['tipo', 'actaNacimiento', 'actaMatrimonio', 'actaDefuncion'])
             ->where(function ($query) use ($persona) {
                 $query->whereHas('actaNacimiento', function ($query) use ($persona) {
-                    $query->where('persona_id', $persona->id)
-                    ->orWhere('padre_id', $persona->id)
-                    ->orWhere('madre_id', $persona->id);
+                    $query->where('nacido_id', $persona->id) // Cambiado de persona_id a nacido_id
+                ->orWhere('padre_id', $persona->id)
+                ->orWhere('madre_id', $persona->id);
                 })
                 ->orWhereHas('actaMatrimonio', function ($query) use ($persona) {
                     $query->where('novio_id', $persona->id)
