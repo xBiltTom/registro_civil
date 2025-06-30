@@ -72,7 +72,7 @@ class FuncionarioController extends Controller
     }
 
     public function pdfMatrimonio($id){
-        $this->authorize('viewAny', Acta::class);
+        /* $this->authorize('viewAny', Acta::class); */
         $acta = Acta::find($id);
         if (!$acta || !$acta->actaMatrimonio) {
             abort(404, 'Acta o acta de matrimonio no encontrada');

@@ -95,6 +95,7 @@ class Create extends Component
             $acta->fecha_registro = $this->fecha_registro;
             $acta->persona_id = $this->alcalde->id;
             $acta->folio_id = $this->id_folio;
+            $acta->tipo_id=3;
             $acta->user_id = $this->id_funcionario;
             $acta->ruta_pdf=null;
             $acta->save();

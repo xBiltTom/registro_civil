@@ -104,7 +104,16 @@
             <div class="mt-6 flex justify-between">
 
                 @if($descargar==1)
-                    <a href="{{route('defunciones-pdf',['id'=>$id_acta])}}">
+                    <a
+                        @if($acta->tipo_id == 1)
+                            href="{{ route('actas.nacimiento', ['id' => $acta->id]) }}"
+                        @elseif($acta->tipo_id == 2)
+                            href="{{ route('matrimonios-pdf', ['id' => $acta->actaMatrimonio->acta_id]) }}"
+                        @elseif($acta->tipo_id == 3)
+                            href="{{ route('defunciones-pdf', ['id' => $acta->actaDefuncion->acta_id]) }}"
+                        @endif
+                        wire:navigate
+                    >
                         <button type="button" class="bg-red-600 hover:bg-red-700 text-white rounded-md px-6 py-2 transition-all duration-200">
                             Descargar acta
                         </button>
