@@ -2,10 +2,10 @@
 namespace App\Livewire\Personal\Solicitudes;
 
 use App\Models\Solicitud;
-use App\Models\TipoActa;
+use App\Models\EstadoSolicitud;
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Models\Acta;
+use Illuminate\Support\Facades\Log;
 
 class Index extends Component
 {
@@ -13,16 +13,27 @@ class Index extends Component
 
     protected $paginationTheme = 'tailwind';
 
-    public $buscado; // Para la búsqueda
-    public $tipoSeleccionado = 'all'; // Valor por defecto para el filtro de tipos
-    public $tipos;
+    public $buscado; // Para la búsqueda por número de acta
+    public $estadoSeleccionado = 'all'; // Valor por defecto para el filtro de estado
+    public $estados; // Lista de estados de solicitudes
 
     public function mount()
     {
-        $this->tipos = TipoActa::all();
+        // Cargar los estados de las solicitudes desde la base de datos
+        $this->estados = EstadoSolicitud::all();
     }
 
     public function reiniciar()
+    {
+        $this->resetPage();
+    }
+
+    public function updatedEstadoSeleccionado()
+    {
+        $this->resetPage();
+    }
+
+    public function updatedBuscado()
     {
         $this->resetPage();
     }
@@ -31,24 +42,26 @@ class Index extends Component
     {
         $usuario = auth()->user();
 
-        $query = Solicitud::with(['acta.tipo'])
+        // Consulta base para obtener las solicitudes del usuario autenticado
+        $query = Solicitud::with(['acta.tipo', 'estado'])
             ->where('user_id', $usuario->id);
 
-        if ($this->tipoSeleccionado !== 'all') {
-            $query->whereHas('acta', function ($query) {
-                $query->where('tipo_id', $this->tipoSeleccionado);
-            });
+        // Filtrar por estado seleccionado
+        if ($this->estadoSeleccionado !== 'all') {
+            $query->where('estado_id', $this->estadoSeleccionado);
         }
 
+        // Aplicar búsqueda por número de acta
         if ($this->buscado) {
             $query->where('acta_id', 'like', '%' . $this->buscado . '%');
         }
 
-        $solicitudes = $query->paginate(10);
+        // Paginación de los resultados
+        $solicitudes = $query->orderBy('created_at', 'desc')->paginate(10);
 
         return view('livewire.personal.solicitudes.index', [
             'solicitudes' => $solicitudes,
-            'tipos' => $this->tipos,
+            'estados' => $this->estados,
         ]);
     }
 }

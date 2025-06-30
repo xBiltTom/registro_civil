@@ -86,9 +86,9 @@ class Edit extends Component
                 'required',
                 'exists:personas,id',
                 function ($attribute, $value, $fail) {
-                    $madre = Persona::find($value);
-                    if ($madre && $madre->sexo !== 'F') {
-                        $fail('La madre debe ser de sexo femenino.');
+                    $madreFallecida = \App\Models\ActaDefuncion::where('fallecido_id', $value)->exists();
+                    if ($madreFallecida) {
+                        $fail('La madre no puede ser una persona fallecida.');
                     }
                 },
             ],
@@ -96,9 +96,9 @@ class Edit extends Component
                 'nullable',
                 'exists:personas,id',
                 function ($attribute, $value, $fail) {
-                    $padre = Persona::find($value);
-                    if ($padre && $padre->sexo !== 'M') {
-                        $fail('El padre debe ser de sexo masculino.');
+                    $padreFallecido = \App\Models\ActaDefuncion::where('fallecido_id', $value)->exists();
+                    if ($padreFallecido) {
+                        $fail('El padre no puede ser una persona fallecida.');
                     }
                 },
                 function ($attribute, $value, $fail) {
