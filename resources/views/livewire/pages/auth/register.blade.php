@@ -8,6 +8,7 @@ use Illuminate\Validation\Rules;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 use App\Models\Persona;
+use App\Models\ActaDefuncion;
 
 new #[Layout('layouts.guest')] class extends Component
 {
@@ -30,8 +31,18 @@ new #[Layout('layouts.guest')] class extends Component
         $persona = Persona::where('dni', $validated['dni'])->first();
 
         if (!$persona) {
-            // Si no existe la persona, lanzar un error de validación
             $this->addError('dni', 'No se encontró una persona con este DNI.');
+            return;
+        }
+
+        // Depuración: Verificar el valor de fallecido_id
+        \Log::info('Persona encontrada', ['fallecido_id' => $persona->fallecido_id]);
+
+        // Para verificar si la persona está muertita
+        $actaDefuncion = ActaDefuncion::where('fallecido_id', $persona->id)->first();
+
+        if ($actaDefuncion) {
+            $this->addError('dni', 'No puedes registrarte porque esta persona está registrada como fallecida.');
             return;
         }
 
@@ -45,14 +56,13 @@ new #[Layout('layouts.guest')] class extends Component
         $existingUser = User::where('persona_id', $persona->id)->first();
 
         if ($existingUser) {
-            // Si ya tiene un usuario, lanzar un error de validación
             $this->addError('dni', 'Esta persona ya tiene un usuario registrado.');
             return;
         }
 
         // Asociar la persona al usuario y registrar
         $validated['persona_id'] = $persona->id;
-        $validated['name'] = 'usuario ' . $persona->nombre; // ← aquí
+        $validated['name'] = 'usuario ' . $persona->nombre;
         $validated['password'] = Hash::make($validated['password']);
 
         event(new Registered($user = User::create($validated)));
@@ -63,53 +73,47 @@ new #[Layout('layouts.guest')] class extends Component
     }
 }; ?>
 
-<div>
+<div class="w-[90%] max-w-[380px] bg-black/70 text-gray-200 rounded-xl p-8 shadow-xl z-10 text-center mx-auto">
+    <p class="text-xl sm:text-2xl font-semibold mb-2 text-gray-100">Registro</p>
+    <hr class="border-gray-700 mb-6">
+
     <form wire:submit="register">
-        <!-- Name -->
-        <div class="text-gray-800">
-            <x-input-label for="name" :value="__('DNI')" />
-            <x-text-input wire:model="dni" id="dni" class="block mt-1 w-full" type="text" name="dni" required autofocus autocomplete="dni" />
-            <x-input-error :messages="$errors->get('dni')" class="mt-2" />
+        <!-- DNI -->
+        <div class="mb-4 text-left">
+            <x-input-label for="dni" :value="__('DNI')" class="text-gray-300" />
+            <x-text-input wire:model="dni" id="dni" class="block mt-1 w-full bg-gray-800 text-gray-200 border-gray-700 focus:border-gray-500 focus:ring-gray-500" type="text" name="dni" required autofocus autocomplete="dni" />
+            <x-input-error :messages="$errors->get('dni')" class="mt-2 text-red-400" />
         </div>
 
         <!-- Email Address -->
-        <div class="mt-4 text-gray-800">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input wire:model="email" id="email" class="block mt-1 w-full" type="email" name="email" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        <div class="mb-4 text-left">
+            <x-input-label for="email" :value="__('Email')" class="text-gray-300" />
+            <x-text-input wire:model="email" id="email" class="block mt-1 w-full bg-gray-800 text-gray-200 border-gray-700 focus:border-gray-500 focus:ring-gray-500" type="email" name="email" required autocomplete="username" />
+            <x-input-error :messages="$errors->get('email')" class="mt-2 text-red-400" />
         </div>
 
         <!-- Password -->
-        <div class="mt-4 text-gray-800">
-            <x-input-label for="password" :value="__('Contraseña')" />
-
-            <x-text-input wire:model="password" id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        <div class="mb-4 text-left">
+            <x-input-label for="password" :value="__('Contraseña')" class="text-gray-300" />
+            <x-text-input wire:model="password" id="password" class="block mt-1 w-full bg-gray-800 text-gray-200 border-gray-700 focus:border-gray-500 focus:ring-gray-500" type="password" name="password" required autocomplete="new-password" />
+            <x-input-error :messages="$errors->get('password')" class="mt-2 text-red-400" />
         </div>
 
         <!-- Confirm Password -->
-        <div class="mt-4 text-gray-800">
-            <x-input-label for="password_confirmation" :value="__('Confirmar contraseña')" />
-
-            <x-text-input wire:model="password_confirmation" id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+        <div class="mb-4 text-left">
+            <x-input-label for="password_confirmation" :value="__('Confirmar contraseña')" class="text-gray-300" />
+            <x-text-input wire:model="password_confirmation" id="password_confirmation" class="block mt-1 w-full bg-gray-800 text-gray-200 border-gray-700 focus:border-gray-500 focus:ring-gray-500" type="password" name="password_confirmation" required autocomplete="new-password" />
+            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2 text-red-400" />
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-900 hover:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}" wire:navigate>
-                {{ __('Ya registrado?') }}
-            </a>
-
-            <x-primary-button class="ms-4">
+        <div class="flex flex-col items-center justify-center mt-6 gap-4">
+            <x-primary-button class="p-2 sm:text-base bg-gray-700 rounded-lg w-full hover:bg-gray-800 text-white normal-case flex items-center justify-center">
                 {{ __('Registrarse') }}
             </x-primary-button>
+
+            <a class="underline text-sm text-gray-400 hover:text-gray-300" href="{{ route('login') }}" wire:navigate>
+                {{ __('¿Ya registrado? Inicia sesión') }}
+            </a>
         </div>
     </form>
 </div>
