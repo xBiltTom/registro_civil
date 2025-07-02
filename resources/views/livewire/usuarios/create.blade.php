@@ -27,7 +27,14 @@
                     <input wire:model="password" type="password" id="password" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>
                     @error('password') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                 </div>
-                <div class="flex flex-row space-x-4 mb-6">
+                <div>
+                    <label for="password_confirmation" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Confirmar Contraseña</label>
+                    <input wire:model="password_confirmation" type="password" id="password_confirmation" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>
+                    @error('password_confirmation') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                </div>
+                
+            </div>
+            <div class="flex flex-row space-x-4 mb-6">
                     <div class="flex-1">
                         <label class="text-white block mb-1" for="persona">Persona</label>
                         <div class="flex">
@@ -52,8 +59,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label for="ruta_foto" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Ruta de Foto</label>

@@ -12,6 +12,7 @@ class Create extends Component
     public $name;
     public $email;
     public $password;
+    public $password_confirmation;
     public $persona_id;
     public $ruta_foto;
     public $estado;
@@ -32,14 +33,19 @@ class Create extends Component
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email',
             'password' => 'required|string|min:8',
+            'password_confirmation' => 'required|string|min:8',
             'persona_id' => 'required|exists:personas,id',
             'ruta_foto' => 'nullable|string|max:255',
             'estado' => 'nullable',
         ],[
             'name.required' => 'El nombre es obligatorio.',
             'email.required' => 'El correo electrónico es obligatorio.',
+            'email.email' => 'Debe ingresar un correo válido.',
             'email.unique' => 'El correo electrónico ya está en uso.',
             'password.required' => 'La contraseña es obligatoria.',
+            'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
+            'password.confirmed' => 'Las contraseñas no coinciden.',
+            'password_confirmation.required' => 'Debe confirmar la contraseña.',
             'persona_id.required' => 'Debe seleccionar una persona.',
         ]);
 

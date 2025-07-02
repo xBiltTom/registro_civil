@@ -30,6 +30,11 @@
                     @error('password') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                 </div>
                 <div>
+                    <label for="password_confirmation" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Confirmar Contraseña</label>
+                    <input wire:model="password_confirmation" type="password" id="password_confirmation" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
+                    @error('password_confirmation') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                </div>
+                <div>
                     <label class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Estado</label>
                     <select wire:model="estado" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
                         <option value="1">Activo</option>

@@ -5,6 +5,7 @@ namespace App\Livewire\Administracion;
 use Livewire\Component;
 use App\Models\Persona;
 use Spatie\Permission\Models\Role;
+use Illuminate\Validation\Rules;
 
 class AdminIndex extends Component{
 
@@ -13,7 +14,8 @@ class AdminIndex extends Component{
     public $usuarios;
     public $roles;
     public $correo;
-    public $contraseña;
+    public $password;
+    public $password_confirmation;
     public $user_name;
     public $persona_id;
 
@@ -30,10 +32,27 @@ class AdminIndex extends Component{
     }
 
     public function registrarUsuario(){
-         $this->validate([
+        $this->validate([
             'user_name' => 'required|string|max:255',
             'correo' => 'required|email|max:255|unique:users,email',
-            'persona_id' => 'required|exists:personas,id'
+            'persona_id' => 'required|exists:personas,id|unique:users,persona_id',
+            'password' => ['required', 'string', 'confirmed', Rules\Password::defaults()],
+            'password_confirmation' => 'required|string',
+        ], [
+            'user_name.required' => 'El nombre de usuario es obligatorio.',
+            'user_name.max' => 'El nombre de usuario no debe superar los 255 caracteres.',
+            
+            'correo.required' => 'El correo electrónico es obligatorio.',
+            'correo.email' => 'El correo electrónico no tiene un formato válido.',
+            'correo.unique' => 'Este correo ya está registrado.',
+
+            'persona_id.required' => 'Debe seleccionar una persona.',
+            'persona_id.exists' => 'La persona seleccionada no existe.',
+            'persona_id.unique' => 'Esta persona ya tiene un usuario asociado.',
+
+            'password.required' => 'La contraseña es obligatoria.',
+            'password.confirmed' => 'La confirmación de la contraseña no coincide.',
+            'password_confirmation.required' => 'Debe confirmar la contraseña.',
         ]);
 
         $usuario = \App\Models\User::create([
@@ -42,11 +61,11 @@ class AdminIndex extends Component{
             'persona_id' => $this->persona_id,
             'ruta_foto' => null,
             'estado' => 1,
-            'password' => bcrypt($this->contraseña),
+            'password' => bcrypt($this->password),
             'email_verified_at' => now(),
         ]);
 
-        $this->reset(['user_name', 'correo', 'persona_id', 'contraseña']);
+        $this->reset(['user_name', 'correo', 'persona_id', 'password', 'password_confirmation']);
         session()->flash('message', 'Usuario agregado correctamente');
 
     }
