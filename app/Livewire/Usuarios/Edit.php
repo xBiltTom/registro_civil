@@ -12,6 +12,7 @@ class Edit extends Component
     public $name;
     public $email;
     public $password;
+    public $password_confirmation;
     public $persona_id;
     public $ruta_foto;
     public $estado;
@@ -41,16 +42,30 @@ class Edit extends Component
         $this->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email,' . $this->id_usuario,
-            'password' => 'nullable|string|min:8',
+            'password' => 'nullable|string|min:8|confirmed',
             'persona_id' => 'required|exists:personas,id',
             'ruta_foto' => 'nullable|string|max:255',
             'estado' => 'required|in:0,1',
         ], [
-            'email.unique' => 'El correo electrónico ya está en uso por otro usuario.',
             'name.required' => 'El nombre es obligatorio.',
+            'name.string' => 'El nombre debe ser un texto válido.',
+            'name.max' => 'El nombre no debe superar los 255 caracteres.',
+            
             'email.required' => 'El correo electrónico es obligatorio.',
+            'email.email' => 'Debe ingresar un correo electrónico válido.',
+            'email.max' => 'El correo electrónico no debe superar los 255 caracteres.',
+            'email.unique' => 'El correo electrónico ya está en uso por otro usuario.',
+
             'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
-            'persona_id.exists' => 'La persona seleccionada no es válida.',
+            'password.confirmed' => 'Las contraseñas no coinciden.',
+            'password.string' => 'La contraseña debe ser un texto válido.',
+            
+            'persona_id.required' => 'Debe seleccionar una persona.',
+            'persona_id.exists' => 'La persona seleccionada no existe.',
+
+            'ruta_foto.string' => 'La ruta de la foto debe ser un texto válido.',
+            'ruta_foto.max' => 'La ruta de la foto no debe superar los 255 caracteres.',
+            
             'estado.in' => 'El estado debe ser 0 (inactivo) o 1 (activo).',
         ]);
 
@@ -63,13 +78,19 @@ class Edit extends Component
 
         $usuario = User::find($this->id_usuario);
         if ($usuario) {
-            $usuario->update([
+            $data = [
                 'name' => $this->name,
                 'email' => $this->email,
                 'persona_id' => $this->persona_id,
                 'ruta_foto' => $this->ruta_foto,
                 'estado' => $this->estado,
-            ]);
+            ];
+
+            if (!empty($this->password)) {
+                $data['password'] = bcrypt($this->password);
+            }
+
+            $usuario->update($data);
 
             session()->flash('message', 'Usuario actualizado correctamente');
             return redirect()->route('usuarios.index');
