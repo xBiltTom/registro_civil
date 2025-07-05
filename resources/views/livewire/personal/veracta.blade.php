@@ -285,13 +285,13 @@
                     <a
                         @if($acta->tipo_id == 1)
                             href="{{ route('nacimientos-pdf', ['id' =>
-                            $acta->actaNacimiento->id]) }}"
+                            $acta->id]) }}"
                         @elseif($acta->tipo_id == 2)
                             href="{{ route('matrimonios-pdf', ['id' => $acta->id]) }}"
                         @elseif($acta->tipo_id == 3)
                             href="{{ route('defunciones-pdf', ['id' => $acta->id]) }}"
                         @endif
-                        wire:navigate
+
                     >
                         <button type="button" class="bg-red-600 hover:bg-red-700 text-white rounded-md px-6 py-2 transition-all duration-200">
                             Descargar acta

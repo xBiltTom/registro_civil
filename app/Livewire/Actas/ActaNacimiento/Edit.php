@@ -20,6 +20,7 @@ class Edit extends Component
         return view('placeholder');
     }
     public $acta_id;
+    public $identificador;
     public $folio_id;
     public $libro_id;
     public $fecha_registro;
@@ -47,6 +48,7 @@ class Edit extends Component
     $personaNacido = $actaNacimiento->nacido; // Usar la relación nacido
 
     $this->acta_id = $acta->id;
+    $this->identificador = $acta->identificador;
     $this->folio_id = $acta->folio_id;
     $this->libro_id = $acta->folio->libro_id;
     $this->fecha_registro = $acta->fecha_registro;

@@ -140,9 +140,11 @@ class Create extends Component
         ]);
 
         Log::info('Persona nacida creada correctamente.');
-
+        $actaid = "{$this->libro_id}-{$this->folio_id}-{$this->acta_id}";
+        Log::info("ID del acta generado: {$this->acta_id}");
         $acta = Acta::create([
-            'id' => $this->acta_id,
+            'id' => $actaid,
+            'identificador' => $this->acta_id,
             'fecha_registro' => $this->fecha_registro,
             'persona_id' => $alcalde->id,
             'folio_id' => $this->folio_id,
@@ -159,7 +161,7 @@ class Create extends Component
             'fecha_nacimiento' => $this->fecha_nacimiento,
             'madre_id' => $this->madre_id,
             'padre_id' => $this->padre_id,
-            'acta_id' => $this->acta_id,
+            'acta_id' => $actaid,
             'lugar_id' => $this->lugar_id,
         ]);
 

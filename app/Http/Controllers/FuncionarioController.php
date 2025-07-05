@@ -43,7 +43,7 @@ class FuncionarioController extends Controller
 
     }
 
-    public function pdfNacimiento($id)
+    public function pdfNacimiento(String $id)
     {
 
         $acta = Acta::find($id);
@@ -60,7 +60,7 @@ class FuncionarioController extends Controller
         return $pdf->stream();
     }
 
-    public function pdf($id){
+    public function pdf(String $id){
         $acta = Acta::find($id);
         $fallecido = Persona::find($acta->actaDefuncion->fallecido_id);
         $declarante = Persona::find($acta->actaDefuncion->declarante_id);
@@ -104,7 +104,7 @@ class FuncionarioController extends Controller
         return view('Actas.defunciones.create');
     }
 
-    public function editarActaDefunciones($id){
+    public function editarActaDefunciones(String $id){
         $this->authorize('viewAny', Acta::class);
         return view('Actas.defunciones.edit',compact('id'));
     }

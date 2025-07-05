@@ -95,7 +95,7 @@ class Create extends Component
             $this->addError('testigo2_id', 'Los testigos no pueden ser la misma persona.');
             return;
         }
-        
+
         //Validando la edad minima y que no este declarado como fallecido
         $personasAValidar = [
             'novio_id' => $this->novio_id,
@@ -157,8 +157,10 @@ class Create extends Component
         }
 
         // 3. Crear Acta (siempre nueva)
+        $actaId = "{$this->libro_id}-{$this->folio_id}-{$this->acta_id}";
         $acta = new \App\Models\Acta();
-        $acta->id = $this->acta_id;
+        $acta->id = $actaId;
+        $acta->identificador = $this->acta_id;
         $acta->tipo_id = 2;
         $acta->fecha_registro = $this->fecha_registro;
         $acta->persona_id = $alcalde->id;

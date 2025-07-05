@@ -87,11 +87,14 @@ class Create extends Component
             $folio->save();
         }
 
-        if(Acta::find($this->id_acta)==null){
+        $actaId = "{$this->id_libro}-{$this->id_folio}-{$this->id_acta}";
+
+        if(Acta::find($actaId)==null){
         //Acta no existe, crear acta
             $this->id_funcionario = auth()->user()->id;
             $acta = new Acta();
-            $acta->id = $this->id_acta;
+            $acta->id = $actaId;
+            $acta->identificador = $this->id_acta;
             $acta->fecha_registro = $this->fecha_registro;
             $acta->persona_id = $this->alcalde->id;
             $acta->folio_id = $this->id_folio;
@@ -102,7 +105,7 @@ class Create extends Component
 
             //Crear acta de defuncion
             $acta_defuncion = new ActaDefuncion();
-            $acta_defuncion->acta_id = $this->id_acta;
+            $acta_defuncion->acta_id = $actaId;
             $acta_defuncion->fallecido_id = $this->id_fallecido;
             $acta_defuncion->fecha_defuncion = $this->fecha_defuncion;
             $acta_defuncion->declarante_id = $this->id_declarante;

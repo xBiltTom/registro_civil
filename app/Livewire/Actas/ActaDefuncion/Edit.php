@@ -17,6 +17,7 @@ class Edit extends Component
     use WithPagination;
 
     public $id_acta;
+    public $identificador;
     public $id_folio;
     public $id_libro;
     public $id_declarante;
@@ -39,11 +40,12 @@ class Edit extends Component
         return view('placeholder');
     }
 
-    public function mount($id){
+    public function mount(String $id){
         $this->id_acta = $id;
         $acta = Acta::find($this->id_acta);
         if($acta){
             $this->id_folio = $acta->folio_id;
+            $this->identificador = $acta->identificador;
             $this->id_libro = $acta->folio->libro_id;
             $this->fecha_registro = $acta->fecha_registro;
             $this->id_funcionario = $acta->user_id;

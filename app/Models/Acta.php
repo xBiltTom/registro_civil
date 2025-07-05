@@ -10,10 +10,16 @@ class Acta extends Model
     use HasFactory;
 
     public $incrementing = false;      // El id NO es autoincremental
-    protected $keyType = 'int';
+    /* protected $keyType = 'String'; */
+
+
+    protected $casts = [
+        'id' => 'string',
+    ];
 
     protected $fillable = [
         'id',
+        'identificador',
         'fecha_registro',
         'persona_id',
         'folio_id',

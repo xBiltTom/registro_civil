@@ -12,6 +12,10 @@ class ActaNacimiento extends Model
     protected $table = 'acta_nacimientos';
     protected $primaryKey = 'acta_id';
 
+    protected $casts = [
+        'acta_id' => 'string',
+    ];
+
     protected $fillable = [
         'nacido_id', // Nuevo campo
         'sexo',
