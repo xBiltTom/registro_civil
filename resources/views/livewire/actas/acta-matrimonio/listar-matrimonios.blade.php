@@ -13,8 +13,8 @@
                         </div>
                     </div>
                 </div>
-                
-                
+
+
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
                         <th scope="col" class="px-6 py-3">Acta</th>
@@ -30,7 +30,7 @@
     @foreach($matrimonios as $matrimonio)
     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-            {{ $matrimonio->acta->id ?? 'Sin datos' }}
+            {{ $matrimonio->acta_id ?? 'Sin datos' }}
         </th>
         <td class="px-6 py-4">
             {{ $matrimonio->novio ? $matrimonio->novio->nombre . ' ' . $matrimonio->novio->apellido : 'Sin datos' }}
@@ -48,7 +48,8 @@
             {{ $matrimonio->testigo2 ? $matrimonio->testigo2->nombre . ' ' . $matrimonio->testigo2->apellido : 'Sin datos' }}
         </td>
         <td class="px-6 py-4 flex justify-center space-x-4 items-center">
-            <button wire:click="editar({{ $matrimonio->acta_id }})" class="text-blue-600 hover:underline mr-2">Editar</button>
+            {{-- <button wire:click="editar({{ $matrimonio->acta_id }})" class="text-blue-600 hover:underline mr-2">Editar</button> --}}
+            <a wire:navigate href="{{route('acta-matrimonio.editar',["id"=>$matrimonio->acta_id])}}" class="text-blue-600 hover:underline mr-2">Editar</a>
             <div x-data="{ showAlert: false }" class="relative">
                 <button type="button" @click="showAlert = true" class="font-medium text-red-600 dark:text-red-500 hover:underline cursor-pointer"> Eliminar acta </button>
                 <!-- Modal de confirmación -->

@@ -10,13 +10,13 @@ class PersonaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function __construct(){
+    /* public function __construct(){
         $this->authorizeResource(Persona::class);
-    }
+    } */
 
     public function index()
     {
-
+        $this->authorize('viewAny', Persona::class);
         /* $personas = Persona::all(); */
         return view('Personas.listar-personas');
     }
@@ -26,6 +26,7 @@ class PersonaController extends Controller
      */
     public function create()
     {
+        $this->authorize('viewAny', Persona::class);
         return view('Personas.create');
     }
 
@@ -55,6 +56,7 @@ class PersonaController extends Controller
      */
     public function edit(string $id)
     {
+        $this->authorize('viewAny', Persona::class);
         return view('Personas.edit', ['id' => $id]);
     }
 

@@ -75,5 +75,5 @@ new #[Layout('layouts.auth-login')] class extends Component
         </div>
     </form>
 
-    <p class="mt-6 text-sm text-gray-300">¿Eres nuevo aquí? <a href="{{route('register')}}" class="underline hover:text-gray-400">Regístrate</a></p>
+    <p class="mt-6 text-sm text-gray-300">¿Eres nuevo aquí? <a wire:navigate href="{{route('register')}}" class="underline hover:text-gray-400">Regístrate</a></p>
 </div>

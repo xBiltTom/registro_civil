@@ -43,16 +43,18 @@ class Atencion extends Component
     public function aceptarSolicitud(){
         $this->solicitud->detalle = "Atendido con normalidad";
         $this->solicitud->estado_id = 2; // Asumiendo que 2 es el estado de "Atendido"
+        $this->solicitud->funcionario_id = auth()->user()->id;
         $this->solicitud->save();
         session()->flash('success', 'Solicitud aceptada y atendida correctamente.');
         return redirect()->route('solicitudes');
     }
 
     public function rechazarSolicitud(){
-        dd(
+       /*  dd(
             $this->motivo_rechazo,
-        );
+        ); */
         $this->solicitud->detalle = $this->motivo_rechazo;
+        $this->solicitud->funcionario_id = auth()->user()->id;
         $this->solicitud->estado_id = 3; // Asumiendo que 3 es el estado de "Rechazado"
         $this->solicitud->save();
         session()->flash('success', 'Solicitud rechazada correctamente.');

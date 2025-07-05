@@ -9,9 +9,13 @@ use App\Http\Controllers\SolicitudController;
 
 Route::view('/', 'welcome');
 
-Route::view('dashboard', [HomeController::class, 'dashboard'])
+/* Route::view('dashboard', [HomeController::class, 'dashboard'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard'); */
+Route::get('dashboard', [HomeController::class, 'dashboard'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
+
 /*
 Route::view('users', 'livewire.listar-usuarios')
     ->middleware(['auth', 'verified'])

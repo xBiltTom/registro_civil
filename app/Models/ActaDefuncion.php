@@ -12,6 +12,10 @@ class ActaDefuncion extends Model
     protected $table = 'acta_defunciones';
     protected $primaryKey = 'acta_id';
 
+    protected $casts = [
+        'acta_id' => 'string',
+    ];
+
     protected $fillable = [
         'acta_id',
         'fallecido_id',

@@ -21,15 +21,15 @@
                 <th scope="col" class="px-6 py-3">Nacido</th>
                 <th scope="col" class="px-6 py-3">Fecha de Registro</th>
                 <th scope="col" class="px-6 py-3">Fecha de Nacimiento</th>
-                <th scope="col" class="px-6 py-3">Acción</th>
+                <th scope="col" class="px-6 py-3 text-left">Acción</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($nacimientos as $nacimiento)
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {{ $nacimiento->acta_id }}
-                </th>
+                </td>
                 {{-- <td class="px-6 py-4">
                     {{ $nacimiento->acta->folio->libro_id ?? 'N/A' }}
                 </td>
@@ -45,7 +45,7 @@
                 <td class="px-6 py-4">
                     {{ $nacimiento->fecha_nacimiento }}
                 </td>
-                <td class="px-6 py-4 text-right">
+                <td class="px-6 py-4 text-left">
                     <div class="flex justify-end space-x-2">
                         <a href="{{ route('actas-nacimiento-edit', ['id' => $nacimiento->acta_id]) }}" wire:navigate class="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer">
                             Editar

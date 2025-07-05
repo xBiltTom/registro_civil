@@ -11,21 +11,24 @@ class SolicitudController extends Controller
     //
 
     public function solicitudes(){
-        $this->authorize('viewAny', Acta::class);
+        $this->authorize('viewAny', Solicitud::class);
         return view('solicitudes.index');
     }
 
     public function historialSolicitudes(){
-        $this->authorize('viewAny', Acta::class);
+        $this->authorize('viewAny', Solicitud::class);
         return view('solicitudes.historial');
     }
 
     public function atenderSolicitud($id){
+        $this->authorize('viewAny', Acta::class);
         $solicitud = Solicitud::findOrFail($id);
         if($solicitud){
             $acta = Acta::findOrFail($solicitud->acta_id);
             $this->authorize('viewAny', Acta::class);
-            return view('solicitudes.atencion',compact('id'));
+            if($solicitud->estado_id==1){
+                return view('solicitudes.atencion',compact('id'));
+            }
         }
         return redirect()->route('solicitudes')->with('error', 'Solicitud no encontrada');
     }

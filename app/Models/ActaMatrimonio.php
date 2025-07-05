@@ -17,7 +17,11 @@ class ActaMatrimonio extends Model
     // Indica que la clave primaria es acta_id y no es autoincremental
     protected $primaryKey = 'acta_id';
     public $incrementing = false;
-    protected $keyType = 'int';
+    /* protected $keyType = 'int'; */
+
+    protected $casts = [
+        'acta_id' => 'string',
+    ];
 
     protected $fillable = [
         'acta_id',
@@ -26,7 +30,7 @@ class ActaMatrimonio extends Model
         'fecha_matrimonio',
         'testigo1_id',
         'testigo2_id',
-        
+
     ];
 
     public function novio()
@@ -54,5 +58,5 @@ public function acta()
     return $this->belongsTo(\App\Models\Acta::class, 'acta_id');
 }
 
-    
+
 }

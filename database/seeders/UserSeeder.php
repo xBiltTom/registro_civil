@@ -129,5 +129,11 @@ class UserSeeder extends Seeder
         $roleFuncionario->revokePermissionTo([
             'ver usuarios',
         ]); */
+        /* $roleFuncionario = Role::firstOrCreate(['name' => 'funcionario']);
+        Permission::create(['name' => 'ver solicitudes']);
+        Permission::create(['name' => 'atender solicitudes']);
+        // Asignar los permisos seleccionados al rol "funcionario"
+        $roleFuncionario->givePermissionTo(['ver solicitudes', 'atender solicitudes']); */
+
     }
 }

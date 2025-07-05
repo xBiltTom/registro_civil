@@ -13,6 +13,7 @@ class Edit extends Component
     public $libro_id;
     public $folio_id;
     public $acta_id;
+    public $identificador;
     public $fecha_registro;
     public $ruta_pdf;
     public $actaMatrimonio;
@@ -35,6 +36,7 @@ class Edit extends Component
     {
         $this->id_acta = $acta_id; // <--- Agrega esta línea
         $acta = Acta::find($this->id_acta);
+        $this->identificador = $acta->identificador;
         $this->libro_id = $acta->folio->libro_id;
         $this->folio_id = $acta->folio_id;
         $this->fecha_registro = $acta->fecha_registro;
@@ -68,7 +70,7 @@ class Edit extends Component
     public function actualizar()
     {
         $this->validate([
-            'acta_id' => 'required|integer|min:1|exists:actas,id',
+            'acta_id' => 'required|min:1|exists:actas,id',
             'libro_id' => 'required|integer',
             'folio_id' => 'required|integer|exists:folios,id',
             'fecha_registro' => 'required|date',

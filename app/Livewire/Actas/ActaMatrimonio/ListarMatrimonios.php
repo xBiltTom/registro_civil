@@ -65,7 +65,7 @@ class ListarMatrimonios extends Component
         }
     }
 
-    public function editar($acta_id)
+    public function editar(String $acta_id)
     {
         return redirect()->route('acta-matrimonio.editar', $acta_id);
     }
