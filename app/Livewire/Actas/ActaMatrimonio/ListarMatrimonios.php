@@ -38,30 +38,11 @@ class ListarMatrimonios extends Component
     {
         $matrimonio = ActaMatrimonio::find($acta_id);
         if ($matrimonio) {
-            // Guarda los IDs antes de eliminar el registro de matrimonio
-            $actaId = $matrimonio->acta_id ?? null;
-            $folioId = $matrimonio->folio_id ?? null;
-
-            // 1. Elimina el acta de matrimonio
             $matrimonio->delete();
 
-            // 2. Elimina el acta asociada
-            if ($actaId) {
-                $acta = \App\Models\Acta::find($actaId);
-                if ($acta) {
-                    $acta->delete();
-                }
-            }
-
-            // 3. Elimina el folio asociado
-            if ($folioId) {
-                $folio = \App\Models\Folio::find($folioId);
-                if ($folio) {
-                    $folio->delete();
-                }
-            }
-
             session()->flash('mensaje', 'Acta de matrimonio eliminada correctamente.');
+        }else {
+            session()->flash('mensaje', 'Acta no encontrada.');
         }
     }
 

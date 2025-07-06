@@ -7,6 +7,7 @@ use App\Models\ActaMatrimonio;
 use App\Models\Persona;
 use Illuminate\Support\Facades\DB;
 use App\Rules\FolioUnico;
+use App\Models\Folio;
 
 class Create extends Component
 {
@@ -49,15 +50,34 @@ class Create extends Component
 
     public function registrarActaMatrimonio()
     {
+        $libro = \App\Models\Libro::find($this->libro_id);
+        if (!$libro) {
+            $libro = new \App\Models\Libro();
+            $libro->id = $this->libro_id;
+            $libro->save();
+        }
+
+        // Crear el folio si no existe, para que la regla FolioUnico funcione correctamente
+        $folio = \App\Models\Folio::where('id', $this->folio_id)
+            ->where('libro_id', $this->libro_id)
+            ->first();
+
+        if (!$folio) {
+            $folio = new \App\Models\Folio();
+            $folio->id = $this->folio_id;
+            $folio->libro_id = $this->libro_id;
+            $folio->save();
+        }
+        
         $this->validate([
             'acta_id' => 'required|integer|min:1|unique:actas,id',
             'libro_id' => 'required|integer',
-            'folio_id' => ['required',new FolioUnico()],
+            'folio_id' => ['required',new FolioUnico($this->libro_id)],
             'fecha_registro' => 'required|date',
             'ruta_pdf' => 'required|string|max:255',
             'novio_id' => 'required|exists:personas,id',
             'novia_id' => 'required|exists:personas,id',
-            'fecha_matrimonio' => 'required|date',
+            'fecha_matrimonio' => 'required|date|before_or_equal:fecha_registro',
             'testigo1_id' => 'required|exists:personas,id',
             'testigo2_id' => 'required|exists:personas,id',
         ], [
@@ -70,6 +90,7 @@ class Create extends Component
             'novio_id.required' => 'El campo del Novio es obligatorio.',
             'novia_id.required' => 'El campo de la Novia es obligatorio.',
             'fecha_matrimonio.required' => 'La fecha del matrimonio es obligatoria.',
+            'fecha_matrimonio.before_or_equal' => 'La fecha de matrimonio debe ser igual o anterior a la fecha de registro.',
             'testigo1_id.required' => 'El campo del primer testigo es obligatorio.',
             'testigo2_id.required' => 'El campo del segundo testigo es obligatorio.',
         ]);
@@ -136,25 +157,7 @@ class Create extends Component
             return;
         }
 
-        // 1. Verificar o crear Libro
-        $libro = \App\Models\Libro::find($this->libro_id);
-        if (!$libro) {
-            $libro = new \App\Models\Libro();
-            $libro->id = $this->libro_id;
-            $libro->save();
-        }
-
-        // 2. Verificar Folio (NO crear si ya existe)
-        $folio = \App\Models\Folio::where('id', $this->folio_id)->first();
-        if ($folio) {
-            $this->addError('folio_id', 'Ya existe un folio con ese ID. Solo un folio por acta.');
-            return;
-        } else {
-            $folio = new \App\Models\Folio();
-            $folio->id = $this->folio_id;
-            $folio->libro_id = $this->libro_id;
-            $folio->save();
-        }
+        
 
         // 3. Crear Acta (siempre nueva)
         $actaId = "{$this->libro_id}-{$this->folio_id}-{$this->acta_id}";

@@ -17,29 +17,26 @@
                 <div>
                     <label for="libro_id" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Libro</label>
                     <input wire:model="libro_id" type="number" id="libro_id" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>
-                    
-                </div>
-                @error('libro_id')
+                    @error('libro_id')
                         <span class="text-sm text-red-600 dark:text-red-400">{{ $message }}</span>
                     @enderror
+                </div>
                 {{-- Folio --}}
                 <div>
                     <label for="folio_id" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Folio</label>
                     <input wire:model="folio_id" type="number" id="folio_id" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>
-                    
-                </div>
-                @error('folio_id')
+                    @error('folio_id')
                         <span class="text-sm text-red-600 dark:text-red-400">{{ $message }}</span>
                     @enderror
+                </div>
                 {{-- Acta --}}
                 <div>
                     <label for="acta_id" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Acta</label>
                     <input wire:model="acta_id" type="number" id="acta_id" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>
-                    
-                </div>
-                @error('acta_id')
+                    @error('acta_id')
                         <span class="text-sm text-red-600 dark:text-red-400">{{ $message }}</span>
                     @enderror
+                </div>
                 {{-- Fecha de registro --}}
                 <div>
                     <label for="fecha_registro" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Fecha de Registro</label>
@@ -48,9 +45,6 @@
                         <span class="text-sm text-red-600 dark:text-red-400">{{ $message }}</span>
                     @enderror
                 </div>
-                @error('fecha_registro')
-                        <span class="text-sm text-red-600 dark:text-red-400">{{ $message }}</span>
-                    @enderror
                 {{-- Ruta PDF --}}
                 <div class="md:col-span-2">
                     <label for="ruta_pdf" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Ruta PDF</label>
@@ -59,9 +53,6 @@
                         <span class="text-sm text-red-600 dark:text-red-400">{{ $message }}</span>
                     @enderror
                 </div>
-                @error('ruta_pdf')
-                        <span class="text-sm text-red-600 dark:text-red-400">{{ $message }}</span>
-                    @enderror
             </div>
 
             <h2 class="text-xl font-semibold text-gray-800 dark:text-white border-b pt-6 pb-2">Datos del Matrimonio</h2>
@@ -93,10 +84,11 @@
                         
                     </div>
                 </div>
-            </div>
-            @error('novio_id')
+                @error('novio_id')
                                 <span class="text-sm text-red-600 dark:text-red-400">{{ $message }}</span>
                             @enderror
+            </div>
+            
 
             {{-- Novia --}}
             <div class="flex flex-row space-x-4 mb-6">
@@ -124,10 +116,11 @@
                         </button>
                     </div>
                 </div>
-            </div>
-            @error('novia_id')
+                @error('novia_id')
                                 <span class="text-sm text-red-600 dark:text-red-400">{{ $message }}</span>
                             @enderror
+            </div>
+            
 
             {{-- Testigo 1 --}}
             <div class="flex flex-row space-x-4 mb-6">
@@ -155,10 +148,11 @@
                         </button>
                     </div>
                 </div>
-            </div>
-            @error('testigo1_id')
+                @error('testigo1_id')
                                 <span class="text-sm text-red-600 dark:text-red-400">{{ $message }}</span>
                             @enderror
+            </div>
+            
 
             {{-- Testigo 2 --}}
             <div class="flex flex-row space-x-4 mb-6">
@@ -186,19 +180,20 @@
                         </button>
                     </div>
                 </div>
-            </div>
-            @error('testigo2_id')
+                @error('testigo2_id')
                                 <span class="text-sm text-red-600 dark:text-red-400">{{ $message }}</span>
                             @enderror
+            </div>
+            
 
             <div>
                 <label for="fecha_matrimonio" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Fecha de Matrimonio</label>
                 <input wire:model="fecha_matrimonio" type="date" id="fecha_matrimonio" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>
-                
-            </div>
-            @error('fecha_matrimonio')
+                @error('fecha_matrimonio')
                     <span class="text-sm text-red-600 dark:text-red-400">{{ $message }}</span>
                 @enderror
+            </div>
+            
 
             <div class="mt-6 flex justify-end">
                 <button class="bg-green-600 hover:bg-green-700 text-white rounded-md px-6 py-2 transition-all duration-200" type="submit">
