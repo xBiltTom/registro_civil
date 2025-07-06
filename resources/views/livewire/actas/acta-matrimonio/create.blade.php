@@ -17,7 +17,7 @@
                 <div>
                     <label for="libro_id" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Libro</label>
                     <input wire:model="libro_id" type="number" id="libro_id" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>
-                    
+
                 </div>
                 @error('libro_id')
                         <span class="text-sm text-red-600 dark:text-red-400">{{ $message }}</span>
@@ -26,7 +26,7 @@
                 <div>
                     <label for="folio_id" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Folio</label>
                     <input wire:model="folio_id" type="number" id="folio_id" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>
-                    
+
                 </div>
                 @error('folio_id')
                         <span class="text-sm text-red-600 dark:text-red-400">{{ $message }}</span>
@@ -35,7 +35,7 @@
                 <div>
                     <label for="acta_id" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Acta</label>
                     <input wire:model="acta_id" type="number" id="acta_id" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>
-                    
+
                 </div>
                 @error('acta_id')
                         <span class="text-sm text-red-600 dark:text-red-400">{{ $message }}</span>
@@ -86,11 +86,11 @@
                             class="flex-1 bg-gray-800 rounded-l-md border-gray-700 text-white px-3 py-2"
                             type="text"
                             readonly>
-                            
+
                         <button type="button" x-on:click="$dispatch('open-novio-modal')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r-md">
                             Buscar
                         </button>
-                        
+
                     </div>
                 </div>
             </div>
@@ -118,7 +118,7 @@
                             class="flex-1 bg-gray-800 rounded-l-md border-gray-700 text-white px-3 py-2"
                             type="text"
                             readonly>
-                            
+
                         <button type="button" x-on:click="$dispatch('open-novia-modal')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r-md">
                             Buscar
                         </button>
@@ -149,7 +149,7 @@
                             class="flex-1 bg-gray-800 rounded-l-md border-gray-700 text-white px-3 py-2"
                             type="text"
                             readonly>
-                            
+
                         <button type="button" x-on:click="$dispatch('open-testigo1-modal')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r-md">
                             Buscar
                         </button>
@@ -180,7 +180,7 @@
                             class="flex-1 bg-gray-800 rounded-l-md border-gray-700 text-white px-3 py-2"
                             type="text"
                             readonly>
-                            
+
                         <button type="button" x-on:click="$dispatch('open-testigo2-modal')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r-md">
                             Buscar
                         </button>
@@ -194,7 +194,7 @@
             <div>
                 <label for="fecha_matrimonio" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Fecha de Matrimonio</label>
                 <input wire:model="fecha_matrimonio" type="date" id="fecha_matrimonio" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>
-                
+
             </div>
             @error('fecha_matrimonio')
                     <span class="text-sm text-red-600 dark:text-red-400">{{ $message }}</span>
@@ -226,8 +226,7 @@
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
                         Asignar Novio
                     </h3>
-                    <button
-                        x-on:click="$dispatch('close-novio-modal')"
+                    <button x-on:click="$dispatch('close-novio-modal')"
                         class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
                         <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
@@ -238,36 +237,44 @@
                 <div class="p-4">
                     <div x-data="{
                         personas: @js($personasSolterasNovio),
-                        search: '',
+                        buscar: '',
                         paginaActual: 1,
                         porPagina: 5,
-                        init() {
-                            this.$watch('search', () => {
-                                if (this.paginaActual > this.totalPaginas) {
-                                    this.paginaActual = 1;
-                                }
+
+                        get personasFiltradas() {
+                            if (!this.buscar) return this.personas;
+                            const termino = this.buscar.toLowerCase();
+                            return this.personas.filter(p => {
+                                const nombreCompleto = `${p.nombre} ${p.apellido}`.toLowerCase();
+                                return (p.dni?.toLowerCase().includes(termino) || false) ||
+                                       nombreCompleto.includes(termino);
                             });
                         },
-                        get personasFiltradas() {
-                            if (!this.search) return this.personas;
-                            const s = this.search.toLowerCase();
-                            return this.personas.filter(p =>
-                                p.dni.toLowerCase().includes(s) ||
-                                p.nombre.toLowerCase().includes(s) ||
-                                p.apellido.toLowerCase().includes(s)
-                            );
-                        },
+
                         get personasPaginadas() {
-                            let inicio = (this.paginaActual - 1) * this.porPagina;
+                            const inicio = (this.paginaActual - 1) * this.porPagina;
                             return this.personasFiltradas.slice(inicio, inicio + this.porPagina);
                         },
+
                         get totalPaginas() {
-                            return Math.max(1, Math.ceil(this.personasFiltradas.length / this.porPagina));
+                            return Math.ceil(this.personasFiltradas.length / this.porPagina) || 1;
                         }
                     }">
                         <div class="mb-4">
-                            <input @input="paginaActual = 1" x-model="search" type="search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Buscar personas..." />
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                                    </svg>
+                                </div>
+                                <input x-model="buscar"
+                                       @input="paginaActual = 1"
+                                       type="search"
+                                       class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                       placeholder="Buscar novios...">
+                            </div>
                         </div>
+
                         <div class="relative shadow-md sm:rounded-lg">
                             <div class="overflow-x-auto">
                                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -283,15 +290,12 @@
                                     <tbody>
                                         <template x-for="persona in personasPaginadas" :key="persona.id">
                                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                                <th class="px-6 py-4 font-medium text-gray-900 dark:text-white" x-text="persona.dni"></th>
+                                                <td class="px-6 py-4 font-medium text-gray-900 dark:text-white" x-text="persona.dni || 'N/A'"></td>
                                                 <td class="px-6 py-4" x-text="persona.nombre"></td>
                                                 <td class="px-6 py-4" x-text="persona.apellido"></td>
-                                                <td class="px-6 py-4" x-text="new Date().getFullYear() - new Date(persona.fecha_nacimiento).getFullYear() + ' años'"></td>
+                                                <td class="px-6 py-4" x-text="persona.fecha_nacimiento ? (new Date().getFullYear() - new Date(persona.fecha_nacimiento).getFullYear()) + ' años' : 'N/A'"></td>
                                                 <td class="px-6 py-4 text-right">
-                                                    <button @click="() => {
-                                                        $dispatch('novio-seleccionado', {id: persona.id, nombre: persona.nombre + ' ' + persona.apellido});
-                                                        $dispatch('close-novio-modal');
-                                                    }"
+                                                    <button @click="$dispatch('novio-seleccionado', {id: persona.id, nombre: `${persona.nombre} ${persona.apellido}`}); $dispatch('close-novio-modal');"
                                                         type="button" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md">
                                                         Seleccionar
                                                     </button>
@@ -301,21 +305,21 @@
                                     </tbody>
                                 </table>
                             </div>
+
                             <div x-show="personasFiltradas.length === 0" class="mt-4 text-center text-gray-500">
                                 No se encontraron personas.
                             </div>
+
                             <div class="flex justify-between items-center mt-4">
-                                <button
-                                    @click="paginaActual = Math.max(paginaActual - 1, 1)"
-                                    :disabled="paginaActual === 1"
-                                    class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 disabled:opacity-50">
+                                <button @click="paginaActual = Math.max(paginaActual - 1, 1)"
+                                        :disabled="paginaActual === 1"
+                                        class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 disabled:opacity-50">
                                     Anterior
                                 </button>
-                                <span x-text="'Página ' + paginaActual + ' de ' + totalPaginas"></span>
-                                <button
-                                    @click="paginaActual = Math.min(paginaActual + 1, totalPaginas)"
-                                    :disabled="paginaActual === totalPaginas"
-                                    class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 disabled:opacity-50">
+                                <span x-text="`Página ${paginaActual} de ${totalPaginas}`"></span>
+                                <button @click="paginaActual = Math.min(paginaActual + 1, totalPaginas)"
+                                        :disabled="paginaActual === totalPaginas"
+                                        class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 disabled:opacity-50">
                                     Siguiente
                                 </button>
                             </div>
@@ -336,8 +340,7 @@
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
                         Asignar Novia
                     </h3>
-                    <button
-                        x-on:click="$dispatch('close-novia-modal')"
+                    <button x-on:click="$dispatch('close-novia-modal')"
                         class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
                         <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
@@ -348,36 +351,44 @@
                 <div class="p-4">
                     <div x-data="{
                         personas: @js($personasSolterasNovia),
-                        search: '',
+                        buscar: '',
                         paginaActual: 1,
                         porPagina: 5,
-                        init() {
-                            this.$watch('search', () => {
-                                if (this.paginaActual > this.totalPaginas) {
-                                    this.paginaActual = 1;
-                                }
+
+                        get personasFiltradas() {
+                            if (!this.buscar) return this.personas;
+                            const termino = this.buscar.toLowerCase();
+                            return this.personas.filter(p => {
+                                const nombreCompleto = `${p.nombre} ${p.apellido}`.toLowerCase();
+                                return (p.dni?.toLowerCase().includes(termino) || false) ||
+                                       nombreCompleto.includes(termino);
                             });
                         },
-                        get personasFiltradas() {
-                            if (!this.search) return this.personas;
-                            const s = this.search.toLowerCase();
-                            return this.personas.filter(p =>
-                                p.dni.toLowerCase().includes(s) ||
-                                p.nombre.toLowerCase().includes(s) ||
-                                p.apellido.toLowerCase().includes(s)
-                            );
-                        },
+
                         get personasPaginadas() {
-                            let inicio = (this.paginaActual - 1) * this.porPagina;
+                            const inicio = (this.paginaActual - 1) * this.porPagina;
                             return this.personasFiltradas.slice(inicio, inicio + this.porPagina);
                         },
+
                         get totalPaginas() {
-                            return Math.max(1, Math.ceil(this.personasFiltradas.length / this.porPagina));
+                            return Math.ceil(this.personasFiltradas.length / this.porPagina) || 1;
                         }
                     }">
                         <div class="mb-4">
-                            <input @input="paginaActual = 1" x-model="search" type="search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Buscar personas..." />
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                                    </svg>
+                                </div>
+                                <input x-model="buscar"
+                                       @input="paginaActual = 1"
+                                       type="search"
+                                       class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                       placeholder="Buscar novias...">
+                            </div>
                         </div>
+
                         <div class="relative shadow-md sm:rounded-lg">
                             <div class="overflow-x-auto">
                                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -393,15 +404,12 @@
                                     <tbody>
                                         <template x-for="persona in personasPaginadas" :key="persona.id">
                                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                                <th class="px-6 py-4 font-medium text-gray-900 dark:text-white" x-text="persona.dni"></th>
+                                                <td class="px-6 py-4 font-medium text-gray-900 dark:text-white" x-text="persona.dni || 'N/A'"></td>
                                                 <td class="px-6 py-4" x-text="persona.nombre"></td>
                                                 <td class="px-6 py-4" x-text="persona.apellido"></td>
-                                                <td class="px-6 py-4" x-text="new Date().getFullYear() - new Date(persona.fecha_nacimiento).getFullYear() + ' años'"></td>
+                                                <td class="px-6 py-4" x-text="persona.fecha_nacimiento ? (new Date().getFullYear() - new Date(persona.fecha_nacimiento).getFullYear()) + ' años' : 'N/A'"></td>
                                                 <td class="px-6 py-4 text-right">
-                                                    <button @click="() => {
-                                                        $dispatch('novia-seleccionado', {id: persona.id, nombre: persona.nombre + ' ' + persona.apellido});
-                                                        $dispatch('close-novia-modal');
-                                                    }"
+                                                    <button @click="$dispatch('novia-seleccionado', {id: persona.id, nombre: `${persona.nombre} ${persona.apellido}`}); $dispatch('close-novia-modal');"
                                                         type="button" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md">
                                                         Seleccionar
                                                     </button>
@@ -411,21 +419,21 @@
                                     </tbody>
                                 </table>
                             </div>
+
                             <div x-show="personasFiltradas.length === 0" class="mt-4 text-center text-gray-500">
                                 No se encontraron personas.
                             </div>
+
                             <div class="flex justify-between items-center mt-4">
-                                <button
-                                    @click="paginaActual = Math.max(paginaActual - 1, 1)"
-                                    :disabled="paginaActual === 1"
-                                    class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 disabled:opacity-50">
+                                <button @click="paginaActual = Math.max(paginaActual - 1, 1)"
+                                        :disabled="paginaActual === 1"
+                                        class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 disabled:opacity-50">
                                     Anterior
                                 </button>
-                                <span x-text="'Página ' + paginaActual + ' de ' + totalPaginas"></span>
-                                <button
-                                    @click="paginaActual = Math.min(paginaActual + 1, totalPaginas)"
-                                    :disabled="paginaActual === totalPaginas"
-                                    class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 disabled:opacity-50">
+                                <span x-text="`Página ${paginaActual} de ${totalPaginas}`"></span>
+                                <button @click="paginaActual = Math.min(paginaActual + 1, totalPaginas)"
+                                        :disabled="paginaActual === totalPaginas"
+                                        class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 disabled:opacity-50">
                                     Siguiente
                                 </button>
                             </div>
@@ -442,39 +450,59 @@
          x-on:close-testigo1-modal.window="showModal = false">
         <div x-show="showModal" class="fixed top-0 left-0 right-0 z-50 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50" style="display: none;">
             <div class="relative bg-white rounded-lg shadow dark:bg-gray-700 w-96 sm:w-[40rem]">
+                <div class="flex items-center justify-between p-4 border-b dark:border-gray-600">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                        Asignar Testigo 1
+                    </h3>
+                    <button x-on:click="$dispatch('close-testigo1-modal')"
+                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                        </svg>
+                        <span class="sr-only">Cerrar modal</span>
+                    </button>
+                </div>
                 <div class="p-4">
                     <div x-data="{
                         personas: @js($personas),
-                        search: '',
+                        buscar: '',
                         paginaActual: 1,
                         porPagina: 5,
-                        init() {
-                            this.$watch('search', () => {
-                                if (this.paginaActual > this.totalPaginas) {
-                                    this.paginaActual = 1;
-                                }
+
+                        get personasFiltradas() {
+                            if (!this.buscar) return this.personas;
+                            const termino = this.buscar.toLowerCase();
+                            return this.personas.filter(p => {
+                                const nombreCompleto = `${p.nombre} ${p.apellido}`.toLowerCase();
+                                return (p.dni?.toLowerCase().includes(termino) || false) ||
+                                       nombreCompleto.includes(termino);
                             });
                         },
-                        get personasFiltradas() {
-                            if (!this.search) return this.personas;
-                            const s = this.search.toLowerCase();
-                            return this.personas.filter(p =>
-                                p.dni.toLowerCase().includes(s) ||
-                                p.nombre.toLowerCase().includes(s) ||
-                                p.apellido.toLowerCase().includes(s)
-                            );
-                        },
+
                         get personasPaginadas() {
-                            let inicio = (this.paginaActual - 1) * this.porPagina;
+                            const inicio = (this.paginaActual - 1) * this.porPagina;
                             return this.personasFiltradas.slice(inicio, inicio + this.porPagina);
                         },
+
                         get totalPaginas() {
-                            return Math.max(1, Math.ceil(this.personasFiltradas.length / this.porPagina));
+                            return Math.ceil(this.personasFiltradas.length / this.porPagina) || 1;
                         }
                     }">
                         <div class="mb-4">
-                            <input @input="paginaActual = 1" x-model="search" type="search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Buscar personas..." />
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                                    </svg>
+                                </div>
+                                <input x-model="buscar"
+                                       @input="paginaActual = 1"
+                                       type="search"
+                                       class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                       placeholder="Buscar testigos...">
+                            </div>
                         </div>
+
                         <div class="relative shadow-md sm:rounded-lg">
                             <div class="overflow-x-auto">
                                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -490,15 +518,12 @@
                                     <tbody>
                                         <template x-for="persona in personasPaginadas" :key="persona.id">
                                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                                <th class="px-6 py-4 font-medium text-gray-900 dark:text-white" x-text="persona.dni"></th>
+                                                <td class="px-6 py-4 font-medium text-gray-900 dark:text-white" x-text="persona.dni || 'N/A'"></td>
                                                 <td class="px-6 py-4" x-text="persona.nombre"></td>
                                                 <td class="px-6 py-4" x-text="persona.apellido"></td>
-                                                <td class="px-6 py-4" x-text="new Date().getFullYear() - new Date(persona.fecha_nacimiento).getFullYear() + ' años'"></td>
+                                                <td class="px-6 py-4" x-text="persona.fecha_nacimiento ? (new Date().getFullYear() - new Date(persona.fecha_nacimiento).getFullYear()) + ' años' : 'N/A'"></td>
                                                 <td class="px-6 py-4 text-right">
-                                                    <button @click="() => {
-                                                        $dispatch('testigo1-seleccionado', {id: persona.id, nombre: persona.nombre + ' ' + persona.apellido});
-                                                        $dispatch('close-testigo1-modal');
-                                                    }"
+                                                    <button @click="$dispatch('testigo1-seleccionado', {id: persona.id, nombre: `${persona.nombre} ${persona.apellido}`}); $dispatch('close-testigo1-modal');"
                                                         type="button" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md">
                                                         Seleccionar
                                                     </button>
@@ -508,21 +533,21 @@
                                     </tbody>
                                 </table>
                             </div>
+
                             <div x-show="personasFiltradas.length === 0" class="mt-4 text-center text-gray-500">
                                 No se encontraron personas.
                             </div>
+
                             <div class="flex justify-between items-center mt-4">
-                                <button
-                                    @click="paginaActual = Math.max(paginaActual - 1, 1)"
-                                    :disabled="paginaActual === 1"
-                                    class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 disabled:opacity-50">
+                                <button @click="paginaActual = Math.max(paginaActual - 1, 1)"
+                                        :disabled="paginaActual === 1"
+                                        class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 disabled:opacity-50">
                                     Anterior
                                 </button>
-                                <span x-text="'Página ' + paginaActual + ' de ' + totalPaginas"></span>
-                                <button
-                                    @click="paginaActual = Math.min(paginaActual + 1, totalPaginas)"
-                                    :disabled="paginaActual === totalPaginas"
-                                    class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 disabled:opacity-50">
+                                <span x-text="`Página ${paginaActual} de ${totalPaginas}`"></span>
+                                <button @click="paginaActual = Math.min(paginaActual + 1, totalPaginas)"
+                                        :disabled="paginaActual === totalPaginas"
+                                        class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 disabled:opacity-50">
                                     Siguiente
                                 </button>
                             </div>
@@ -539,39 +564,59 @@
          x-on:close-testigo2-modal.window="showModal = false">
         <div x-show="showModal" class="fixed top-0 left-0 right-0 z-50 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50" style="display: none;">
             <div class="relative bg-white rounded-lg shadow dark:bg-gray-700 w-96 sm:w-[40rem]">
+                <div class="flex items-center justify-between p-4 border-b dark:border-gray-600">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                        Asignar Testigo 2
+                    </h3>
+                    <button x-on:click="$dispatch('close-testigo2-modal')"
+                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                        </svg>
+                        <span class="sr-only">Cerrar modal</span>
+                    </button>
+                </div>
                 <div class="p-4">
                     <div x-data="{
                         personas: @js($personas),
-                        search: '',
+                        buscar: '',
                         paginaActual: 1,
                         porPagina: 5,
-                        init() {
-                            this.$watch('search', () => {
-                                if (this.paginaActual > this.totalPaginas) {
-                                    this.paginaActual = 1;
-                                }
+
+                        get personasFiltradas() {
+                            if (!this.buscar) return this.personas;
+                            const termino = this.buscar.toLowerCase();
+                            return this.personas.filter(p => {
+                                const nombreCompleto = `${p.nombre} ${p.apellido}`.toLowerCase();
+                                return (p.dni?.toLowerCase().includes(termino) || false) ||
+                                       nombreCompleto.includes(termino);
                             });
                         },
-                        get personasFiltradas() {
-                            if (!this.search) return this.personas;
-                            const s = this.search.toLowerCase();
-                            return this.personas.filter(p =>
-                                p.dni.toLowerCase().includes(s) ||
-                                p.nombre.toLowerCase().includes(s) ||
-                                p.apellido.toLowerCase().includes(s)
-                            );
-                        },
+
                         get personasPaginadas() {
-                            let inicio = (this.paginaActual - 1) * this.porPagina;
+                            const inicio = (this.paginaActual - 1) * this.porPagina;
                             return this.personasFiltradas.slice(inicio, inicio + this.porPagina);
                         },
+
                         get totalPaginas() {
-                            return Math.max(1, Math.ceil(this.personasFiltradas.length / this.porPagina));
+                            return Math.ceil(this.personasFiltradas.length / this.porPagina) || 1;
                         }
                     }">
                         <div class="mb-4">
-                            <input @input="paginaActual = 1" x-model="search" type="search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Buscar personas..." />
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                                    </svg>
+                                </div>
+                                <input x-model="buscar"
+                                       @input="paginaActual = 1"
+                                       type="search"
+                                       class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                       placeholder="Buscar testigos...">
+                            </div>
                         </div>
+
                         <div class="relative shadow-md sm:rounded-lg">
                             <div class="overflow-x-auto">
                                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -587,15 +632,12 @@
                                     <tbody>
                                         <template x-for="persona in personasPaginadas" :key="persona.id">
                                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                                <th class="px-6 py-4 font-medium text-gray-900 dark:text-white" x-text="persona.dni"></th>
+                                                <td class="px-6 py-4 font-medium text-gray-900 dark:text-white" x-text="persona.dni || 'N/A'"></td>
                                                 <td class="px-6 py-4" x-text="persona.nombre"></td>
                                                 <td class="px-6 py-4" x-text="persona.apellido"></td>
-                                                <td class="px-6 py-4" x-text="new Date().getFullYear() - new Date(persona.fecha_nacimiento).getFullYear() + ' años'"></td>
+                                                <td class="px-6 py-4" x-text="persona.fecha_nacimiento ? (new Date().getFullYear() - new Date(persona.fecha_nacimiento).getFullYear()) + ' años' : 'N/A'"></td>
                                                 <td class="px-6 py-4 text-right">
-                                                    <button @click="() => {
-                                                        $dispatch('testigo2-seleccionado', {id: persona.id, nombre: persona.nombre + ' ' + persona.apellido});
-                                                        $dispatch('close-testigo2-modal');
-                                                    }"
+                                                    <button @click="$dispatch('testigo2-seleccionado', {id: persona.id, nombre: `${persona.nombre} ${persona.apellido}`}); $dispatch('close-testigo2-modal');"
                                                         type="button" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md">
                                                         Seleccionar
                                                     </button>
@@ -605,21 +647,21 @@
                                     </tbody>
                                 </table>
                             </div>
+
                             <div x-show="personasFiltradas.length === 0" class="mt-4 text-center text-gray-500">
                                 No se encontraron personas.
                             </div>
+
                             <div class="flex justify-between items-center mt-4">
-                                <button
-                                    @click="paginaActual = Math.max(paginaActual - 1, 1)"
-                                    :disabled="paginaActual === 1"
-                                    class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 disabled:opacity-50">
+                                <button @click="paginaActual = Math.max(paginaActual - 1, 1)"
+                                        :disabled="paginaActual === 1"
+                                        class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 disabled:opacity-50">
                                     Anterior
                                 </button>
-                                <span x-text="'Página ' + paginaActual + ' de ' + totalPaginas"></span>
-                                <button
-                                    @click="paginaActual = Math.min(paginaActual + 1, totalPaginas)"
-                                    :disabled="paginaActual === totalPaginas"
-                                    class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 disabled:opacity-50">
+                                <span x-text="`Página ${paginaActual} de ${totalPaginas}`"></span>
+                                <button @click="paginaActual = Math.min(paginaActual + 1, totalPaginas)"
+                                        :disabled="paginaActual === totalPaginas"
+                                        class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 disabled:opacity-50">
                                     Siguiente
                                 </button>
                             </div>
