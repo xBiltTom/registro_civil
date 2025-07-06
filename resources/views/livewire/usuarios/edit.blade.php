@@ -103,64 +103,110 @@
                             search: '',
                             paginaActual: 1,
                             porPagina: 5,
+
                             init() {
                                 this.$watch('search', () => {
-                                    if (this.paginaActual > this.totalPaginas) this.paginaActual = 1;
+                                    if (this.paginaActual > this.totalPaginas) {
+                                        this.paginaActual = 1;
+                                    }
                                 });
                             },
+
                             get personasFiltradas() {
                                 if (!this.search) return this.personas;
                                 const s = this.search.toLowerCase();
                                 return this.personas.filter(p =>
-                                    p.dni.toLowerCase().includes(s) ||
-                                    p.nombre.toLowerCase().includes(s) ||
-                                    p.apellido.toLowerCase().includes(s)
+                                    (p.dni?.toLowerCase().includes(s) || '') ||
+                                    (p.nombre?.toLowerCase().includes(s) || '') ||
+                                    (p.apellido?.toLowerCase().includes(s) || '')
                                 );
                             },
+
                             get personasPaginadas() {
-                                const i = (this.paginaActual - 1) * this.porPagina;
-                                return this.personasFiltradas.slice(i, i + this.porPagina);
+                                let inicio = (this.paginaActual - 1) * this.porPagina;
+                                return this.personasFiltradas.slice(inicio, inicio + this.porPagina);
                             },
+
                             get totalPaginas() {
                                 return Math.max(1, Math.ceil(this.personasFiltradas.length / this.porPagina));
                             }
                         }">
-                            <input x-model="search" @input="paginaActual = 1" type="search" placeholder="Buscar persona..." class="block w-full p-2 mb-4 rounded-lg border-gray-300 dark:bg-gray-700 dark:text-white" />
+                            <div class="mb-4">
+                                <label for="search-persona" class="sr-only">Buscar persona</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                                        </svg>
+                                    </div>
+                                    <input
+                                        x-model="search"
+                                        @input="paginaActual = 1"
+                                        type="search"
+                                        id="search-persona"
+                                        class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="Buscar por DNI, nombre o apellido..."
+                                    />
+                                </div>
+                            </div>
 
-                            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                                <thead class="text-xs uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                    <tr>
-                                        <th class="px-4 py-2">DNI</th>
-                                        <th class="px-4 py-2">Nombre</th>
-                                        <th class="px-4 py-2">Apellido</th>
-                                        <th class="px-4 py-2"></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <template x-for="persona in personasPaginadas" :key="persona.id">
-                                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                            <td class="px-4 py-2" x-text="persona.dni"></td>
-                                            <td class="px-4 py-2" x-text="persona.nombre"></td>
-                                            <td class="px-4 py-2" x-text="persona.apellido"></td>
-                                            <td class="px-4 py-2 text-right">
-                                                <button
-                                                    @click="() => {
-                                                        $dispatch('persona-seleccionada', {id: persona.id, nombre: persona.nombre + ' ' + persona.apellido});
-                                                        $dispatch('close-persona-modal');
-                                                    }"
-                                                    class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded">
-                                                    Seleccionar
-                                                </button>
+                            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                        <tr>
+                                            <th scope="col" class="px-6 py-3">DNI</th>
+                                            <th scope="col" class="px-6 py-3">Nombre</th>
+                                            <th scope="col" class="px-6 py-3">Apellido</th>
+                                            <th scope="col" class="px-6 py-3">Acción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <template x-for="persona in personasPaginadas" :key="persona.id">
+                                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                                <td class="px-6 py-4" x-text="persona.dni || 'N/A'"></td>
+                                                <td class="px-6 py-4" x-text="persona.nombre || 'N/A'"></td>
+                                                <td class="px-6 py-4" x-text="persona.apellido || 'N/A'"></td>
+                                                <td class="px-6 py-4 text-right">
+                                                    <button
+                                                        @click="() => {
+                                                            $dispatch('persona-seleccionada', {
+                                                                id: persona.id,
+                                                                nombre: `${persona.nombre || ''} ${persona.apellido || ''}`
+                                                            });
+                                                            $dispatch('close-persona-modal');
+                                                        }"
+                                                        class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded"
+                                                    >
+                                                        Seleccionar
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </template>
+                                        <tr x-show="personasFiltradas.length === 0">
+                                            <td colspan="4" class="px-6 py-4 text-center text-gray-500">
+                                                No se encontraron personas
                                             </td>
                                         </tr>
-                                    </template>
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </div>
 
-                            <div class="flex justify-between items-center mt-4">
-                                <button @click="paginaActual = Math.max(paginaActual - 1, 1)" :disabled="paginaActual === 1" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md disabled:opacity-50">Anterior</button>
-                                <span x-text="'Página ' + paginaActual + ' de ' + totalPaginas"></span>
-                                <button @click="paginaActual = Math.min(paginaActual + 1, totalPaginas)" :disabled="paginaActual === totalPaginas" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md disabled:opacity-50">Siguiente</button>
+                            <div class="flex items-center justify-between mt-4">
+                                <button
+                                    @click="paginaActual = Math.max(paginaActual - 1, 1)"
+                                    :disabled="paginaActual === 1"
+                                    class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 disabled:opacity-50"
+                                >
+                                    Anterior
+                                </button>
+                                <span x-text="`Página ${paginaActual} de ${totalPaginas}`" class="text-sm text-gray-700 dark:text-gray-300"></span>
+                                <button
+                                    @click="paginaActual = Math.min(paginaActual + 1, totalPaginas)"
+                                    :disabled="paginaActual === totalPaginas"
+                                    class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 disabled:opacity-50"
+                                >
+                                    Siguiente
+                                </button>
                             </div>
                         </div>
                     </div>
