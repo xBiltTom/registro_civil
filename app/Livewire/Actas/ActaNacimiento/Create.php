@@ -12,13 +12,14 @@ use App\Models\Lugar;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Rules\FolioUnico;
 
 class Create extends Component
 {
-
     public function placeholder(){
         return view('placeholder');
     }
+
     public $acta_id;
     public $folio_id;
     public $libro_id;
@@ -48,8 +49,8 @@ class Create extends Component
         Log::info('Iniciando el registro del acta de nacimiento.');
 
         $this->validate([
-            'acta_id' => 'required|integer|unique:actas,id',
-            'folio_id' => 'required|integer',
+            'acta_id' => 'required|integer',
+            'folio_id' => ['required', 'integer', new FolioUnico($this->libro_id)],
             'libro_id' => 'required|integer',
             'fecha_registro' => 'required|date',
             'nombre_nacido' => 'required|string|max:255',
@@ -83,7 +84,6 @@ class Create extends Component
             ],
         ], [
             'acta_id.required' => 'El campo Acta es obligatorio.',
-            'acta_id.unique' => 'El Acta ya existe.',
             'folio_id.required' => 'El campo Folio es obligatorio.',
             'libro_id.required' => 'El campo Libro es obligatorio.',
             'fecha_registro.required' => 'La fecha de registro es obligatoria.',
@@ -95,6 +95,12 @@ class Create extends Component
             'madre_id.exists' => 'La madre seleccionada no existe.',
             'padre_id.exists' => 'El padre seleccionado no existe.',
         ]);
+
+        $actaCompletaId = "{$this->libro_id}-{$this->folio_id}-{$this->acta_id}";
+        if (Acta::where('id', $actaCompletaId)->exists()) {
+            $this->addError('folio_id', "El folio {$this->folio_id} ya está registrado en este libro {$this->libro_id} para el acta {$this->acta_id}.");
+            return;
+        }
 
         Log::info('Validación completada.');
 
@@ -140,10 +146,9 @@ class Create extends Component
         ]);
 
         Log::info('Persona nacida creada correctamente.');
-        $actaid = "{$this->libro_id}-{$this->folio_id}-{$this->acta_id}";
-        Log::info("ID del acta generado: {$this->acta_id}");
+
         $acta = Acta::create([
-            'id' => $actaid,
+            'id' => $actaCompletaId,
             'identificador' => $this->acta_id,
             'fecha_registro' => $this->fecha_registro,
             'persona_id' => $alcalde->id,
@@ -154,14 +159,13 @@ class Create extends Component
 
         Log::info('Acta creada correctamente.');
 
-
         $actaNacimiento = ActaNacimiento::create([
-            'nacido_id' => $personaNacido->id, // Usar nacido_id
+            'nacido_id' => $personaNacido->id,
             'sexo' => $this->sexo,
             'fecha_nacimiento' => $this->fecha_nacimiento,
             'madre_id' => $this->madre_id,
             'padre_id' => $this->padre_id,
-            'acta_id' => $actaid,
+            'acta_id' => $actaCompletaId,
             'lugar_id' => $this->lugar_id,
         ]);
 
