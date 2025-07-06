@@ -348,9 +348,9 @@
                             if (!this.search) return this.personas;
                             const s = this.search.toLowerCase();
                             return this.personas.filter(p =>
-                                p.dni.toLowerCase().includes(s) ||
-                                p.nombre.toLowerCase().includes(s) ||
-                                p.apellido.toLowerCase().includes(s)
+                                (p.dni?.toLowerCase().includes(s) || '') ||
+                                (p.nombre?.toLowerCase().includes(s) || '') ||
+                                (p.apellido?.toLowerCase().includes(s) || '')
                             );
                         },
 
@@ -371,7 +371,14 @@
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                                     </svg>
                                 </div>
-                                <input @input="paginaActual = 1" x-model="search" type="search" id="default-search" wire:model="nombre" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Buscar personas..." />
+                                <input
+                                    @input="paginaActual = 1"
+                                    x-model="search"
+                                    type="search"
+                                    id="default-search"
+                                    class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="Buscar personas..."
+                                />
                             </div>
                         </div>
 
@@ -390,13 +397,13 @@
                                     <tbody>
                                         <template x-for="persona in personasPaginadas" :key="persona.id">
                                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white" x-text="persona.dni"></th>
-                                                <td class="px-6 py-4" x-text="persona.nombre"></td>
-                                                <td class="px-6 py-4" x-text="persona.apellido"></td>
-                                                <td class="px-6 py-4" x-text="`${new Date().getFullYear() - new Date(persona.fecha_nacimiento).getFullYear()} años`"></td>
+                                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white" x-text="persona.dni || 'N/A'"></th>
+                                                <td class="px-6 py-4" x-text="persona.nombre || 'N/A'"></td>
+                                                <td class="px-6 py-4" x-text="persona.apellido || 'N/A'"></td>
+                                                <td class="px-6 py-4" x-text="persona.fecha_nacimiento ? `${new Date().getFullYear() - new Date(persona.fecha_nacimiento).getFullYear()} años` : 'N/A'"></td>
                                                 <td class="px-6 py-4 text-right">
                                                     <button @click="()=> {
-                                                            $dispatch('declarante-seleccionado',{id: persona.id,nombre: `${persona.nombre} ${persona.apellido}`});
+                                                            $dispatch('declarante-seleccionado',{id: persona.id,nombre: `${persona.nombre || ''} ${persona.apellido || ''}`});
                                                             $dispatch('close-declarante-modal');
                                                             $dispatch('open-modal');
                                                         }"
