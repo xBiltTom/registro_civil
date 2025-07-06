@@ -48,7 +48,7 @@ class Create extends Component
         $this->funcionarioPersona = auth()->user()->persona_id;
         $this->validate([
             'id_acta' => 'required|unique:actas,id',
-            'id_folio' => ['required',new FolioUnico()],
+            'id_folio' => ['required', new FolioUnico($this->id_libro)],
             'id_libro' => 'required',
             'id_declarante' => 'required|different:id_fallecido',
             'id_fallecido' => 'required|different:funcionarioPersona',

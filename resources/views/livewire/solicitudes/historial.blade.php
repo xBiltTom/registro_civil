@@ -99,13 +99,13 @@
                         <div class="flex justify-between">
                             <div>
                                 No se encontraron solicitudes
-                                <p class="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">
+                                {{-- <p class="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">
                                     @if($estadoSeleccionado !== 'all' || $buscado)
                                         Prueba con otros criterios de búsqueda
                                     @else
                                         No tienes solicitudes registradas
                                     @endif
-                                </p>
+                                </p> --}}
                             </div>
                         </div>
                     </div>

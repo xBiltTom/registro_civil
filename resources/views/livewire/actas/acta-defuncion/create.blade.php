@@ -12,21 +12,21 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
                     <label for="acta" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">N° de Acta</label>
-                    <input wire:model.live="id_acta" type="text" id="acta" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>
+                    <input wire:model.live="id_acta" min="1" type="number" id="acta" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>
                     @error('id_acta')
                         <x-input-error :messages="$message" class="mt-2" />
                     @enderror
                 </div>
                 <div>
                     <label for="libro" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Libro</label>
-                    <input wire:model.live="id_libro" type="text" id="libro" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>
+                    <input wire:model.live="id_libro" min="1" type="number" id="libro" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>
                     @error('id_libro')
                         <x-input-error :messages="$message" class="mt-2" />
                     @enderror
                 </div>
                 <div>
                     <label for="folio" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Folio</label>
-                    <input wire:model.live="id_folio" type="text" id="folio" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>
+                    <input wire:model.live="id_folio" min="1" type="number" id="folio" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>
                     @error('id_folio')
                         <x-input-error :messages="$message" class="mt-2" />
                     @enderror
