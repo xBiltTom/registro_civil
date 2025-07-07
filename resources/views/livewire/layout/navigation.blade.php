@@ -3,6 +3,7 @@
 use App\Livewire\Actions\Logout;
 use Livewire\Volt\Component;
 use App\Models\Persona;
+use App\Models\Solicitud;
 
 new class extends Component
 {
@@ -10,11 +11,44 @@ new class extends Component
      * Log the current user out of the application.
      */
 
+    /**
+     * Número de solicitudes pendientes
+     */
+     public $solicitudesPendientes = 0;
+
+    /**
+     * Inicializar el componente
+     */
+    public function mount(): void
+    {
+        $this->cargarSolicitudesPendientes();
+    }
+
+    /**
+     * Cargar el contador de solicitudes pendientes
+     */
+    public function cargarSolicitudesPendientes(): void
+    {
+        // Contar solicitudes con estado pendiente (estado_id = 1)
+        $this->solicitudesPendientes = Solicitud::where('estado_id', 1)->count();
+    }
+
+    /**
+     * Log the current user out of the application.
+     */
     public function logout(Logout $logout): void
     {
         $logout();
 
         $this->redirect('/', navigate: true);
+    }
+
+    /**
+     * Usar polling para actualizar el contador cada 10 segundos
+     */
+    public function polling(): void
+    {
+        $this->cargarSolicitudesPendientes();
     }
 }; ?>
 
@@ -41,13 +75,18 @@ new class extends Component
                 <!-- Enlace de "Solicitudes" -->
                 <div class="flex items-center">
                     @can('ver actas')
-                        <li class="list-none">
+                        <li class="list-none" wire:poll.5s="polling">
                             <a href="{{route('solicitudes')}}" wire:navigate class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                 <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/>
                                     <rect x="2" y="4" width="20" height="16" rx="2"/>
                               </svg>
                                 <span class="ms-3">Solicitudes</span>
+                                @if($solicitudesPendientes > 0)
+                                    <span class="inline-flex items-center justify-center w-5 h-5 ms-2 text-xs font-semibold text-white bg-red-500 rounded-full">
+                                        {{ $solicitudesPendientes }}
+                                    </span>
+                                @endif
                             </a>
                         </li>
                     @endcan
@@ -140,11 +179,13 @@ new class extends Component
      <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
         <ul class="space-y-2 font-medium">
            <li>
-              <a href="{{route('dashboard')}}" :active="request()->routeIs('dashboard')" wire:navigate class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                 <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                  <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/>
-                  <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-               </svg>
+
+              <a href="{{route('dashboard')}}" {{-- :active="request()->routeIs('dashboard')" --}} wire:navigate class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                 <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
+                    <path d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z"/>
+                    <path d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z"/>
+                 </svg>
+
                  <span class="ms-3">Principal</span>
               </a>
            </li>

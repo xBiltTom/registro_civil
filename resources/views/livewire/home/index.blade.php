@@ -1,5 +1,7 @@
-<div class="h-full overflow-auto bg-gray-900">
-    <section class="py-10 sm:py-16 lg:py-6">
+
+<div class="h-full overflow-auto">
+    <section class="py-10 bg-gray-800 sm:py-16 lg:py-6" wire:poll.5s>
+
         <div class="max-w-5xl px-4 mx-auto sm:px-6 lg:px-8">
 
             <div class="max-w-xl mx-auto text-center mb-10">
