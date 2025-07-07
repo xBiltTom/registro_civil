@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\User;
 use App\Models\Persona;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\DB;
 
 class ListarUsuarios extends Component
 
@@ -24,18 +25,27 @@ class ListarUsuarios extends Component
     }
 
     public function render()
-    {
-        $usuarios = User::where(function ($query) {
-            if ($this->buscado) {
-                $query->where('name', 'like', '%' . $this->buscado . '%')
-                        ->orWhere('email', 'like', '%' . $this->buscado . '%');
-            }
-        })->paginate(5);
+{
+    // Obtener IDs únicos de usuarios conectados
+    $usuariosConectados = DB::table('sessions')
+        ->whereNotNull('user_id')
+        ->pluck('user_id')
+        ->unique();
 
-        return view('livewire.usuarios.listar-usuarios', [
-            'usuarios' => $usuarios
-        ]);
-    }
+    // Traer los usuarios y ordenarlos: conectados primero
+    $usuarios = User::where(function ($query) {
+        if ($this->buscado) {
+            $query->where('name', 'like', '%' . $this->buscado . '%')
+                ->orWhere('email', 'like', '%' . $this->buscado . '%');
+        }
+    })
+    ->orderByRaw("FIELD(id, " . $usuariosConectados->implode(',') . ") DESC")
+    ->paginate(5);
+
+    return view('livewire.usuarios.listar-usuarios', [
+        'usuarios' => $usuarios
+    ]);
+}
 
     public function borrar($id)
     {
