@@ -7,6 +7,7 @@ use App\Models\ActaMatrimonio;
 use App\Models\Persona;
 use Illuminate\Support\Facades\DB;
 use App\Rules\FolioUnico;
+use App\Models\Folio;
 
 class Create extends Component
 {
@@ -48,7 +49,7 @@ class Create extends Component
     }
 
     public function registrarActaMatrimonio()
-    {
+    {   
         $this->validate([
             'acta_id' => 'required|integer|min:1|unique:actas,id',
             'libro_id' => 'required|integer',
@@ -57,7 +58,7 @@ class Create extends Component
             'ruta_pdf' => 'required|string|max:255',
             'novio_id' => 'required|exists:personas,id',
             'novia_id' => 'required|exists:personas,id',
-            'fecha_matrimonio' => 'required|date',
+            'fecha_matrimonio' => 'required|date|before_or_equal:fecha_registro',
             'testigo1_id' => 'required|exists:personas,id',
             'testigo2_id' => 'required|exists:personas,id',
         ], [
@@ -70,6 +71,7 @@ class Create extends Component
             'novio_id.required' => 'El campo del Novio es obligatorio.',
             'novia_id.required' => 'El campo de la Novia es obligatorio.',
             'fecha_matrimonio.required' => 'La fecha del matrimonio es obligatoria.',
+            'fecha_matrimonio.before_or_equal' => 'La fecha de matrimonio debe ser igual o anterior a la fecha de registro.',
             'testigo1_id.required' => 'El campo del primer testigo es obligatorio.',
             'testigo2_id.required' => 'El campo del segundo testigo es obligatorio.',
         ]);
@@ -136,14 +138,12 @@ class Create extends Component
             return;
         }
 
-        // 🔽 CREAR LIBRO si no existe (después de validar)
         if (!\App\Models\Libro::find($this->libro_id)) {
             $libro = new \App\Models\Libro();
             $libro->id = $this->libro_id;
             $libro->save();
         }
 
-        // 🔽 CREAR FOLIO si no existe (después de validar)
         if (!\App\Models\Folio::where('id', $this->folio_id)->where('libro_id', $this->libro_id)->exists()) {
             $folio = new \App\Models\Folio();
             $folio->id = $this->folio_id;

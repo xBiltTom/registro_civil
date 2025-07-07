@@ -62,6 +62,8 @@ class ListarMatrimonios extends Component
                 $acta->save();
             }
             session()->flash('mensaje', 'Acta de matrimonio eliminada correctamente.');
+        }else {
+            session()->flash('mensaje', 'Acta no encontrada.');
         }
     }
 
