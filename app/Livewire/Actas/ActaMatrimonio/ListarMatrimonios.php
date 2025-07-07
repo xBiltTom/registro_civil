@@ -22,7 +22,12 @@ class ListarMatrimonios extends Component
 
     public function render()
     {
-        $matrimonios = ActaMatrimonio::with(['novio', 'novia', 'testigo1', 'testigo2', 'acta'])->paginate(10);
+        $matrimonios = ActaMatrimonio::whereHas('acta', function ($query) {
+                $query->where('estado', 1);
+            })
+            ->with(['novio', 'novia', 'testigo1', 'testigo2', 'acta'])
+            ->orderBy('acta_id', 'desc')
+            ->paginate(10);
 
         return view('livewire.actas.acta-matrimonio.listar-matrimonios', [
             'matrimonios' => $matrimonios
@@ -36,31 +41,26 @@ class ListarMatrimonios extends Component
 
     public function eliminar($acta_id)
     {
-        $matrimonio = ActaMatrimonio::find($acta_id);
-        if ($matrimonio) {
-            // Guarda los IDs antes de eliminar el registro de matrimonio
-            $actaId = $matrimonio->acta_id ?? null;
-            $folioId = $matrimonio->folio_id ?? null;
+        $matrimonio = \App\Models\ActaMatrimonio::find($acta_id);
+            if ($matrimonio) {
+                $acta = $matrimonio->acta;
 
-            // 1. Elimina el acta de matrimonio
-            $matrimonio->delete();
-
-            // 2. Elimina el acta asociada
-            if ($actaId) {
-                $acta = \App\Models\Acta::find($actaId);
-                if ($acta) {
-                    $acta->delete();
-                }
+            // 1. Cambiar estado civil de los novios a 'S'
+            if ($matrimonio->novio) {
+                $matrimonio->novio->estado_civil = 'S';
+                $matrimonio->novio->save();
             }
 
-            // 3. Elimina el folio asociado
-            if ($folioId) {
-                $folio = \App\Models\Folio::find($folioId);
-                if ($folio) {
-                    $folio->delete();
-                }
+            if ($matrimonio->novia) {
+                $matrimonio->novia->estado_civil = 'S';
+                $matrimonio->novia->save();
             }
 
+            // 2. Cambiar estado del acta a 0 (marcar como "eliminada")
+            if ($acta) {
+                $acta->estado = 0;
+                $acta->save();
+            }
             session()->flash('mensaje', 'Acta de matrimonio eliminada correctamente.');
         }
     }

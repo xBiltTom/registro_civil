@@ -59,7 +59,7 @@
                         <p class="text-gray-600 mt-2">No podrás revertir esta acción.</p>
                         <div class="mt-4 flex justify-end space-x-2">
                             <button type="button" @click="showAlert = false" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-md"> Cancelar </button>
-                            <form wire:submit.prevent="eliminar({{ $matrimonio->acta_id }})">
+                            <form wire:submit.prevent="eliminar('{{ $matrimonio->acta_id }}')">
                                 <button type="submit" @click="showAlert = false" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md"> Confirmar </button>
                             </form>
                         </div>

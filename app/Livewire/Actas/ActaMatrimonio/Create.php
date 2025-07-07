@@ -52,7 +52,7 @@ class Create extends Component
         $this->validate([
             'acta_id' => 'required|integer|min:1|unique:actas,id',
             'libro_id' => 'required|integer',
-            'folio_id' => ['required',new FolioUnico()],
+            'folio_id' => ['required',new FolioUnico($this->libro_id)],
             'fecha_registro' => 'required|date',
             'ruta_pdf' => 'required|string|max:255',
             'novio_id' => 'required|exists:personas,id',
@@ -136,20 +136,15 @@ class Create extends Component
             return;
         }
 
-        // 1. Verificar o crear Libro
-        $libro = \App\Models\Libro::find($this->libro_id);
-        if (!$libro) {
+        // 🔽 CREAR LIBRO si no existe (después de validar)
+        if (!\App\Models\Libro::find($this->libro_id)) {
             $libro = new \App\Models\Libro();
             $libro->id = $this->libro_id;
             $libro->save();
         }
 
-        // 2. Verificar Folio (NO crear si ya existe)
-        $folio = \App\Models\Folio::where('id', $this->folio_id)->first();
-        if ($folio) {
-            $this->addError('folio_id', 'Ya existe un folio con ese ID. Solo un folio por acta.');
-            return;
-        } else {
+        // 🔽 CREAR FOLIO si no existe (después de validar)
+        if (!\App\Models\Folio::where('id', $this->folio_id)->where('libro_id', $this->libro_id)->exists()) {
             $folio = new \App\Models\Folio();
             $folio->id = $this->folio_id;
             $folio->libro_id = $this->libro_id;

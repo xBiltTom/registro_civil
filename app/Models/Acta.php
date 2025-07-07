@@ -25,6 +25,7 @@ class Acta extends Model
         'folio_id',
         'user_id',
         'tipo_id',
+        'estado',
         /* 'ruta_pdf' */
     ];
 

@@ -17,12 +17,14 @@ class Index extends Component
     public $defunciones;
     public $matrimonios;
     public $nacimientos;
+    public $usuarios;
 
     public function mount(){
         $this->personas = Persona::all()->count();
         $this->defunciones = ActaDefuncion::all()->count();
         $this->matrimonios = ActaMatrimonio::all()->count();
         $this->nacimientos = ActaNacimiento::all()->count();
+        $this->usuarios = User::count();
 
     }
 
