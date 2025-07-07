@@ -7,11 +7,12 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
-<body class="h-screen w-screen flex items-center justify-center relative overflow-hidden px-4 bg-cover bg-center" style="background-image: url('/img/otroFondo.jpg');">
+<body class="h-screen w-screen relative overflow-hidden px-4">
+    <div class="absolute inset-0 bg-cover bg-center z-0" style="background-image: url('/img/fondo-chicama.png');"></div>
 
-    {{-- <div class="w-[250px] h-[250px] bg-emerald-500 rounded-full absolute top-[65%] left-[12%] lg:left-[55%] z-0 blur-2xl opacity-60 animate-bounce"></div> --}}
+    <div class="absolute inset-0 bg-black/70 z-0"></div>
 
-    <main class="z-10 w-full flex justify-center">
+    <main class="relative z-10 flex items-center justify-center w-full h-full">
         <div class="w-full max-w-md px-6">
             {{ $slot }}
         </div>
