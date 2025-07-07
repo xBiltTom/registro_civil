@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\ActaMatrimonio;
+namespace App\Livewire\Actas\ActaMatrimonio;
 
 use Livewire\Component;
 use App\Models\ActaMatrimonio;
@@ -18,7 +18,7 @@ class Index extends Component
     public function render()
     {
 
-        $actasMatrimonios = ActaMatrimonio::with(['novio_id', 'novia_id'])
+        $actasMatrimonios = ActaMatrimonio::with(['novio', 'novia'])
             ->orderBy('created_at', 'desc')
             ->paginate(10);
         return view('livewire.actas.acta-matrimonio.index');

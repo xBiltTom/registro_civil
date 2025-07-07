@@ -78,7 +78,6 @@ class Create extends Component
         $solicitud->save();
 
         session()->flash('message', 'La solicitud se registró exitosamente');
-
         return redirect()->route('personal');
     }
 
