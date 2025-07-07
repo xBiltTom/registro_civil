@@ -75,22 +75,18 @@ new class extends Component
                 <!-- Enlace de "Solicitudes" -->
                 <div class="flex items-center">
                     @can('ver actas')
-                        <li class="list-none" wire:poll.5s="polling">
+                        <li class="list-none">
                             <a href="{{route('solicitudes')}}" wire:navigate class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                 <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/>
                                     <rect x="2" y="4" width="20" height="16" rx="2"/>
-                              </svg>
+                                </svg>
                                 <span class="ms-3">Solicitudes</span>
-                                @if($solicitudesPendientes > 0)
-                                    <span class="inline-flex items-center justify-center w-5 h-5 ms-2 text-xs font-semibold text-white bg-red-500 rounded-full">
-                                        {{ $solicitudesPendientes }}
-                                    </span>
-                                @endif
+                                <livewire:solicitudes.contador />
                             </a>
                         </li>
                     @endcan
-                    @can('ver actas')
+                    {{-- @can('ver actas')
                         <li class="list-none">
                             <a href="{{route('solicitudes')}}" wire:navigate class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                               <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
@@ -104,7 +100,7 @@ new class extends Component
                                 <span class="ms-3">Actividad</span>
                             </a>
                         </li>
-                    @endcan
+                    @endcan --}}
                         <p class="text-white mx-2">|</p>
                         <li class="list-none">
                             <p {{-- href="{{route('solicitudes')}}" wire:navigate --}} class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
