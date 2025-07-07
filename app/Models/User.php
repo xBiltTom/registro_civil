@@ -26,6 +26,7 @@ class User extends Authenticatable
         'ruta_foto',
         'estado',
         'email_verified_at',
+        'estado,'
     ];
 
     /**
