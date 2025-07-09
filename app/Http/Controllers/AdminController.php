@@ -20,4 +20,14 @@ class AdminController extends Controller
     public function index(){
         return view('Administracion.index');
     }
+
+    public function reportes(){
+        $this->authorize('ver usuarios');
+        return view('reportes.index');
+    }
+
+    public function validarUsuarios(){
+        $this->authorize('ver usuarios');
+        return view('Administracion.validar-usuario');
+    }
 }

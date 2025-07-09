@@ -34,10 +34,16 @@ class SolicitudController extends Controller
     }
 
     public function solicitudesPersonales(){
+        if(auth()->user()->estado == 0){
+            return redirect()->route('verificacion')->with('error', 'No tienes permisos para acceder a esta sección.');
+        }
         return view('personal.solicitudes.index');
     }
 
     public function registrarSolicitud($id){
+        if(auth()->user()->estado == 0){
+            return redirect()->route('verificacion')->with('error', 'No tienes permisos para acceder a esta sección.');
+        }
         $acta = Acta::findOrFail($id);
         $this->authorize('view', $acta);
         return view('personal.solicitudes.create',compact('id'));

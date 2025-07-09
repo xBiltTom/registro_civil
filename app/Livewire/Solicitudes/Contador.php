@@ -21,6 +21,11 @@ class Contador extends Component
         $this->solicitudesPendientes = Solicitud::where('estado_id', 1)->count();
     }
 
+    public function nuevaSolicitud()
+    {
+        
+    }
+
     public function render()
     {
         return view('livewire.solicitudes.contador');

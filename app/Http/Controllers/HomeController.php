@@ -16,6 +16,9 @@ class HomeController extends Controller
         } elseif($usuario->hasRole('funcionario')) {
             return view('funcionario-dashboard');
         } else{
+            if(auth()->user()->estado == 0){
+                return redirect()->route('verificacion')->with('error', 'No tienes permisos para acceder a esta sección.');
+            }
             return view('personal.home.index');
         }
     }

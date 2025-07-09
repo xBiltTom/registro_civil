@@ -27,10 +27,23 @@ class UserController extends Controller
     }
 
     public function mostrarActasPersonales(){
+        if(auth()->user()->estado == 0){
+            return redirect()->route('verificacion')->with('error', 'No tienes permisos para acceder a esta sección.');
+        }
         return view('personal.actas.index');
     }
 
+    public function verificacion(){
+        if(auth()->user()->estado == 1){
+            return redirect()->route('dashboard');
+        }
+        return view('personal.verificacion.index');
+    }
+
     public function mostrarActa($id){
+        if(auth()->user()->estado == 0){
+            return redirect()->route('verificacion')->with('error', 'No tienes permisos para acceder a esta sección.');
+        }
         $acta = Acta::findOrFail($id);
         $this->authorize('view', $acta);
         return view('personal.actas.show',compact('id'));

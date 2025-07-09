@@ -57,7 +57,7 @@ class Index extends Component
         }
 
         // Paginación de los resultados
-        $solicitudes = $query->orderBy('created_at', 'desc')->paginate(10);
+        $solicitudes = $query->orderBy('created_at', 'desc')->paginate(5);
 
         return view('livewire.personal.solicitudes.index', [
             'solicitudes' => $solicitudes,
