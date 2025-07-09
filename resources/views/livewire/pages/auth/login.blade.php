@@ -53,7 +53,7 @@ new #[Layout('layouts.auth-login')] class extends Component
                 name="email"
                 required
                 autofocus
-                autocomplete="username"
+                autocomplete="email"
             />
             <x-input-error :messages="$errors->get('form.email')" class="mt-2 text-red-400" />
         </div>
