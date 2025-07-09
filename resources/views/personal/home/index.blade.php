@@ -21,5 +21,5 @@
         </script>
 
     @endif
-    <livewire:personal.home.personal-index lazy/>
+    <livewire:personal.home.personal-index />
 @endsection

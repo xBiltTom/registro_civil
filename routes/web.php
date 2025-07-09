@@ -23,13 +23,19 @@ Route::view('users', 'livewire.listar-usuarios')
 
 //Cosas de los usuarios
 /* Route::resource('usuarios', UserController::class); */
-Route::get('actas',[UserController::class,'mostrarActasPersonales'])->name('personal');
+Route::get('actas',[UserController::class,'mostrarActasPersonales'])
+    ->middleware(['auth', 'verified'])
+    ->name('personal');
 Route::get('actas/ver/{id}/solicitar', [SolicitudController::class, 'registrarSolicitud'])
     ->middleware(['auth', 'verified'])
     ->name('solicitudes.personal.registrar');
 Route::get('actas/ver/{id}', [UserController::class, 'mostrarActa'])
     ->middleware(['auth', 'verified'])
     ->name('actas.ver');
+
+Route::get('verificacion', [UserController::class, 'verificacion'])
+    ->middleware(['auth', 'verified'])
+    ->name('verificacion');
 
 Route::get('solicitudes',[SolicitudController::class, 'solicitudes'])
     ->middleware(['auth', 'verified'])
@@ -78,6 +84,14 @@ Route::view('profile', 'profile')
 Route::get('administracion', [App\Http\Controllers\AdminController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('admin');
+
+Route::get('validar-usuarios', [App\Http\Controllers\AdminController::class, 'validarUsuarios'])
+    ->middleware(['auth', 'verified'])
+    ->name('validar-usuarios');
+
+Route::get('reportes', [App\Http\Controllers\AdminController::class, 'reportes'])
+    ->middleware(['auth', 'verified'])
+    ->name('reportes');
 
 
 /* Zona de los links de actas de matrimonio */

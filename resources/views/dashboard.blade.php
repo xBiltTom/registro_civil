@@ -21,7 +21,7 @@
         </script>
 
     @endif
-    <livewire:home.index lazy/>
+    <livewire:home.index />
 
 @endsection
 

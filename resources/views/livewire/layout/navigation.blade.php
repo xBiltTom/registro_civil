@@ -86,9 +86,21 @@ new class extends Component
                             </a>
                         </li>
                     @endcan
-                    {{-- @can('ver actas')
+                    @can('ver usuarios')
                         <li class="list-none">
-                            <a href="{{route('solicitudes')}}" wire:navigate class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <a href="{{route('validar-usuarios')}}" wire:navigate class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/>
+                                    <rect x="2" y="4" width="20" height="16" rx="2"/>
+                                </svg>
+                                <span class="ms-3">Validar usuarios</span>
+                                {{-- <livewire:solicitudes.contador /> --}}
+                            </a>
+                        </li>
+                    @endcan
+                    @can('ver actas')
+                        <li class="list-none">
+                            <a href="{{route('reportes')}}" wire:navigate class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                               <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                                  <path d="M12 16v5"/>
                                  <path d="M16 14v7"/>
@@ -97,10 +109,10 @@ new class extends Component
                                  <path d="M4 18v3"/>
                                  <path d="M8 14v7"/>
                            </svg>
-                                <span class="ms-3">Actividad</span>
+                                <span class="ms-3">Reportes</span>
                             </a>
                         </li>
-                    @endcan --}}
+                    @endcan
                         <p class="text-white mx-2">|</p>
                         <li class="list-none">
                             <p {{-- href="{{route('solicitudes')}}" wire:navigate --}} class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
@@ -143,23 +155,28 @@ new class extends Component
                 </div>
               <div class="border border-gray-800 border-3 z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-sm shadow-sm dark:bg-gray-700 dark:divide-gray-600" id="dropdown-user">
                 <div class="px-4 py-3" role="none">
+                    @if(auth()->user()->estado==1)
                   <p class="text-sm text-gray-900 dark:text-white" role="none">
                     {{auth()->user()->getRoleNames()->first() ?? 'Usuario'}}
                   </p>
+                  @endif
                   <p class="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
                     {{ auth()->user()->email ?? 'Correo no disponible' }}
                   </p>
                 </div>
                 <ul class="py-1" role="none">
+                    @if(auth()->user()->estado==1)
                   <li>
                     <a href="{{route('dashboard')}}" wire:navigate class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Principal</a>
                   </li>
+
                   <li>
                     <a href="{{route('profile')}}" wire:navigate class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Perfil</a>
                   </li>
                   {{-- <li>
                     <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Earnings</a>
                   </li> --}}
+                  @endif
                   <li>
                     <a wire:click="logout" class="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Salir</a>
                   </li>
@@ -177,10 +194,10 @@ new class extends Component
            <li>
 
               <a href="{{route('dashboard')}}" {{-- :active="request()->routeIs('dashboard')" --}} wire:navigate class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                 <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
-                    <path d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z"/>
-                    <path d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z"/>
-                 </svg>
+                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                     <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/>
+                     <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                  </svg>
 
                  <span class="ms-3">Principal</span>
               </a>
@@ -207,6 +224,18 @@ new class extends Component
                <span class="ms-3">Solicitudes</span>
             </a>
          </li>
+         @if(auth()->user()->estado==0)
+         <li>
+            <a href="{{route('solicitudes.personal')}}" wire:navigate class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+               <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                  <path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/>
+                  <rect x="2" y="4" width="20" height="16" rx="2"/>
+               </svg>
+
+               <span class="ms-3">Verificar usuario</span>
+            </a>
+         </li>
+         @endif
          @endcannot
 
            @can('ver actas')

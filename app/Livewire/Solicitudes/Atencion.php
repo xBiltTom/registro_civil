@@ -41,6 +41,7 @@ class Atencion extends Component
     }
 
     public function aceptarSolicitud(){
+        $this->verificarAtencion();
         $this->solicitud->detalle = "Atendido con normalidad";
         $this->solicitud->estado_id = 2; // Asumiendo que 2 es el estado de "Atendido"
         $this->solicitud->funcionario_id = auth()->user()->id;
@@ -53,6 +54,7 @@ class Atencion extends Component
        /*  dd(
             $this->motivo_rechazo,
         ); */
+        $this->verificarAtencion();
         $this->solicitud->detalle = $this->motivo_rechazo;
         $this->solicitud->funcionario_id = auth()->user()->id;
         $this->solicitud->estado_id = 3; // Asumiendo que 3 es el estado de "Rechazado"
@@ -63,6 +65,13 @@ class Atencion extends Component
 
     public function placeholder(){
         return view('placeholder');
+    }
+
+    public function verificarAtencion(){
+        if($this->solicitud->estado_id == 2){
+            session()->flash('info', 'La solicitud ya ha sido atendida.');
+            return redirect()->route('solicitudes');
+        }
     }
 
     public function render()
