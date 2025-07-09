@@ -7,12 +7,12 @@
             </div>
 
             <div class="grid grid-cols-1 gap-6 mt-10 sm:grid-cols-2 md:gap-8">
-                
+
                 {{-- Personas --}}
                 <div class="bg-gray-800 border-l-8 border-blue-500 rounded-lg shadow">
                     <div class="px-7 py-9">
                         <div class="flex items-center">
-                            <a href="{{ route('personas.index') }}">
+                            <a href="{{ route('personas.index') }}" wire:navigate>
                                 <svg class="w-16 h-16 text-blue-500 hover:scale-110 transition-transform duration-200"
                                      xmlns="http://www.w3.org/2000/svg" fill="none"
                                      viewBox="0 0 24 24" stroke="currentColor">
@@ -30,7 +30,7 @@
                 <div class="bg-gray-800 border-l-8 border-red-500 rounded-lg shadow">
                     <div class="px-7 py-9">
                         <div class="flex items-center">
-                            <a href="{{ route('mad') }}">
+                            <a href="{{ route('mad') }}" wire:navigate>
                                 <svg class="w-16 h-16 text-red-500 hover:scale-110 transition-transform duration-200"
                                      viewBox="0 0 24 24" fill="none"
                                      xmlns="http://www.w3.org/2000/svg">
@@ -49,7 +49,7 @@
                 <div class="bg-gray-800 border-l-8 border-yellow-400 rounded-lg shadow">
                     <div class="px-7 py-9">
                         <div class="flex items-center">
-                            <a href="{{ route('actas-matrimonio') }}">
+                            <a href="{{ route('actas-matrimonio') }}" wire:navigate>
                                 <svg class="w-16 h-16 text-yellow-400 hover:scale-110 transition-transform duration-200"
                                      xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                     <path fill="currentColor"
@@ -66,7 +66,7 @@
                 <div class="bg-gray-800 border-l-8 border-white rounded-lg shadow">
                     <div class="px-7 py-9">
                         <div class="flex items-center">
-                            <a href="{{ route('actas-nacimiento') }}">
+                            <a href="{{ route('actas-nacimiento') }}" wire:navigate>
                                 <svg class="w-16 h-16 text-white hover:scale-110 transition-transform duration-200"
                                      xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
                                     <path fill="currentColor"
@@ -83,7 +83,7 @@
                 <div class="bg-gray-800 border-l-8 border-indigo-500 rounded-lg shadow">
                     <div class="px-7 py-9">
                         <div class="flex items-center">
-                            <a href="{{ route('usuarios.index') }}">
+                            <a href="{{ route('usuarios.index') }}" wire:navigate>
                                 <svg class="w-16 h-16 text-indigo-400 hover:scale-110 transition-transform duration-200"
                                      xmlns="http://www.w3.org/2000/svg" width="64" height="64"
                                      viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -106,7 +106,8 @@
                 </div>
 
                 {{-- Administración --}}
-                <a href="{{ route('admin') }}"
+                <a href="{{ route('admin') }}" wire:navigate
+                wire:loading.class="opacity-50 cursor-not-allowed"
                    class="block bg-gray-800 hover:bg-gray-700 border-l-8 border-purple-600 rounded-lg shadow transition duration-300">
                     <div class="px-7 py-6 flex items-center">
                         <svg class="w-12 h-12 text-purple-400" xmlns="http://www.w3.org/2000/svg"

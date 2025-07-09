@@ -79,14 +79,14 @@
                             {{$persona->estado_civil  === 'C' ? 'Casado' : 'Soltero' }}
                         </td>
                         <td class="px-6 py-4 flex justify-center space-x-4 items-center">
-                            <a href="{{ route('personas.edit', $persona->id) }}">
+                            <a href="{{ route('personas.edit', $persona->id) }}" wire:navigate>
                                 <button class="text-blue-600 hover:underline mr-2">Editar</button>
                             </a>
                             <div x-data="{ showAlert: false }" class="relative">
                                 {{--
                             <button type="button" @click="showAlert = true" class="font-medium text-red-600 dark:text-red-500 hover:underline cursor-pointer"> Eliminar </button>
                                 <!-- Modal de confirmación -->
-                                
+
                                 <div x-show="showAlert" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
                                     <div class="bg-white rounded-lg shadow-lg p-6 w-96">
                                         <h2 class="text-lg font-semibold text-gray-800">¿Estás seguro?</h2>

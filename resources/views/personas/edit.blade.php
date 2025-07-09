@@ -2,6 +2,6 @@
 @section('content')
 
 
-    <livewire:personas.edit :id="$id" lazy/>
+    <livewire:personas.edit :id="$id" />
 
 @endsection

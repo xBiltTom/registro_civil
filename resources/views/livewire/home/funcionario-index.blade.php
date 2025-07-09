@@ -9,14 +9,14 @@
                 <div class="bg-gray-800 border-l-8 border-green-500 rounded-lg shadow">
                     <div class="px-7 py-9">
                         <div class="flex items-center">
-                            <a href="{{ route('solicitudes') }}">
+                            <a href="{{ route('solicitudes') }}" wire:navigate>
                                 <svg class="w-16 h-16 text-green-500 hover:scale-110 transition-transform duration-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
                                     <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                                 </svg>
                             </a>
                             <h3 class="ml-4 text-6xl font-bold text-white">{{ $solicitudes }}</h3>
                         </div>
-                        <p class="mt-4 text-sm text-green-300">Solicitudes</p>
+                        <p class="mt-4 text-sm text-green-300">Solicitudes atendidas por ti</p>
                     </div>
                 </div>
                 {{-- Personas - Azul --}}
@@ -78,7 +78,7 @@
                         <p class="mt-4 text-sm text-gray-300">Nacimientos registrados</p>
                     </div>
                 </div>
-                
+
             </div>
         </div>
     </section>

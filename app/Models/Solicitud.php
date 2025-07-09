@@ -34,6 +34,11 @@ class Solicitud extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function funcionario()
+    {
+        return $this->belongsTo(User::class,'funcionario_id','id');
+    }
+
     public function estado(){
         return $this->belongsTo(EstadoSolicitud::class, 'estado_id');
     }
