@@ -50,8 +50,8 @@ class SolicitudController extends Controller
             return redirect()->route('verificacion')->with('error', 'No tienes permisos para acceder a esta sección.');
         }
 
-        $solicitud = Solicitud::findOrFail($id);
-        $this->authorize('view', $solicitud);
+        $solicitud = Solicitud::find($id);
+       /*  $this->authorize('viewAny', $solicitud); */
 
         return view('solicitudes.show', compact('id'));
     }

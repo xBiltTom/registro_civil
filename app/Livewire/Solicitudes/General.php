@@ -5,11 +5,23 @@ namespace App\Livewire\Solicitudes;
 use Livewire\Component;
 use App\Models\Solicitud;
 use App\Models\EstadoSolicitud;
+use Livewire\WithPagination;
 
 class General extends Component
 {
     public $estadoSeleccionado = 'all';
     public $buscado;
+
+    use WithPagination;
+
+    protected $paginationTheme = 'tailwind';
+    public function placeholder(){
+        return view('placeholder');
+    }
+
+    public function reiniciar(){
+        $this->resetPage();
+    }
 
     public function render()
     {
@@ -21,7 +33,7 @@ class General extends Component
             ->when($this->buscado, function ($query) {
                 $query->where('acta_id', 'like', '%' . $this->buscado . '%');
             })
-            ->paginate(10);
+            ->paginate(5);
 
         $estados = EstadoSolicitud::whereIn('id', [2, 3])->get();
 

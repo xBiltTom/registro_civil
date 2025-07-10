@@ -108,4 +108,9 @@ class FuncionarioController extends Controller
         $this->authorize('viewAny', Acta::class);
         return view('Actas.defunciones.edit',compact('id'));
     }
+
+    public function mostrarPagos(){
+        $this->authorize('viewAny', Acta::class);
+        return view('pagos.index');
+    }
 }

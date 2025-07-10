@@ -65,7 +65,7 @@ new class extends Component
                  <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
               </svg>
            </button>
-           <a href="https://flowbite.com" class="flex ms-2 md:me-24 items-center">
+           <a href="{{route('dashboard')}}" wire:navigate class="flex ms-2 md:me-24 items-center">
             <img src="/img/LOGUITO.png" class="h-16 me-6" alt="FlowBite Logo" />
            </a>
         </div>
@@ -98,7 +98,7 @@ new class extends Component
                             </a>
                         </li>
                     @endcan
-                    @can('ver actas')
+                    @can('ver usuarios')
                         <li class="list-none">
                             <a href="{{route('reportes')}}" wire:navigate class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                               <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
@@ -316,7 +316,7 @@ new class extends Component
             </a>
             @endcan
          </li>
-         @can('ver actas')
+        {{--  @can('ver actas')
          <li>
              <a href="{{ route('solicitudes.general') }}" wire:navigate class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -327,6 +327,20 @@ new class extends Component
                     <path d="m22 22-1.5-1.5"/>
                 </svg>
                  <span class="ms-3">Solicitudes Generadas</span>
+             </a>
+         </li>
+         @endcan --}}
+         @can('ver actas')
+         <li>
+             <a href="{{ route('pagos') }}" wire:navigate class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 12.5V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12c0 1.1.9 2 2 2h7.5"/>
+                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                    <path d="M18 21a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+                    <circle cx="18" cy="18" r="3"/>
+                    <path d="m22 22-1.5-1.5"/>
+                </svg>
+                 <span class="ms-3">Ver pagos</span>
              </a>
          </li>
          @endcan

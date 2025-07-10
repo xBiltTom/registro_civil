@@ -1,10 +1,11 @@
 <div>
+    <a href="{{route('solicitudes')}}" wire:navigate><button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Atrás</button></a>
     <div class="relative shadow-md sm:rounded-lg dark:bg-gray-800">
         <div class="p-5 text-lg font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
             <div class="flex justify-between">
                 <div>
                     Solicitudes
-                    <p class="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">Se muestran tus solicitudes</p>
+                    <p class="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">Se muestran todas las solicitudes atendidas</p>
                 </div>
             </div>
         </div>
