@@ -74,7 +74,12 @@
                             @endif
                         </td>
                         <td class="px-6 py-4">
-                            {{$usuario->estado === 1 ? 'Activo' : 'Inactivo'}}
+                            @php
+                                $conectado = DB::table('sessions')->where('user_id', $usuario->id)->exists();
+                            @endphp
+                            <span wire:poll.2s class="{{ $conectado ? 'text-green-500' : 'text-gray-400' }}">
+                                {{ $conectado ? 'Conectado' : 'Desconectado' }}
+                            </span>
                         </td>
                         <td class="px-6 py-4">
                             <div class="flex h-full items-center justify-center space-x-4">
