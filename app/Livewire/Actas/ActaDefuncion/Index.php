@@ -33,7 +33,11 @@ class Index extends Component
             }
         })->paginate(7); */
 
-        $actas = ActaDefuncion::with(['fallecido','declarante'])->paginate(7);
+        $actas = ActaDefuncion::whereHas('acta', function ($query) {
+            $query->where('estado', 1);
+        })
+        ->with(['fallecido','declarante'])
+        ->paginate(7);
 
         return view('livewire.actas.acta-defuncion.index',[
             'actas' => $actas,
@@ -41,13 +45,10 @@ class Index extends Component
     }
 
     public function eliminar($id){
-        /* $persona = Persona::find($id);
-        $persona->actas->actaDefuncion;
-        if($persona->id==$persona->actas->actaDefuncion->fallecido_id) */
-
         $acta = Acta::find($id);
         if ($acta) {
-            $acta->delete();
+            $acta->estado = 0;
+            $acta->save();
             session()->flash('message', 'Acta eliminada correctamente.');
         } else {
             session()->flash('error', 'Acta no encontrada.');
