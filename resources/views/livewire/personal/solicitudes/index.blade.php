@@ -90,7 +90,7 @@
                             </span>
                         </td>
                         <td class="px-6 py-4 flex justify-center space-x-4 items-center">
-                            <a href="">
+                            <a href="{{ route('actas.ver', ['id' => $solicitud->acta_id]) }}">
                                 <button class="text-blue-600 hover:underline mr-2">Ver solicitud</button>
                             </a>
                         </td>

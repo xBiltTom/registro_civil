@@ -9,7 +9,6 @@ use App\Models\EstadoSolicitud;
 
 class Index extends Component
 {
-
     public function render()
     {
         $solicitudes = Solicitud::with('acta')
@@ -20,11 +19,10 @@ class Index extends Component
             ->paginate(10);
 
         $estados = EstadoSolicitud::all();
-        return view('livewire.solicitudes.index'
-            , [
-                'solicitudes' => $solicitudes,
-                'estados' => $estados,
-            ]
-        );
+
+        return view('livewire.solicitudes.index', [
+            'solicitudes' => $solicitudes,
+            'estados' => $estados,
+        ]);
     }
 }

@@ -300,7 +300,7 @@
                 @else
                     @if($solicitada==1)
                         <h2 class="text-white bg-gray-900 p-4 rounded-lg hover:bg-gray-600 cursor-pointer">Solicitud en proceso...</h2>
-                        <button wire:navigate href="{{route('solicitudes.personal.registrar',['id'=>$acta->id])}}" {{-- @click="showAlert = true" --}} class="bg-yellow-400 hover:bg-yellow-700 text-black rounded-md px-6 py-2 transition-all duration-200">
+                        <button wire:click="cancelarSolicitud" class="bg-yellow-400 hover:bg-yellow-700 text-black rounded-md px-6 py-2 transition-all duration-200">
                             Cancelar solicitud
                         </button>
                     @else

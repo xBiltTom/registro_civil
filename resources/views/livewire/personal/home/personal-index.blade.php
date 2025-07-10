@@ -21,7 +21,6 @@
                     </div>
                 </div>
 
-                <!-- Solicitudes realizadas - Verde -->
                 <div class="bg-gray-800 border-l-8 border-green-500 rounded-lg shadow">
                     <div class="px-7 py-9">
                         <div class="flex items-center">
