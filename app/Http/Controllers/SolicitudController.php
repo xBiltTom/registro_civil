@@ -44,6 +44,18 @@ class SolicitudController extends Controller
         return view('solicitudes.general');
     }
 
+    public function mostrarSolicitud($id)
+    {
+        if (auth()->user()->estado == 0) {
+            return redirect()->route('verificacion')->with('error', 'No tienes permisos para acceder a esta sección.');
+        }
+
+        $solicitud = Solicitud::findOrFail($id);
+        $this->authorize('view', $solicitud);
+
+        return view('solicitudes.show', compact('id'));
+    }
+
     public function registrarSolicitud($id){
         if(auth()->user()->estado == 0){
             return redirect()->route('verificacion')->with('error', 'No tienes permisos para acceder a esta sección.');

@@ -45,6 +45,10 @@ Route::get('solicitudes/general',[SolicitudController::class, 'solicitudesGenera
     ->middleware(['auth', 'verified'])
     ->name('solicitudes.general');
 
+Route::get('solicitudes/mostrar/{id}', [SolicitudController::class, 'mostrarSolicitud'])
+    ->middleware(['auth', 'verified'])
+    ->name('solicitudes.mostrar');
+
 Route::get('solicitudes/historial',[SolicitudController::class, 'historialSolicitudes'])
     ->middleware(['auth', 'verified'])
     ->name('solicitudes.historial');
