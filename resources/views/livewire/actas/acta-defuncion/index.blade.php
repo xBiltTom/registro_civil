@@ -94,7 +94,7 @@
                                                     Cancelar
                                                 </button>
 
-                                                <form wire:submit.prevent="eliminar({{ $acta->acta_id }})">
+                                                <form wire:submit.prevent="eliminar('{{ $acta->acta_id }}')">
                                                     <button type="submit"
                                                             @click="showAlert = false"
                                                             class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md">

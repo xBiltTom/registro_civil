@@ -50,7 +50,7 @@
                         <a href="{{ route('actas-nacimiento-edit', ['id' => $nacimiento->acta_id]) }}" wire:navigate class="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer">
                             Editar
                         </a>
-                        <button type="submit" wire:click.prevent="eliminar({{ $nacimiento->acta_id }})" class="font-medium text-red-600 dark:text-red-500 hover:underline cursor-pointer">
+                        <button type="submit" wire:click.prevent="eliminar('{{ $nacimiento->acta_id }}')" class="font-medium text-red-600 dark:text-red-500 hover:underline cursor-pointer">
                             Borrar acta
                         </button>
                     </div>

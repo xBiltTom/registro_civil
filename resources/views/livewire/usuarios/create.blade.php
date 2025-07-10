@@ -144,7 +144,6 @@
                 </div>
             </div>
 
-            <p>Persona seleccionada ID: {{ $persona_id }}</p>
             <div class="pt-6 text-right">
                 <a wire:navigate href="{{ route('usuarios.index') }}"></a>
                 <button type="submit" class="bg-green-600 hover:bg-green-700 text-white rounded-md px-6 py-2 transition-all duration-200">

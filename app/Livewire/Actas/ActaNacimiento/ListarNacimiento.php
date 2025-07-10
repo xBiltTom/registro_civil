@@ -23,7 +23,9 @@ class ListarNacimiento extends Component
 
     public function render()
     {
-        $nacimientos = ActaNacimiento::paginate(10);
+        $nacimientos = ActaNacimiento::whereHas('acta', function ($q) {
+            $q->where('estado', 1);
+        })->with('acta')->paginate(10);
 
         return view('livewire.actas.acta-nacimiento.listar-nacimiento', [
             'nacimientos' => $nacimientos
@@ -37,7 +39,8 @@ class ListarNacimiento extends Component
             $acta = Acta::find($nacimiento->acta_id);
 
             if ($acta) {
-                $acta->delete();
+                $acta->estado = 0;
+                $acta->save();
             }
 
             $nacimiento->delete();
