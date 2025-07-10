@@ -156,6 +156,7 @@ Route::get('me/solicitudes/{id}',[SolicitudController::class, 'solicitudesPerson
     ->middleware(['auth', 'verified'])
     ->name('solicitudes.personal.ver');
 
+
 /* Route::get('solicitudes/registrar',[SolicitudController::class, 'registrarSolicitud'])
     ->middleware(['auth', 'verified'])
     ->name('solicitudes.personal.registrar'); */

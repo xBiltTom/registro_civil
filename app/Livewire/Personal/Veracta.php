@@ -52,6 +52,25 @@ class Veracta extends Component
         }
     }
 
+    public function cancelarSolicitud()
+    {
+        if ($this->acta->solicitud) {
+            $solicitud = Solicitud::find($this->acta->solicitud->id);
+
+            // Verificar si la solicitud pertenece al usuario actual
+            if ($solicitud->user_id == auth()->user()->id) {
+                $solicitud->delete(); // Eliminar la solicitud
+                $this->solicitada = 0; // Actualizar el estado de la solicitud
+                $this->descargar = 0; // Acta no disponible para descargar
+                session()->flash('success', 'La solicitud ha sido cancelada exitosamente.');
+            } else {
+                session()->flash('error', 'No tienes permiso para cancelar esta solicitud.');
+            }
+        } else {
+            session()->flash('error', 'No se encontró ninguna solicitud para cancelar.');
+        }
+    }
+
     public function placeholder()
     {
         return view('placeholder');

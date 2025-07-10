@@ -42,42 +42,39 @@
                 @if($solicitudes->count())
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" class="px-6 py-3 w-1/5">
                             N° Solicitud
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" class="px-6 py-3 w-1/5">
                             Acta
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" class="px-6 py-3 w-1/5">
                             Tipo
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" class="px-6 py-3 w-1/5">
                             Fecha
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        <th scope="col" class="px-6 py-3 w-1/5">
                             Estado
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            <span class="sr-only">Acción</span>
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($solicitudes as $solicitud)
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white w-1/5">
                             {{ $solicitud->id }}
                         </th>
-                        <td class="px-6 py-4">
+                        <td class="px-6 py-4 w-1/5">
                             {{ $solicitud->acta_id }}
                         </td>
-                        <td class="px-6 py-4">
+                        <td class="px-6 py-4 w-1/5">
                             {{ $solicitud->acta->tipo->descripcion }}
                         </td>
-                        <td class="px-6 py-4">
+                        <td class="px-6 py-4 w-1/5">
                             {{ $solicitud->created_at->format('d/m/Y') }}
                         </td>
-                        <td class="px-6 py-4">
+                        <td class="px-6 py-4 w-1/5">
                             <span class="px-2 py-1 text-xs font-semibold rounded-full
                                 @if($solicitud->estado->id == 1) bg-blue-100 text-blue-800
                                 @elseif($solicitud->estado->id == 2) bg-green-100 text-green-800
@@ -85,11 +82,6 @@
                                 @else bg-gray-100 text-gray-800 @endif">
                                 {{ $solicitud->estado->descripcion }}
                             </span>
-                        </td>
-                        <td class="px-6 py-4 flex justify-center space-x-4 items-center">
-                            <a href="">
-                                <button class="text-blue-600 hover:underline mr-2">Ver solicitud</button>
-                            </a>
                         </td>
                     </tr>
                     @endforeach
@@ -99,13 +91,6 @@
                         <div class="flex justify-between">
                             <div>
                                 No se encontraron solicitudes
-                                {{-- <p class="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">
-                                    @if($estadoSeleccionado !== 'all' || $buscado)
-                                        Prueba con otros criterios de búsqueda
-                                    @else
-                                        No tienes solicitudes registradas
-                                    @endif
-                                </p> --}}
                             </div>
                         </div>
                     </div>
