@@ -67,27 +67,33 @@
                             {{$usuario->persona->dni}}
                         </td>
                         <td class="px-6 py-4">
-                            {{ $usuario->persona->foto ? '<img src="' . asset('storage/' . $usuario->persona->foto) . '" alt="Foto de ' . $usuario->name . '" class="w-10 h-10 rounded-full">' : 'No disponible' }}
+                            @if ($usuario->ruta_foto)
+                                <img src="{{ asset('storage/' . $usuario->ruta_foto) }}" alt="Foto de {{ $usuario->name }}" class="w-10 h-10 rounded-full">
+                            @else
+                                No disponible
+                            @endif
                         </td>
                         <td class="px-6 py-4">
                             {{$usuario->estado === 1 ? 'Activo' : 'Inactivo'}}
                         </td>
-                        <td class="px-6 py-4 flex justify-center space-x-4 items-center">
-                            <a href="{{ route('usuarios.edit', $usuario->id) }}">
-                                <button class="text-blue-600 hover:underline mr-2">Editar</button>
-                            </a>
-                            <div x-data="{ showAlert: false }" class="relative">
-                                <button type="button" @click="showAlert = true" class="font-medium text-red-600 dark:text-red-500 hover:underline cursor-pointer"> Eliminar </button>
-                                <!-- Modal de confirmación -->
-                                <div x-show="showAlert" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-                                    <div class="bg-white rounded-lg shadow-lg p-6 w-96">
-                                        <h2 class="text-lg font-semibold text-gray-800">¿Estás seguro?</h2>
-                                        <p class="text-gray-600 mt-2">No podrás revertir esta acción.</p>
-                                        <div class="mt-4 flex justify-end space-x-2">
-                                            <button type="button" @click="showAlert = false" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-md"> Cancelar </button>
-                                            <form wire:submit.prevent="borrar({{$usuario->id}})">
-                                                <button type="submit" @click="showAlert = false" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md"> Confirmar </button>
-                                            </form>
+                        <td class="px-6 py-4">
+                            <div class="flex h-full items-center justify-center space-x-4">
+                                <a href="{{ route('usuarios.edit', $usuario->id) }}">
+                                    <button class="text-blue-600 hover:underline">Editar</button>
+                                </a>
+                                <div x-data="{ showAlert: false }" class="relative">
+                                    <button type="button" @click="showAlert = true" class="font-medium text-red-600 dark:text-red-500 hover:underline cursor-pointer">Eliminar</button>
+                                    <!-- Modal de confirmación -->
+                                    <div x-show="showAlert" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                                        <div class="bg-white rounded-lg shadow-lg p-6 w-96">
+                                            <h2 class="text-lg font-semibold text-gray-800">¿Estás seguro?</h2>
+                                            <p class="text-gray-600 mt-2">No podrás revertir esta acción.</p>
+                                            <div class="mt-4 flex justify-end space-x-2">
+                                                <button type="button" @click="showAlert = false" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-md">Cancelar</button>
+                                                <form wire:submit.prevent="borrar({{$usuario->id}})">
+                                                    <button type="submit" @click="showAlert = false" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md">Confirmar</button>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

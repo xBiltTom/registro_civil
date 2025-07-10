@@ -15,7 +15,6 @@ class Edit extends Component
     public $acta_id;
     public $identificador;
     public $fecha_registro;
-    public $ruta_pdf;
     public $actaMatrimonio;
     public $novio_id, $novia_id, $fecha_matrimonio, $testigo1_id, $testigo2_id;
     public $personas;
@@ -40,7 +39,6 @@ class Edit extends Component
         $this->libro_id = $acta->folio->libro_id;
         $this->folio_id = $acta->folio_id;
         $this->fecha_registro = $acta->fecha_registro;
-        $this->ruta_pdf = $acta->ruta_pdf;
         $this->actaMatrimonio = ActaMatrimonio::findOrFail($acta_id);
         $this->novio_id = $this->actaMatrimonio->novio_id;
         $this->novia_id = $this->actaMatrimonio->novia_id;
@@ -74,7 +72,6 @@ class Edit extends Component
             'libro_id' => 'required|integer',
             'folio_id' => 'required|integer|exists:folios,id',
             'fecha_registro' => 'required|date',
-            'ruta_pdf' => 'required|string|max:255',
             'novio_id' => 'required|exists:personas,id',
             'novia_id' => 'required|exists:personas,id',
             'fecha_matrimonio' => 'required|date',
@@ -85,7 +82,6 @@ class Edit extends Component
             'libro_id.required' => 'El campo Libro es obligatorio.',
             'folio_id.required' => 'El campo Folio es obligatorio.',
             'fecha_registro.required' => 'La fecha de registro es obligatoria.',
-            'ruta_pdf.required' => 'La ruta del PDF es obligatoria.',
             'novio_id.required' => 'El campo Novio es obligatorio.',
             'novia_id.required' => 'El campo Novia es obligatorio.',
             'fecha_matrimonio.required' => 'La fecha de matrimonio es obligatoria.',
@@ -134,7 +130,6 @@ class Edit extends Component
                 'libro_id' => $this->libro_id,
                 'folio_id' => $this->folio_id,
                 'fecha_registro' => $this->fecha_registro,
-                'ruta_pdf' => $this->ruta_pdf,
             ]);
         }
 
@@ -167,6 +162,8 @@ class Edit extends Component
             $noviaNuevo->save();
         }
 
+
+
         // Actualiza los nombres por si cambió alguno
         $novio = \App\Models\Persona::find($this->novio_id);
         $novia = \App\Models\Persona::find($this->novia_id);
@@ -177,6 +174,36 @@ class Edit extends Component
         $this->nombreNovia = $novia ? $novia->nombre . ' ' . $novia->apellido : '';
         $this->nombreTestigo1 = $testigo1 ? $testigo1->nombre . ' ' . $testigo1->apellido : '';
         $this->nombreTestigo2 = $testigo2 ? $testigo2->nombre . ' ' . $testigo2->apellido : '';
+
+        $personasAValidar = [
+            'novio_id' => $this->novio_id,
+            'novia_id' => $this->novia_id,
+            'testigo1_id' => $this->testigo1_id,
+            'testigo2_id' => $this->testigo2_id,
+        ];
+
+        foreach ($personasAValidar as $campo => $persona_id) {
+            $persona = \App\Models\Persona::find($persona_id);
+
+            if (!$persona) {
+                $this->addError($campo, 'La persona seleccionada no existe.');
+                return;
+            }
+
+            // Verificar edad mínima
+            $edad = \Carbon\Carbon::parse($persona->fecha_nacimiento)->age;
+            if ($edad < 18) {
+                $this->addError($campo, 'Debe tener al menos 18 años para registrar el matrimonio.');
+                return;
+            }
+
+            // Verificar si está registrado como fallecido
+            $estaFallecido = \App\Models\ActaDefuncion::where('fallecido_id', $persona_id)->exists();
+            if ($estaFallecido) {
+                $this->addError($campo, 'La persona seleccionada está registrada como fallecida.');
+                return;
+            }
+        }
 
         session()->flash('message', 'Acta de Matrimonio actualizada correctamente.');
         $this->redirect(route('actas-matrimonio', $this->acta_id));

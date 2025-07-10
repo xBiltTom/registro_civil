@@ -5,7 +5,7 @@
         </button>
     </a>
     <div class="w-full p-6 bg-gray-100 dark:bg-gray-800 rounded-lg shadow-md">
-        <form wire:submit.prevent="guardarUsuario" class="space-y-6">
+        <form wire:submit.prevent="guardarUsuario" class="space-y-6" enctype="multipart/form-data">
             <h2 class="text-xl font-semibold text-gray-800 dark:text-white border-b pb-2">Datos del Usuario</h2>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -57,18 +57,96 @@
                                 Buscar
                             </button>
                         </div>
+                        
                     </div>
                 </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label for="ruta_foto" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Ruta de Foto</label>
-                    <input wire:model="ruta_foto" type="text" id="ruta_foto" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>
-                    @error('ruta_foto') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                @error('persona_id')
+                    <span class="text-red-500 text-xs mt-1 block">{{ $message }}</span>
+                @enderror
+            <div class="mb-6"
+                x-data="{ uploading: false, progress: 0, showModal: false, fileReady: false }"
+                x-init="$watch('uploading', value => { if (!value) fileReady = true; })"
+                x-on:livewire-upload-start="uploading = true"
+                x-on:livewire-upload-finish="uploading = false"
+                x-on:livewire-upload-cancel="uploading = false"
+                x-on:livewire-upload-error="uploading = false"
+                x-on:livewire-upload-progress="progress = $event.detail.progress"
+            >
+                <label class="block mb-1 font-medium text-gray-700 dark:text-gray-300" for="ruta_foto">Foto</label>
+                <div :class="fileReady ? 'grid grid-cols-2 gap-4 items-center' : 'block'" class="transition-all duration-300">
+                    <input
+                        wire:model.defer="ruta_foto"
+                        name="ruta_foto"
+                        id="ruta_foto"
+                        type="file"
+                        accept="image/*,.pdf"
+                        class="block w-full text-sm text-gray-100
+                            file:mr-4 file:py-2 file:px-4
+                            file:rounded-lg file:border-0
+                            file:text-sm file:font-semibold
+                            file:bg-blue-600 file:text-white
+                            hover:file:bg-blue-700
+                            bg-gray-800 border border-gray-700 rounded-md px-5 py-2"
+                    />
+                    @error('ruta_foto')
+                        <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
+
+                    <!-- Botón para ver la imagen solo si ya está lista -->
+                    <div x-show="fileReady && $wire.ruta_foto" x-transition>
+                        <button
+                            type="button"
+                            @click="showModal = true"
+                            class="flex w-full justify-center items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md transition duration-200"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0zm-6.5 0a6.5 6.5 0 0113 0 6.5 6.5 0 01-13 0z"/>
+                            </svg>
+                            Ver foto
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Barra de progreso -->
+                <div x-show="uploading" class="mt-4">
+                    <div class="w-full bg-gray-700 rounded-full h-4 overflow-hidden">
+                        <div
+                            class="bg-blue-600 h-full rounded-full transition-all duration-300 ease-in-out"
+                            :style="{ width: progress + '%' }"
+                        ></div>
+                    </div>
+                    <p class="mt-1 text-sm text-gray-300 text-right" x-text="progress + '%'"></p>
+                </div>
+
+                <!-- Modal para ver la imagen -->
+                <div
+                    x-show="showModal"
+                    x-transition
+                    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60"
+                >
+                    <div class="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-xl max-w-lg w-full relative">
+                        <button
+                            type="button"
+                            @click="showModal = false"
+                            class="absolute top-2 right-2 text-gray-400 hover:text-red-500 text-xl"
+                        >
+                            &times;
+                        </button>
+                        <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">Foto cargada</h2>
+                        <img
+                            src="{{ $ruta_foto?->temporaryUrl() }}"
+                            alt="Foto"
+                            class="w-full h-auto rounded-md border border-gray-300 dark:border-gray-600"
+                        >
+                    </div>
                 </div>
             </div>
 
-
+            <p>Persona seleccionada ID: {{ $persona_id }}</p>
             <div class="pt-6 text-right">
+                <a wire:navigate href="{{ route('usuarios.index') }}"></a>
                 <button type="submit" class="bg-green-600 hover:bg-green-700 text-white rounded-md px-6 py-2 transition-all duration-200">
                     Registrar Usuario
                 </button>

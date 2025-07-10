@@ -34,6 +34,11 @@ class ListarMatrimonios extends Component
         ]);
     }
 
+    public function reiniciar(){
+        $this->resetPage();
+    }
+
+
     /*public function borrar($id){
         $per = ActaDefuncion::find($id);
         $per->delete();
@@ -65,6 +70,8 @@ class ListarMatrimonios extends Component
         }else {
             session()->flash('mensaje', 'Acta no encontrada.');
         }
+
+        $this->reiniciar();
     }
 
     public function editar(String $acta_id)

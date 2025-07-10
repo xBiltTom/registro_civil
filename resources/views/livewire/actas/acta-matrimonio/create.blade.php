@@ -48,14 +48,6 @@
                         <span class="text-sm text-red-600 dark:text-red-400">{{ $message }}</span>
                     @enderror
                 </div>
-                {{-- Ruta PDF --}}
-                <div class="md:col-span-2">
-                    <label for="ruta_pdf" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Ruta PDF</label>
-                    <input wire:model="ruta_pdf" type="text" id="ruta_pdf" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white" required>
-                    @error('ruta_pdf')
-                        <span class="text-sm text-red-600 dark:text-red-400">{{ $message }}</span>
-                    @enderror
-                </div>
             </div>
 
             <h2 class="text-xl font-semibold text-gray-800 dark:text-white border-b pt-6 pb-2">Datos del Matrimonio</h2>
