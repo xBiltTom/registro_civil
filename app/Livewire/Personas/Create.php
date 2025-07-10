@@ -34,6 +34,17 @@ class Create extends Component
             'sexo' => 'required|in:M,F',
             'fecha_nacimiento' => 'required|date',
             'telefono' => 'nullable|string|max:9',
+        ],[
+            'dni.unique' => 'El DNI ya está registrado.',
+            'dni.max' => 'El DNI no puede tener más de 20 caracteres.',
+            'nombre.required' => 'El campo Nombre es obligatorio.',
+            'nombre.max' => 'El Nombre no puede tener más de 255 caracteres.',
+            'apellido.required' => 'El campo Apellido es obligatorio.',
+            'apellido.max' => 'El Apellido no puede tener más de 255 caracteres.',
+            'lugar_id.required' => 'El campo Lugar es obligatorio.',
+            'sexo.required' => 'El campo Sexo es obligatorio.',
+            'fecha_nacimiento.required' => 'La fecha de nacimiento es obligatoria.',
+            'telefono.max' => 'El teléfono no puede tener más de 9 dígitos.',
         ]);
 
         Persona::create([
@@ -44,6 +55,7 @@ class Create extends Component
             'sexo' => $this->sexo,
             'fecha_nacimiento' => $this->fecha_nacimiento,
             'telefono' => $this->telefono,
+
         ]);
 
         session()->flash('message', 'Persona registrada exitosamente');

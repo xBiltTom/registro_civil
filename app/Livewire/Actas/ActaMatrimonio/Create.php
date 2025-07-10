@@ -22,7 +22,6 @@ class Create extends Component
     public $testigo2_id;
     public $mostrarAlerta = false;
     public $personas;
-    public $ruta_pdf;
     public $nombreNovio = '';
     public $nombreNovia = '';
     public $nombreTestigo1 = '';
@@ -55,7 +54,6 @@ class Create extends Component
             'libro_id' => 'required|integer',
             'folio_id' => ['required',new FolioUnico($this->libro_id)],
             'fecha_registro' => 'required|date',
-            'ruta_pdf' => 'required|string|max:255',
             'novio_id' => 'required|exists:personas,id',
             'novia_id' => 'required|exists:personas,id',
             'fecha_matrimonio' => 'required|date|before_or_equal:fecha_registro',
@@ -67,7 +65,6 @@ class Create extends Component
             'libro_id.required' => 'El campo Libro es obligatorio.',
             'folio_id.required' => 'El campo Folio es obligatorio.',
             'fecha_registro.required' => 'La fecha de registro es obligatoria.',
-            'ruta_pdf.required' => 'La ruta del PDF es obligatoria.',
             'novio_id.required' => 'El campo del Novio es obligatorio.',
             'novia_id.required' => 'El campo de la Novia es obligatorio.',
             'fecha_matrimonio.required' => 'La fecha del matrimonio es obligatoria.',
@@ -161,7 +158,6 @@ class Create extends Component
         $acta->persona_id = $alcalde->id;
         $acta->folio_id = $this->folio_id;
         $acta->user_id = Auth::id();
-        $acta->ruta_pdf = $this->ruta_pdf;
         $acta->save();
 
         // 4. Crear Acta Matrimonio (siempre nueva)
@@ -190,7 +186,6 @@ class Create extends Component
         $this->reset([
             'libro_id', 'folio_id', 'acta_id', 'novio_id', 'novia_id',
             'fecha_registro', 'fecha_matrimonio', 'testigo1_id', 'testigo2_id',
-            'ruta_pdf',
             'nombreNovio', 'nombreNovia', 'nombreTestigo1', 'nombreTestigo2'
         ]);
         session()->flash('message', 'Acta de Matrimonio registrada correctamente.');

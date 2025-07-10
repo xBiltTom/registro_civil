@@ -45,10 +45,47 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label for="ruta_foto" class="block mb-1 font-medium text-gray-700 dark:text-gray-300">Ruta de Foto</label>
-                    <input wire:model="ruta_foto" type="text" id="ruta_foto" class="w-full rounded-lg border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white">
-                    @error('ruta_foto') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                <div x-data="{ previewUrl: null, showPreview: false }" class="space-y-2">
+                    <label for="ruta_foto" class="block font-medium text-gray-700 dark:text-gray-300">Foto de Usuario</label>
+
+                    {{-- Imagen actual --}}
+                    @if ($ruta_foto && !is_object($ruta_foto))
+                        <img src="{{ asset('storage/' . $ruta_foto) }}" alt="Foto actual" class="w-20 h-20 rounded-full mb-2">
+                    @endif
+
+                    <input 
+                        type="file" 
+                        wire:model="ruta_foto" 
+                        id="ruta_foto" 
+                        accept="image/*" 
+                        class="w-full text-gray-900 bg-white border border-gray-300 rounded-lg cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600"
+                        @change="previewUrl = URL.createObjectURL($event.target.files[0]); showPreview = true"
+                    >
+
+                    @error('ruta_foto') 
+                        <span class="text-red-500 text-xs">{{ $message }}</span> 
+                    @enderror
+
+                    <div x-show="previewUrl" class="mt-2">
+                        <button type="button" @click="showPreview = true" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-md">
+                            Ver Imagen
+                        </button>
+                    </div>
+
+                    <div x-show="showPreview" 
+                        class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+                        style="display: none;"
+                        x-transition>
+                        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg w-96 p-4 relative">
+                            <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">Previsualización de la nueva foto</h2>
+                            <img :src="previewUrl" alt="Previsualización" class="w-full h-auto rounded">
+                            <div class="mt-4 text-right">
+                                <button type="button" @click="showPreview = false" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded">
+                                    Cerrar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 

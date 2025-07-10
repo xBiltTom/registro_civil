@@ -8,6 +8,8 @@ use App\Models\Persona;
 
 class Edit extends Component
 {
+    use \Livewire\WithFileUploads;
+
     public $id_usuario;
     public $name;
     public $email;
@@ -44,7 +46,7 @@ class Edit extends Component
             'email' => 'required|email|max:255|unique:users,email,' . $this->id_usuario,
             'password' => 'nullable|string|min:8|confirmed',
             'persona_id' => 'required|exists:personas,id',
-            'ruta_foto' => 'nullable|string|max:255',
+            //'ruta_foto' => 'nullable|image|max:2048',
             'estado' => 'required|in:0,1',
         ], [
             'name.required' => 'El nombre es obligatorio.',
@@ -63,8 +65,8 @@ class Edit extends Component
             'persona_id.required' => 'Debe seleccionar una persona.',
             'persona_id.exists' => 'La persona seleccionada no existe.',
 
-            'ruta_foto.string' => 'La ruta de la foto debe ser un texto válido.',
-            'ruta_foto.max' => 'La ruta de la foto no debe superar los 255 caracteres.',
+            'ruta_foto.image' => 'El archivo debe ser una imagen.',
+            'ruta_foto.max' => 'La imagen no puede exceder los 2MB.',
             
             'estado.in' => 'El estado debe ser 0 (inactivo) o 1 (activo).',
         ]);
@@ -78,11 +80,15 @@ class Edit extends Component
 
         $usuario = User::find($this->id_usuario);
         if ($usuario) {
+            $rutaFoto = $usuario->ruta_foto;
+            if ($this->ruta_foto && is_object($this->ruta_foto)) {
+                $rutaFoto = $this->ruta_foto->store('usuarios', 'public');
+            }
             $data = [
                 'name' => $this->name,
                 'email' => $this->email,
                 'persona_id' => $this->persona_id,
-                'ruta_foto' => $this->ruta_foto,
+                'ruta_foto' => $rutaFoto,
                 'estado' => $this->estado,
             ];
 
