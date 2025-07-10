@@ -57,6 +57,10 @@ Route::get('solicitudes/atender/{id}',[SolicitudController::class, 'atenderSolic
     ->middleware(['auth', 'verified'])
     ->name('solicitudes.atender');
 
+Route::get('pagos',[FuncionarioController::class, 'mostrarPagos'])
+    ->middleware(['auth', 'verified'])
+    ->name('pagos');
+
 Route::get('usuarios/listar', [UserController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('usuarios.index');

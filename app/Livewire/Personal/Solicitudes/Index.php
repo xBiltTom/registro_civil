@@ -28,6 +28,10 @@ class Index extends Component
         $this->resetPage();
     }
 
+    public function placeholder(){
+        return view('placeholder');
+    }
+
     public function updatedEstadoSeleccionado()
     {
         $this->resetPage();
