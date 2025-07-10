@@ -25,7 +25,10 @@
 
             </div>
 
-            <h2 class="text-xl font-semibold text-gray-800 dark:text-white border-b pb-2">Detalles del pago</h2>
+            <h2 class="text-xl font-semibold text-gray-800 dark:text-white border-b pb-2">
+                <p>Detalles del pago</p>
+                <p>Costo a fecha de hoy S/. {{$valorpago->monto}}</p>
+            </h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="">
                     <label class="text-white block mb-1" for="numero_voucher">Numero del voucher</label>
