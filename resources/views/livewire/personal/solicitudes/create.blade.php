@@ -25,7 +25,6 @@
 
             </div>
 
-            <h2 class="text-xl font-semibold text-gray-800 dark:text-white border-b pb-2">Detalles del pago</h2>
             <h2 class="text-xl font-semibold text-gray-800 dark:text-white border-b pb-2">
                 <p>Detalles del pago</p>
                 <p>Costo a fecha de hoy S/. {{$valorpago->monto}}</p>

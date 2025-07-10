@@ -35,7 +35,6 @@ class Atencion extends Component
             $this->funcionario_id = $this->solicitud->funcionario_id;
             $this->pago_id = $this->solicitud->pago_id;
             $this->estado_id = $this->solicitud->estado_id;
-            $this->monto = $this->solicitud->pago ? $this->solicitud->pago->monto : null;
             /* $this->monto = $this->solicitud->pago ? $this->solicitud->pago->monto : null; */
             $this->monto = $this->valorpago->monto;
             $this->ruta_voucher = $this->solicitud->pago ? $this->solicitud->pago->ruta_voucher : null;

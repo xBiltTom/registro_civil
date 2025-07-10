@@ -202,7 +202,7 @@ class Index extends Component
 
     public function render()
     {
-        $solicitudes = Solicitud::with('acta')
+        /* $solicitudes = Solicitud::with('acta'); */
         $solicitudes = Solicitud::with(['acta', 'user.persona'])
             ->whereHas('acta', function ($query) {
                 $query->where('estado_id', 1);
