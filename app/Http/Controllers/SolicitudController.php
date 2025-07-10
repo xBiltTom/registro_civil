@@ -40,6 +40,10 @@ class SolicitudController extends Controller
         return view('personal.solicitudes.index');
     }
 
+    public function solicitudesGenerales(){
+        return view('solicitudes.general');
+    }
+
     public function registrarSolicitud($id){
         if(auth()->user()->estado == 0){
             return redirect()->route('verificacion')->with('error', 'No tienes permisos para acceder a esta sección.');
