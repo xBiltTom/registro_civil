@@ -188,7 +188,6 @@ class Create extends Component
             'fecha_registro', 'fecha_matrimonio', 'testigo1_id', 'testigo2_id',
             'nombreNovio', 'nombreNovia', 'nombreTestigo1', 'nombreTestigo2'
         ]);
-        session()->flash('message', 'Acta de Matrimonio registrada correctamente.');
-        $this->redirect(route('actas-matrimonio', $this->acta_id));
+        return redirect()->route('actas-matrimonio', $this->acta_id)->with('message', 'Acta de Matrimonio registrada correctamente.');
     }
 }

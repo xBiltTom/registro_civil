@@ -99,7 +99,7 @@ class Edit extends Component
             $usuario->update($data);
 
             session()->flash('message', 'Usuario actualizado correctamente');
-            return redirect()->route('usuarios.index');
+            return $this->redirect(route('usuarios.index'));
         } else {
             session()->flash('error', 'Usuario no encontrado');
         }
