@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Solicitudes;
 
+use App\Models\PagoPeriodo;
 use App\Models\Solicitud;
 use Livewire\Component;
 
@@ -21,10 +22,12 @@ class Atencion extends Component
     public $numero_voucher;
     public $fecha_voucher;
     public $motivo_rechazo;
+    public $valorpago;
 
     public function mount($id){
         $this->id = $id;
         $this->solicitud = Solicitud::findOrFail($id);
+        $this->valorpago = PagoPeriodo::where('estado',1)->first();
         if($this->solicitud){
             $this->id_acta = $this->solicitud->acta_id;
             $this->acta = $this->solicitud->acta;
@@ -33,6 +36,8 @@ class Atencion extends Component
             $this->pago_id = $this->solicitud->pago_id;
             $this->estado_id = $this->solicitud->estado_id;
             $this->monto = $this->solicitud->pago ? $this->solicitud->pago->monto : null;
+            /* $this->monto = $this->solicitud->pago ? $this->solicitud->pago->monto : null; */
+            $this->monto = $this->valorpago->monto;
             $this->ruta_voucher = $this->solicitud->pago ? $this->solicitud->pago->ruta_voucher : null;
             $this->numero_voucher = $this->solicitud->pago ? $this->solicitud->pago->numero : null;
             $this->fecha_voucher = $this->solicitud->pago ? $this->solicitud->pago->fecha_voucher : null;

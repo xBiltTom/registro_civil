@@ -4,6 +4,7 @@ namespace App\Livewire\Personal\Solicitudes;
 
 use App\Models\Acta;
 use App\Models\Pago;
+use App\Models\PagoPeriodo;
 use App\Models\Solicitud;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -22,6 +23,13 @@ class Create extends Component
     public $ruta_voucher;
     public $numero_voucher;
     public $fecha_voucher;
+    public $valorpago;
+
+    public function mount($id){
+        $this->id_acta = $id;
+        $this->acta = Acta::find($this->id_acta);
+        $this->valorpago = PagoPeriodo::where('estado', 1)->first();
+    }
 
 
     public function registrarSolicitud(){
@@ -64,6 +72,8 @@ class Create extends Component
         $pago = new Pago();
         $pago->numero = $this->numero_voucher;
         $pago->monto = 10.00;
+        $pago->monto = $this->valorpago->monto; // Asignar el monto del pago
+        $pago->idmonto = $this->valorpago->id; // Asignar el ID del periodo de pago
         $pago->ruta_voucher = $this->ruta_voucher->store('vouchers');
         $pago->fecha_voucher = $this->fecha_voucher;
         $pago->save();
@@ -79,11 +89,6 @@ class Create extends Component
 
         session()->flash('message', 'La solicitud se registró exitosamente');
         return redirect()->route('personal');
-    }
-
-    public function mount($id){
-        $this->id_acta = $id;
-        $this->acta = Acta::find($this->id_acta);
     }
 
     public function render()
