@@ -89,9 +89,9 @@ new class extends Component
                     @can('ver usuarios')
                         <li class="list-none">
                             <a href="{{route('validar-usuarios')}}" wire:navigate class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                                <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/>
-                                    <rect x="2" y="4" width="20" height="16" rx="2"/>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/>
+                                    <path d="m9 12 2 2 4-4"/>
                                 </svg>
                                 <span class="ms-3">Validar usuarios</span>
                                 {{-- <livewire:solicitudes.contador /> --}}
@@ -148,9 +148,13 @@ new class extends Component
                     <button type="button" class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
                         <span class="sr-only">Open user menu</span>
                         <!-- SVG con iniciales dinámicas -->
-                        <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold">
-                            {{ strtoupper(substr(auth()->user()->persona->nombre ?? 'U', 0, 1)) }}{{ strtoupper(substr(auth()->user()->persona->apellido ?? 'U', 0, 1)) }}
-                        </div>
+                        @if(auth()->user()->ruta_foto)
+                            <img class="w-8 h-8 rounded-full object-cover" src="{{ asset('storage/' . auth()->user()->ruta_foto) }}" alt="Foto de perfil">
+                        @else
+                            <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold">
+                                {{ strtoupper(substr(auth()->user()->persona->nombre ?? 'U', 0, 1)) }}{{ strtoupper(substr(auth()->user()->persona->apellido ?? 'U', 0, 1)) }}
+                            </div>
+                        @endif
                     </button>
                 </div>
               <div class="border border-gray-800 border-3 z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-sm shadow-sm dark:bg-gray-700 dark:divide-gray-600" id="dropdown-user">
@@ -216,10 +220,10 @@ new class extends Component
       {{--    @cannot('ver actas') --}}
          <li>
             <a href="{{route('solicitudes.personal')}}" wire:navigate class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-               <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                  <path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/>
-                  <rect x="2" y="4" width="20" height="16" rx="2"/>
-               </svg>
+               <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21.2 8.4c.5.38.8.97.8 1.6v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V10a2 2 0 0 1 .8-1.6l8-6a2 2 0 0 1 2.4 0l8 6Z"/>
+                    <path d="m22 10-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 10"/>
+                </svg>
 
                <span class="ms-3">Mis solicitudes</span>
             </a>
@@ -312,14 +316,17 @@ new class extends Component
             </a>
             @endcan
          </li>
-         @can('ver usuarios')
+         @can('ver actas')
          <li>
              <a href="{{ route('solicitudes.general') }}" wire:navigate class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                 <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                     <path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"/>
-                     <rect x="2" y="4" width="20" height="16" rx="2"/>
-                 </svg>
-                 <span class="ms-3">Solicitudes</span>
+                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 12.5V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12c0 1.1.9 2 2 2h7.5"/>
+                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                    <path d="M18 21a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+                    <circle cx="18" cy="18" r="3"/>
+                    <path d="m22 22-1.5-1.5"/>
+                </svg>
+                 <span class="ms-3">Solicitudes Generadas</span>
              </a>
          </li>
          @endcan
