@@ -5,11 +5,14 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
 use Livewire\Volt\Component;
+use Livewire\WithFileUploads;
 
 new class extends Component
 {
+    use WithFileUploads;
     public string $name = '';
     public string $email = '';
+    public $photo;
 
     /**
      * Mount the component.
@@ -30,7 +33,13 @@ new class extends Component
         $validated = $this->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($user->id)],
+            'photo' => ['nullable','image','max:2048'],
         ]);
+
+        if ($this->photo) {
+            $ruta = $this->photo->store('usuarios', 'public');
+            $user->ruta_foto = $ruta;
+        }
 
         $user->fill($validated);
 
@@ -40,7 +49,9 @@ new class extends Component
 
         $user->save();
 
+        $this->photo = null;
         $this->dispatch('profile-updated', name: $user->name);
+        $this->redirect(request()->header('Referer') ?? '/');
     }
 
     /**
@@ -123,6 +134,29 @@ new class extends Component
                     @endif
                 </div>
             @endif
+        </div>
+
+        {{-- Foto actual --}}
+        <div class="mt-4">
+            <x-input-label value="Foto actual" class="text-gray-200" />
+            @if (Auth::user()->ruta_foto)
+                <img src="{{ asset('storage/' . Auth::user()->ruta_foto) }}" alt="Foto actual" class="w-20 h-20 rounded-full mt-2">
+            @else
+                <p class="text-sm text-gray-300 mt-2">No hay foto subida</p>
+            @endif
+        </div>
+
+        {{-- Subir nueva foto --}}
+        <div class="mt-4">
+            <x-input-label for="photo" value="Nueva foto de perfil" class="text-gray-200" />
+            <input
+                type="file"
+                id="photo"
+                wire:model="photo"
+                class="mt-1 block w-full text-white bg-gray-700 border border-gray-600 rounded-md"
+                accept="image/*"
+            >
+            <x-input-error class="mt-2" :messages="$errors->get('photo')" />
         </div>
 
         {{-- Botón guardar --}}

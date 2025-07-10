@@ -73,6 +73,7 @@ class Create extends Component
         ]);
         session()->flash('message', 'Usuario registrado exitosamente');
         $this->resetForm();
+        return $this->redirect(route('usuarios.index'));
     }
 
     public function resetForm()
