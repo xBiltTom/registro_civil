@@ -3,13 +3,13 @@
 namespace App\Livewire\Solicitudes;
 
 use Livewire\Component;
-use App\Models\Solicitud; // Importar el modelo de Solicitud
-use App\Models\EstadoSolicitud; // Importar el modelo de Estado
+use App\Models\Solicitud;
+use App\Models\EstadoSolicitud;
 
 class General extends Component
 {
-    public $estadoSeleccionado = 'all'; // 'all', '2' (Aceptadas), '3' (Rechazadas)
-    public $buscado; // Número de acta a buscar
+    public $estadoSeleccionado = 'all';
+    public $buscado;
 
     public function render()
     {
@@ -19,11 +19,11 @@ class General extends Component
                 $query->where('estado_id', $this->estadoSeleccionado);
             })
             ->when($this->buscado, function ($query) {
-                $query->where('acta_id', 'like', '%' . $this->buscado . '%'); // Filtrar por número de acta
+                $query->where('acta_id', 'like', '%' . $this->buscado . '%');
             })
             ->paginate(10);
 
-        $estados = EstadoSolicitud::whereIn('id', [2, 3])->get(); // Obtener solo estados aceptados y rechazados
+        $estados = EstadoSolicitud::whereIn('id', [2, 3])->get();
 
         return view('livewire.solicitudes.general', [
             'solicitudes' => $solicitudes,
